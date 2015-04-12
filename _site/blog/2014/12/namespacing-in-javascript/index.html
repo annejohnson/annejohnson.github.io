@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="alternate" type="application/rss+xml" title="feathers.io" href="http://feathers.io/blog/feed.xml">
+    <title>Namespacing in Javascript | feathers.io</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-53567606-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+
+    <div class="top-nav">
+      <h1><a href="/"><i class="fa fa-asterisk"></i> <span>feathers.io</span></a></h1>
+      <a class="button secondary round" href="/code">Code</a>
+      <a class="button secondary round" href="/art">Art</a>
+      <a class="button secondary round" href="/blog">Blog</a>
+    </div>
+
+    <div class="main row">
+  <div class="small-12 large-11 large-centered columns" id="post">
+    <h2>Namespacing in Javascript</h2>
+    <h5 class="meta">December 21, 2014</h5>
+
+    <p>Without namespacing, Javascript becomes disorganized and insane. Because effectively namespacing in Javascript involves anonymous functions and closures, some of Javascript&#39;s more confusing features, it&#39;s not always practiced. The result is a global namespace cluttered with every single variable and helper function ever used. This is bad.</p>
+
+<h3>Namespacing Using Self-Executing Anonymous Functions and Closures</h3>
+
+<p>A self-executing anonymous function looks like this: <code>(function() { ... })();</code>. Each time you use one, you are also using a closure. Here is what this type of namespacing looks like:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">onSaturn</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">jump</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Too heavy to jump.&quot;</span><span class="p">);</span> <span class="p">},</span>
+    <span class="nx">dropAnApple</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;*Splat*.&quot;</span><span class="p">);</span> <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">})();</span>
+
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">jump</span><span class="p">();</span>
+<span class="c1">// Too heavy to jump.</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">dropAnApple</span><span class="p">();</span>
+<span class="c1">// *Splat*.</span></code></pre></div>
+
+<p>The only variable we&#39;ve added to the global scope is <code>onSaturn</code>, and through it, we have access to <code>jump</code> and <code>dropAnApple</code>.</p>
+
+<h4>Leveraging the Power of the Closure</h4>
+
+<p>A closure is created with the self-executing anonymous function. It enables us to declare variables that the namespaced functions can access.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">onSaturn</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="mf">10.44</span><span class="p">;</span> <span class="c1">// unit: m/s^2</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">weight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">})();</span></code></pre></div>
+
+<p>The closure enables selective exposure of its internal variables. In the above example, we are only exposing the <code>weight</code> function. The user is unable to access the internal variable <code>gravityConstant</code>.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">weight</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span>
+<span class="c1">// 417.59999999999997</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">;</span>
+<span class="c1">// undefined</span></code></pre></div>
+
+<p>Exposing it is as simple as adding it to the returned object:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">onSaturn</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="mf">10.44</span><span class="p">;</span> <span class="c1">// unit: m/s^2</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">weight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
+    <span class="c1">// Allow access to gravityConstant</span>
+    <span class="nx">gravityConstant</span><span class="o">:</span> <span class="nx">gravityConstant</span>
+  <span class="p">};</span>
+<span class="p">})();</span></code></pre></div>
+
+<h4>Dynamic Internal Variables</h4>
+
+<p>Say an asteroid strike happens, and part of Saturn is blown away. This will alter Saturn&#39;s gravitational constant. We need our <code>weight</code> function to always choose the correct value in its calculations. </p>
+
+<p>Let&#39;s create an <code>asteroidStrike</code> function that reduces the gravitational constant.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">onSaturn</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="mf">10.44</span><span class="p">,</span>
+      <span class="nx">asteroidStrike</span><span class="p">;</span> <span class="c1">// Declare it</span>
+
+  <span class="c1">// Define it to reduce gravityConstant</span>
+  <span class="nx">asteroidStrike</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="nx">gravityConstant</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">weight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
+    <span class="nx">gravityConstant</span><span class="o">:</span> <span class="nx">gravityConstant</span><span class="p">,</span>
+    <span class="c1">// Expose it</span>
+    <span class="nx">asteroidStrike</span><span class="o">:</span> <span class="nx">asteroidStrike</span>
+  <span class="p">};</span>
+<span class="p">})();</span></code></pre></div>
+
+<p>Like this, the weight function performs correctly even after an asteroid strike.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">weight</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="c1">// 10.44</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">asteroidStrike</span><span class="p">();</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">weight</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="c1">// 7.83</span></code></pre></div>
+
+<p>Unfortunately, the exposed <code>gravityConstant</code> does not behave as expected after the asteroid strike. It always returns 10.44.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span>
+<span class="c1">// 10.44</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">asteroidStrike</span><span class="p">()</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">;</span>
+<span class="c1">// 10.44</span></code></pre></div>
+
+<p>To resolve this, we should expose <code>gravityConstant</code> not as a number, but as a function that returns the value of the inner variable:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">onSaturn</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="mf">10.44</span><span class="p">,</span>
+      <span class="nx">asteroidStrike</span><span class="p">;</span>
+
+  <span class="nx">asteroidStrike</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="nx">gravityConstant</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">);</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">weight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
+    <span class="c1">// Expose gravityConstant as a function</span>
+    <span class="nx">gravityConstant</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
+    <span class="nx">asteroidStrike</span><span class="o">:</span> <span class="nx">asteroidStrike</span>
+  <span class="p">};</span>
+<span class="p">})();</span></code></pre></div>
+
+<p>Now, when we call the namespaced <code>gravityConstant()</code> function, we will always get the correct value.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">()</span>
+<span class="c1">// 10.44</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">asteroidStrike</span><span class="p">()</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">()</span>
+<span class="c1">// 7.83</span></code></pre></div>
+
+<h4>Nested Namespaces</h4>
+
+<p>After creating the main namespace, making nested namespaces is easy. See an example below:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">north</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">temperature</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">temperature</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">temperature</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">})();</span></code></pre></div>
+
+<p>Note that even though <code>onSaturn.north</code> is nested within the <code>onSaturn</code> object, it is created outside of the <code>onSaturn</code> closure. Therefore, <code>onSaturn.north</code> cannot access the private variables of <code>onSaturn</code>. Trying to access a private variable like <code>gravityConstant</code> will fail:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">north</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">gravityConstant</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">})();</span>
+
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">north</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">();</span>
+<span class="c1">// ReferenceError: gravityConstant is not defined</span></code></pre></div>
+
+<p>This wraps up my examples. I hope you&#39;re inspired to start namespacing your Javascript if you weren&#39;t already. Happy closures!</p>
+
+  </div>
+</div>
+
+  </body>
+</html>

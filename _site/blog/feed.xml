@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>feathers.io</title>
+    <description>Personal site of Anne Johnson</description>    
+    <link>http://feathers.io</link>
+    <atom:link href="http://feathers.io/blog/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Namespacing in Javascript</title>
+        <description>&lt;p&gt;Without namespacing, Javascript becomes disorganized and insane. Because effectively namespacing in Javascript involves anonymous functions and closures, some of Javascript&amp;#39;s more confusing features, it&amp;#39;s not always practiced. The result is a global namespace cluttered with every single variable and helper function ever used. This is bad.&lt;/p&gt;
+
+&lt;h3&gt;Namespacing Using Self-Executing Anonymous Functions and Closures&lt;/h3&gt;
+
+&lt;p&gt;A self-executing anonymous function looks like this: &lt;code&gt;(function() { ... })();&lt;/code&gt;. Each time you use one, you are also using a closure. Here is what this type of namespacing looks like:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;jump&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Too heavy to jump.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;dropAnApple&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;*Splat*.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;jump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Too heavy to jump.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dropAnApple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// *Splat*.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The only variable we&amp;#39;ve added to the global scope is &lt;code&gt;onSaturn&lt;/code&gt;, and through it, we have access to &lt;code&gt;jump&lt;/code&gt; and &lt;code&gt;dropAnApple&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4&gt;Leveraging the Power of the Closure&lt;/h4&gt;
+
+&lt;p&gt;A closure is created with the self-executing anonymous function. It enables us to declare variables that the namespaced functions can access.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10.44&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// unit: m/s^2&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The closure enables selective exposure of its internal variables. In the above example, we are only exposing the &lt;code&gt;weight&lt;/code&gt; function. The user is unable to access the internal variable &lt;code&gt;gravityConstant&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 417.59999999999997&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// undefined&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Exposing it is as simple as adding it to the returned object:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10.44&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// unit: m/s^2&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Allow access to gravityConstant&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Dynamic Internal Variables&lt;/h4&gt;
+
+&lt;p&gt;Say an asteroid strike happens, and part of Saturn is blown away. This will alter Saturn&amp;#39;s gravitational constant. We need our &lt;code&gt;weight&lt;/code&gt; function to always choose the correct value in its calculations. &lt;/p&gt;
+
+&lt;p&gt;Let&amp;#39;s create an &lt;code&gt;asteroidStrike&lt;/code&gt; function that reduces the gravitational constant.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10.44&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Declare it&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// Define it to reduce gravityConstant&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Expose it&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Like this, the weight function performs correctly even after an asteroid strike.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 10.44&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 7.83&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Unfortunately, the exposed &lt;code&gt;gravityConstant&lt;/code&gt; does not behave as expected after the asteroid strike. It always returns 10.44.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 10.44&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 10.44&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To resolve this, we should expose &lt;code&gt;gravityConstant&lt;/code&gt; not as a number, but as a function that returns the value of the inner variable:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10.44&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Expose gravityConstant as a function&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, when we call the namespaced &lt;code&gt;gravityConstant()&lt;/code&gt; function, we will always get the correct value.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 10.44&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;asteroidStrike&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 7.83&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h4&gt;Nested Namespaces&lt;/h4&gt;
+
+&lt;p&gt;After creating the main namespace, making nested namespaces is easy. See an example below:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;north&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;temperature&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;temperature&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;temperature&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that even though &lt;code&gt;onSaturn.north&lt;/code&gt; is nested within the &lt;code&gt;onSaturn&lt;/code&gt; object, it is created outside of the &lt;code&gt;onSaturn&lt;/code&gt; closure. Therefore, &lt;code&gt;onSaturn.north&lt;/code&gt; cannot access the private variables of &lt;code&gt;onSaturn&lt;/code&gt;. Trying to access a private variable like &lt;code&gt;gravityConstant&lt;/code&gt; will fail:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;north&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})();&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;north&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// ReferenceError: gravityConstant is not defined&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This wraps up my examples. I hope you&amp;#39;re inspired to start namespacing your Javascript if you weren&amp;#39;t already. Happy closures!&lt;/p&gt;
+</description>
+        <pubDate>Sun, 21 Dec 2014 07:39:06 -0500</pubDate>
+        <link>http://feathers.io/blog/2014/12/namespacing-in-javascript</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/12/namespacing-in-javascript</guid>
+      </item>
+    
+      <item>
+        <title>Getting Started With Landscape Painting</title>
+        <description>&lt;p&gt;Painting a tiny landscape the other week was really fun, so I decided to do more landscape painting.&lt;/p&gt;
+
+&lt;p&gt;I went shopping on Black Friday and bought detail brushes - including script liners, tiny rounds, fan brushes, and even a deerfoot stippler! I also bought a book called &lt;a href=&quot;http://www.amazon.com/Paint-Landscapes-Acrylic-Lee-Hammond/dp/1600613098&quot; target=&quot;_blank&quot;&gt;Paint Landscapes in Acrylic&lt;/a&gt; by Lee Hammond. &lt;/p&gt;
+
+&lt;p&gt;I was drawn to this book because the author doesn&amp;#39;t use reference photos in it. This keeps the focus on mastering broader landscape techniques. He also divides paintings up into 3 stages: the underpainting stage, the &amp;#39;awkward&amp;#39; stage, and the finished stage. He demonstrates how to move a painting out of the awkward stage and into a beautiful finished stage. &lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve been working through some example projects in the book. There are 16 total, and they gradually increase in complexity. Below are my paintings from the first 3 projects.&lt;/p&gt;
+
+&lt;h2&gt;Clouds&lt;/h2&gt;
+
+&lt;p&gt;This first project is a sunset skyscape, which focuses on techniques for painting clouds. I have a hard time painting clouds.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;5&amp;quot;x7&amp;quot; panel:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/2014-12-02/orange_skyscape.jpg&quot; alt=&quot;Orange Skyscape&quot;&gt;&lt;/p&gt;
+
+&lt;h2&gt;Reflections and Tree Silhouettes&lt;/h2&gt;
+
+&lt;p&gt;Next is a sunset with a reflecting lake and some tree silhouettes. This was a great chance to practice using detail brushes to create trees. I loved working with all these bright oranges and yellows.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;5&amp;quot;x7&amp;quot; canvas:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/2014-12-02/tree_sunset_lake_scene.jpg&quot; alt=&quot;Tree Sunset Lake Scene&quot;&gt;&lt;/p&gt;
+
+&lt;h2&gt;Blended Sunsets and Leafy Trees&lt;/h2&gt;
+
+&lt;p&gt;This one is a more detailed sunset with blended colors and leafy trees. Detail brushes like script liners are essential for painting skinny branches. I used a sponge for some of the leaf texture.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;5&amp;quot;x7&amp;quot; canvas:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/2014-12-02/tree_sunset.jpg&quot; alt=&quot;Tree Sunset&quot;&gt;&lt;/p&gt;
+
+&lt;h2&gt;Into the Wild&lt;/h2&gt;
+
+&lt;p&gt;After doing those, I took on a project of my own, inspired by a reference photo from the &lt;a href=&quot;http://www.wetcanvas.com&quot; target=&quot;_blank&quot;&gt;Wet Canvas&lt;/a&gt; December Landscape Challenge. I&amp;#39;m very happy with how this turned out!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;5&amp;quot;x7&amp;quot; canvas:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/2014-12-02/gray_lake_scene.jpg&quot; alt=&quot;Gray Lake Scene&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;I look forward to doing more landscape painting.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 02 Dec 2014 16:27:08 -0500</pubDate>
+        <link>http://feathers.io/blog/2014/12/getting-started-with-landscape-painting</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/12/getting-started-with-landscape-painting</guid>
+      </item>
+    
+      <item>
+        <title>Current Favorites in Ruby: Structs, .nil?, and Retries</title>
+        <description>&lt;p&gt;I&amp;#39;ve said it before, but I&amp;#39;ll say it again: I love Ruby! Here are some of my favorite Ruby features these days.&lt;/p&gt;
+
+&lt;h2&gt;Struct&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;Struct&lt;/code&gt; is a quick way to create simple classes with a set of readable and writeable attributes. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;no&quot;&gt;Node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Struct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# ^ this is equivalent to:&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Node&lt;/span&gt;
+  &lt;span class=&quot;kp&quot;&gt;attr_accessor&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:next&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Interacting with structures is exactly like interacting with the equivalent classes. They can be instantiated with any number of parameter arguments up to the number of attributes in &lt;code&gt;Struct.new&lt;/code&gt;, with the nth parameter being assigned to the nth attribute. Any attributes not set during instantiation are nil.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; #&amp;lt;struct Node key=nil, value=nil, next=nil&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:language&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;French&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; #&amp;lt;struct Node key=:language, value=&amp;quot;French&amp;quot;, next=nil&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:language&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;French&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;oops!&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# ArgumentError: struct size differs&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To make your structures do more than just store a set of attributes, you can pass them a block:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;no&quot;&gt;Person&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Struct&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:first_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:middle_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:last_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;full_name&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;last_name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first_name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;middle_name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;jane&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Person&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Jane&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;McSunshine&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Doe&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;jane&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;full_name&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &amp;quot;Doe, Jane McSunshine&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I&amp;#39;ve mostly used Structs for nested helper classes that support larger data structures, like entry structures in dictionaries or linked node structures in trees.&lt;/p&gt;
+
+&lt;h2&gt;.nil?&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;.nil?&lt;/code&gt; is easy to take for granted, but it is a great example of the amazing simplicity in the Ruby language. In many other languages, some things are objects while other things are primitives. In Ruby, &lt;strong&gt;everything&lt;/strong&gt; is an object - numbers, strings, and even nil itself. This means that with Ruby, you can test values like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;orange_hat_people&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;query_by_hat_color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;orange_hat_people&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;orange_hat_people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nil?&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Instead of like this (in Javascript):&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;orangeHatPeople&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;queryByHatColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;orange&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;orangeHatPeople&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;orangeHatPeople&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h5&gt;The Workings of this Magic&lt;/h5&gt;
+
+&lt;p&gt;Ruby&amp;#39;s &lt;code&gt;Object&lt;/code&gt; class, which all other classes inherit from, defines .nil? to return false. &lt;code&gt;NilClass&lt;/code&gt; is the one class that overrides .nil? to return true. &lt;/p&gt;
+
+&lt;h2&gt;Retry&lt;/h2&gt;
+
+&lt;p&gt;At work, I spend much of my time on a Rails application that communicates with various 3rd party services. Because mysteries happen, &lt;code&gt;retry&lt;/code&gt; has become my friend. A &lt;code&gt;retry&lt;/code&gt; inside of a &lt;code&gt;rescue&lt;/code&gt; block causes re-execution of the contents in the &lt;code&gt;begin&lt;/code&gt; block. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;begin&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;method_that_might_raise_error&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;rescue&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;DerpException&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;retry&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This makes it easy in incorporate smart retry logic and failure alerts.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;attempts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;begin&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;attempts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;super_fun_stuff&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;rescue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;retry&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;attempts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;alert_developer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;exhausted retry attempts&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;attempts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;My inbox and my workplace&amp;#39;s chat client thank &lt;code&gt;retry&lt;/code&gt;. :)&lt;/p&gt;
+
+&lt;h2&gt;For more, see Ruby-Doc&lt;/h2&gt;
+
+&lt;p&gt;Ruby is so pleasantly documented that I have read much of its documentation for fun. Luckily, there&amp;#39;s still an unending number of subtle, powerful features that I have yet to learn about, so I won&amp;#39;t get bored for a while. &lt;a href=&quot;http://ruby-doc.org/&quot; target=&quot;_blank&quot;&gt;Check out the documentation here!&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 10 Nov 2014 16:02:00 -0500</pubDate>
+        <link>http://feathers.io/blog/2014/11/current-favorites-in-ruby-structs-nil-retries</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/11/current-favorites-in-ruby-structs-nil-retries</guid>
+      </item>
+    
+      <item>
+        <title>Using Clojurescript to Make Charts with Raphael.js</title>
+        <description>&lt;p&gt;When I started using Clojurescript a few weeks ago, it was interesting learning how to translate between the two very different syntaxes of Javascript and Clojurescript. I&amp;#39;m going to share what I learned as I demonstrate how to use Clojurescript to make charts using &lt;a href=&quot;http://g.raphaeljs.com/&quot; target=&quot;_blank&quot;&gt;Raphael.js&amp;#39;s chart library&lt;/a&gt;. Code is available &lt;a href=&quot;http://github.com/annejohnson/cljs-raphael&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Setup with Leiningen&lt;/h2&gt;
+
+&lt;p&gt;First, start a Clojure project using &lt;a href=&quot;http://leiningen.org/&quot; target=&quot;_blank&quot;&gt;Leiningen&lt;/a&gt; with the line &lt;code&gt;lein new cljs-raphael&lt;/code&gt;. It&amp;#39;s possible to use the Clojurescript compiler directly, but lein is the way to go if you want to develop other parts your project in Clojure.&lt;/p&gt;
+
+&lt;p&gt;Go into the cljs-raphael directory and open up project.clj. Add a Clojurescript dependency: &lt;code&gt;[org.clojure/clojurescript &amp;quot;0.0-2173&amp;quot;]&lt;/code&gt;, and add the Clojurescript plugin: &lt;code&gt;:plugins [[lein-cljsbuild &amp;quot;1.0.2&amp;quot;]]&lt;/code&gt;. Your project.clj should look like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;defproject &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;cljs-raphael&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;0.1.0-SNAPSHOT&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;:description&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Clojurescript/Raphael funsies&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;:url&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;http://example.com/FIXME&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;:license&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Eclipse Public License&amp;quot;&lt;/span&gt;
+            &lt;span class=&quot;ss&quot;&gt;:url&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;http://www.eclipse.org/legal/epl-v10.html&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;:dependencies&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;org.clojure/clojure&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;1.6.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+                 &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;org.clojure/clojurescript&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;0.0-2173&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+  &lt;span class=&quot;ss&quot;&gt;:plugins&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lein-cljsbuild&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;1.0.2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, add your Clojurescript compiler options after the line &lt;code&gt;:plugins [[lein-cljsbuild &amp;quot;1.0.2&amp;quot;]]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;ss&quot;&gt;:cljsbuild&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;:builds&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt;
+        &lt;span class=&quot;ss&quot;&gt;:source-paths&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;src/cljs_raphael&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;ss&quot;&gt;:compiler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;ss&quot;&gt;:output-to&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;resources/js/app.js&amp;quot;&lt;/span&gt;
+          &lt;span class=&quot;ss&quot;&gt;:optimizations&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:whitespace&lt;/span&gt;
+          &lt;span class=&quot;ss&quot;&gt;:pretty-print&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}]}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;With this configuration, the compiler will look in the &lt;code&gt;src/cljs_raphael&lt;/code&gt; directory for Clojurescript files and compile them to &lt;code&gt;resources/js/app.js&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;At this point, run &lt;code&gt;lein deps&lt;/code&gt; to get our Clojurescript dependency installed.&lt;/p&gt;
+
+&lt;h2&gt;External JS files and index.html&lt;/h2&gt;
+
+&lt;p&gt;In order for us to write Clojurescript that uses Raphael, we need to include the Raphael SVG library and its corresponding graph library. Download &lt;a href=&quot;http://github.com/DmitryBaranovskiy/raphael/raw/master/raphael-min.js&quot; target=&quot;_blank&quot;&gt;raphael-min.js&lt;/a&gt;, &lt;a href=&quot;http://github.com/DmitryBaranovskiy/g.raphael/raw/master/min/g.raphael-min.js&quot; target=&quot;_blank&quot;&gt;g.raphael-min.js&lt;/a&gt;, and &lt;a href=&quot;http://github.com/DmitryBaranovskiy/g.raphael/raw/master/min/g.pie-min.js&quot; target=&quot;_blank&quot;&gt;g.pie-min.js&lt;/a&gt;, and place them inside of your &lt;code&gt;resources/js&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;p&gt;We also need an &lt;code&gt;index.html&lt;/code&gt; page onto which our Clojurescript can render graphs! Add the following into a new file, &lt;code&gt;resources/index.html&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;utf-8&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;http-equiv=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;X-UA-Compatible&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;IE=edge&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Clojurescript/Raphael Funsies!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;viewport&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;width=device-width, initial-scale=1&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;my-pie&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;height: 400px;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;js/raphael-min.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;js/g.raphael-min.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;js/g.pie-min.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;js/app.js&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Let&amp;#39;s put something on the page using Clojurescript. Make a new file, &lt;code&gt;src/cljs_raphael/pie.cljs&lt;/code&gt;, and put this in it:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;ns &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;cljs-raphael.pie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;defn &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;init&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;let &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;my-pie&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.getElementById&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;js/document&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;my-pie&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;set!&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-innerHTML&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;my-pie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Yeehaw!&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;set!&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-onload&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;js/window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, run &lt;code&gt;lein cljsbuild auto&lt;/code&gt;. This will compile your Clojurescript file into Javascript. If you leave it running, it will watch the &lt;code&gt;src/cljs_raphael&lt;/code&gt; directory and recompile anytime a .cljs file is saved.&lt;/p&gt;
+
+&lt;p&gt;Open your &lt;code&gt;resources/index.html&lt;/code&gt; in a browser. You should see &amp;quot;Yeehaw!&amp;quot; on the page.&lt;/p&gt;
+
+&lt;h2&gt;Making an Animated Pie Chart&lt;/h2&gt;
+
+&lt;p&gt;Chart-making time! I will create a pie chart based on &lt;a href=&quot;http://g.raphaeljs.com/piechart2.html&quot; target=&quot;_blank&quot;&gt;this demo chart&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;First, go to your &lt;code&gt;pie.cljs&lt;/code&gt; file and update the &lt;code&gt;init&lt;/code&gt; function to look like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;defn &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;init&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;let &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js/Raphael&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;my-pie&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;pie&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.piechart&lt;/span&gt; 
+             &lt;span class=&quot;nv&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;320&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;240&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; 
+             &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;array&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;55&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+             &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js-obj&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;legend&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;array&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;with-55&amp;quot;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;with-20&amp;quot;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;so on...&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+                     &lt;span class=&quot;s&quot;&gt;&amp;quot;legendpos&amp;quot;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;west&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))]&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;other-functions-in-scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This corresponds to the following Javascript:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Raphael&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;my-pie&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;pie&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;piechart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;320&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;240&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;55&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; 
+                &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;legend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;with-55&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;with-20&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;so on...&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; 
+                  &lt;span class=&quot;nx&quot;&gt;legendpos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;west&amp;quot;&lt;/span&gt; 
+                &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;otherFunctionsInScope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that in Clojurescript, we use &lt;code&gt;(let [r &amp;quot;some-value&amp;quot;] (code-to-execute-in-scope))&lt;/code&gt; syntax to define Javascript scope variables. Also note the use of &lt;code&gt;(array)&lt;/code&gt; and &lt;code&gt;(js-obj)&lt;/code&gt; functions to create those particular JS data structures in Clojurescript.&lt;/p&gt;
+
+&lt;p&gt;Take another look at the dot and dot-dash characters in the Clojurescript above. Something like &lt;code&gt;(.log js/console &amp;quot;Yeehaw&amp;quot;)&lt;/code&gt;, with just a dot, correponds to calling an object&amp;#39;s function. Meanwhile, something like &lt;code&gt;(.-onload js/window)&lt;/code&gt; corresponds to getting or setting an object&amp;#39;s property (here, the window object&amp;#39;s onload property).&lt;/p&gt;
+
+&lt;p&gt;Now let&amp;#39;s add a title. Replace &lt;code&gt;(other-functions-in-scope)&lt;/code&gt; with this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.attr&lt;/span&gt; 
+ &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.text&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;320&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Clojurescript/Raphael Demo&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+ &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js-obj&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;font&amp;quot;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;20px sans-serif&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This corresponds to:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;320&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Clojurescript/Raphael Demo&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;font&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;20px sans-serif&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And refresh your page. You should see your pie chart, a legend, and the title! &lt;/p&gt;
+
+&lt;p&gt;Next, let&amp;#39;s add the fun hover effect. Start by adding this function above &lt;code&gt;init&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;defn &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sector-mousein&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;this-as&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.stop&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-sector&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.scale&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-sector&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.1&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-cx&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-cy&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-label&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;do&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.stop&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;nth &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-label&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.attr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;nth &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-label&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+              &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js-obj&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;r&amp;quot;&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;7.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.attr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;nth &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-label&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+              &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js-obj&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;font-weight&amp;quot;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;800&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This animates the wedges and corresponding labels when we hover over a pie chart wedge. In order to make this work, I used the &lt;code&gt;this-as&lt;/code&gt; macro to open up access to &lt;code&gt;this&lt;/code&gt;. Here is the corresponding Javascript:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;7.5&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;font-weight&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;800&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, add this function also above init. This is the function that will be called when the mouse leaves a wedge.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;defn &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sector-mouseout&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;this-as&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.animate&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-sector&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js-obj&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;transform&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;s1 1 &amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-cx&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; &amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-cy&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt; 
+    &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;bounce&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-label&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;do &lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.animate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;nth &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-label&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js-obj&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;r&amp;quot;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;bounce&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.attr&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;nth &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-items&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.-label&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;js-obj&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;font-weight&amp;quot;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Lastly, add the following line inside &lt;code&gt;init&lt;/code&gt; to bind those event handler functions to the pie chart wedges.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.hover&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pie&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sector-mousein&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sector-mouseout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Refresh your page in the browser. At this point, you should have a &lt;a href=&quot;http://annejohnson.github.io/cljs-raphael&quot; target=&quot;_blank&quot;&gt;sweet animated pie chart&lt;/a&gt; - powered by the magical intersection of Clojurescript, the JVM, and interop with RaphaelJS. Get up and start dancing!&lt;/p&gt;
+</description>
+        <pubDate>Sun, 12 Oct 2014 10:34:18 -0400</pubDate>
+        <link>http://feathers.io/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</guid>
+      </item>
+    
+      <item>
+        <title>Strange Loop 2014</title>
+        <description>&lt;p&gt;I went to a tech conference called &lt;a href=&quot;https://thestrangeloop.com/&quot; target=&quot;_blank&quot;&gt;Strange Loop&lt;/a&gt; last week. It takes place once a year in Saint Louis, Missouri, and features talks by the creators and earliest users of cutting-edge technologies. I&amp;#39;ve heard that the technologies you learn about at Strange Loop are those that people will be using widely in a couple of years. Strange Loop is a way to explore this exciting future.&lt;/p&gt;
+
+&lt;p&gt;This was my very first tech conference, and I had an &lt;strong&gt;amazing&lt;/strong&gt; time! I overloaded my brain with talks about new and mind-bending technologies, and I met more brilliant people than I can count.&lt;/p&gt;
+
+&lt;h2&gt;Highlights&lt;/h2&gt;
+
+&lt;p&gt;I could go on and on for a very long time about all that I enjoyed at Strange Loop. I&amp;#39;ll try to confine everything within a few bullet points.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.manning.com/poweredbyjavascript/&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;Powered by Javascript&lt;/strong&gt;&lt;/a&gt;: a pre-conference event all about Javascript. Some talks covered new+upcoming features in Javascript. Others were about Javascript reaching into new realms of development. Some of my favorite talks were:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Virtual Reality in JavaScript&lt;/strong&gt; by &lt;a href=&quot;https://github.com/dmarcos&quot; target=&quot;_blank&quot;&gt;Diego Marcos&lt;/a&gt;. Javascript meets the &lt;a href=&quot;http://www.oculus.com/&quot; target=&quot;_blank&quot;&gt;Oculus Rift&lt;/a&gt;!&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Closures and Currying in JavaScript&lt;/strong&gt; by &lt;a href=&quot;https://twitter.com/gneatgeek&quot; target=&quot;_blank&quot;&gt;Rory Hardy&lt;/a&gt;. Finally those frigging things make more sense.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Build mobile apps with Javascript using the &lt;a href=&quot;http://ionicframework.com/&quot; target=&quot;_blank&quot;&gt;Ionic Framework&lt;/a&gt;&lt;/strong&gt; by &lt;a href=&quot;https://twitter.com/gnomeontherun&quot; target=&quot;_blank&quot;&gt;Jeremy Wilken&lt;/a&gt;. Javascript as a tool for creating native-quality mobile apps.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.citymuseum.org/&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;The City Museum!&lt;/strong&gt;&lt;/a&gt; Strange Loop rented out the entirety of Saint Louis&amp;#39;s quirkiest attraction for a night. I had a great time climbing around in the museum&amp;#39;s otherworldly structures with fellow Strange Loop attendees.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Amazing Strange Loop talks.&lt;/strong&gt; A short list of those that were most inspiring to me:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=KKaHkkpdHxg&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;Nashorn: implementing a dynamic language runtime on the JVM&lt;/strong&gt;&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/asz&quot; target=&quot;_blank&quot;&gt;Attila Szegedi&lt;/a&gt;. He talked about the process of getting a dynamically typed language to compile into JVM bytecode. My favorite phrase from the talk is definitely &lt;strong&gt;Unwarranted Optimism Exception&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=FJpb1j2SWfA&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;Art.js: Transfigure Data to Create 21st Century Art&lt;/strong&gt;&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/supersgp&quot; target=&quot;_blank&quot;&gt;Sarah Groff-Palermo&lt;/a&gt;. She inspired me to think more creatively about data - that it can be used not just to make highly structured presentations, but also art - and all in code.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=QAwbjMdXj-Y&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;DOMStep: Audio Synthesis, AI and a JavaScript Dance Party&lt;/strong&gt;&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/jergason&quot; target=&quot;_blank&quot;&gt;Jamison Dance&lt;/a&gt;. Extremely entertaining talk, and who knew that browsers have an audio API? Well, I didn&amp;#39;t... &lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=9xbrMTieJa0&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;Democratizing Hardware&lt;/strong&gt;&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/voodootikigod&quot; target=&quot;_blank&quot;&gt;Chris Williams&lt;/a&gt;. As a result of this talk, I&amp;#39;ve added &amp;quot;small NodeBot project&amp;quot; to my list of To-Do&amp;#39;s.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=0IQlpFWTFbM&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;You can be a kernel hacker!&lt;/strong&gt;&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/b0rk&quot; target=&quot;_blank&quot;&gt;Julia Evans&lt;/a&gt;. Hilarious and informative, all at once! Offered great advice for learning how to dig deeper into Linux OS code.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;The Strange Loop Keynotes&lt;/strong&gt;. Joe Armstrong talked about &lt;a href=&quot;https://www.youtube.com/watch?v=lKXe3HUG2l4&quot; target=&quot;_blank&quot;&gt;&amp;quot;the mess we&amp;#39;re in&amp;quot;&lt;/a&gt;: how we&amp;#39;ve gotten ourselves into a trench of bloated code and complexity, and how computers have more possible states than the number of atoms in gajillions of universes. Nada Amin talked about &lt;a href=&quot;https://www.youtube.com/watch?v=SrKj4hYic5A&quot; target=&quot;_blank&quot;&gt;venturing into &amp;quot;meta-levels&amp;quot;&lt;/a&gt; with a reflective programming language called Black. Stephen Wolfram talked about the new &lt;a href=&quot;https://www.youtube.com/watch?v=EjCWdsrVcBM&quot; target=&quot;_blank&quot;&gt;Wolfram programming language&lt;/a&gt;. And, to wrap it up, a group of speakers delivered the final keynote as a &lt;a href=&quot;https://www.youtube.com/watch?v=3_zW63dcZB0&quot; target=&quot;_blank&quot;&gt;robot dance party&lt;/a&gt;. Catchy music and dancing hardware, all powered by Clojure.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Diversity Scholarship&lt;/h2&gt;
+
+&lt;p&gt;I attended Strange Loop with the help of a diversity scholarship. Many very generous individuals and companies contributed to the scholarship pool - and enabled Strange Loop to dramatically increase the percent of minority attendees. &lt;/p&gt;
+
+&lt;h4&gt;To those generous people:&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;THANK YOU!&lt;/strong&gt; This experience meant so much to me! Not just for all that I learned, but also for the rare opportunity to see diversity in technology. And, rarer still, for the opportunity to see people from diverse backgrounds &lt;strong&gt;giving talks&lt;/strong&gt; and &lt;strong&gt;being leaders&lt;/strong&gt; in the industry. I feel revitalized and inspired. I can&amp;#39;t wait to pay this experience forward.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 29 Sep 2014 16:34:18 -0400</pubDate>
+        <link>http://feathers.io/blog/2014/09/strange-loop-2014</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/09/strange-loop-2014</guid>
+      </item>
+    
+      <item>
+        <title>Why I Love Living With Parrots</title>
+        <description>&lt;p&gt;Strange and wonderful things happen when you adopt parrots! &lt;/p&gt;
+
+&lt;p&gt;I have 2 parrots, Edwin and Petrie. I adopted Edwin in August, 2013, followed by Petrie in November. Last Tuesday marked one year of birdhood for me, and it has been delightful!&lt;/p&gt;
+
+&lt;p&gt;Here are some of the awesome things I&amp;#39;ve found about having parrots:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/parrots/edwin.jpg&quot; alt=&quot;Edwin&quot; class=&quot;alignleft&quot; /&gt;&lt;strong&gt;1. Parrots are challenging, but dedication pays off.&lt;/strong&gt;&lt;br /&gt;When I first brought Edwin home, he didn&amp;#39;t want ANYTHING to do with me. I had anticipated this because it&amp;#39;s typical behavior for a rehomed adult bird, but it was still disconcerting. Nevertheless, I closely followed the advice of being friendly but distant, slowly gaining his trust. After a few days, he accepted food from me, and after a week, he stepped up on my arm. After a month or two, he let me scratch his neck. After several months, he started saying &amp;quot;I love you!&amp;quot; Our relationship continues to grow each day.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2. Parrots can be the most loving creatures on earth.&lt;/strong&gt;&lt;br /&gt;Petrie came to me at the tender age of 7 months, naïve, clipped, and with broken stumpy tail feathers. He was trusting from the start, but not loving - though this has changed. Over time, Petrie became more and more affectionate. Nowadays, he&amp;#39;s either sitting on my laptop when I&amp;#39;m surfing the internet, bobbing his head when I talk to him, or flying to me when I leave the room. I&amp;#39;m honored to have won his affections!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/parrots/petrie.jpg&quot; alt=&quot;Petrie loves blueberries&quot; class=&quot;alignright&quot; /&gt;&lt;strong&gt;3. Parrots encourage healthy eating.&lt;/strong&gt;&lt;br /&gt;It&amp;#39;s already rewarding to eat healthy fruits and vegetables, but it becomes doubly rewarding when I&amp;#39;m able to share these foods with my 2 dearests. Not to mention that it&amp;#39;s really fun to discover new foods that they like. A few months ago, I discovered that Petrie &lt;em&gt;loves&lt;/em&gt; blueberries.&lt;/p&gt;
+
+&lt;p&gt;And since parrots are naturally vegetarians, I can buy food for them that is neither sketchy nor smelly (I&amp;#39;m talking about you, dogfood and catfood).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;4. Parrots are great to talk to.&lt;/strong&gt;&lt;br /&gt;It feels a little less like I&amp;#39;m talking to myself with these guys than it would with other pets. Sometimes Edwin and Petrie even talk back. We&amp;#39;ve definitely had conversations before, usually consisting of: &amp;quot;Hello.&amp;quot; &amp;quot;Hello.&amp;quot; &amp;quot;Hello!&amp;quot; &amp;quot;Hello.&amp;quot; *whistle* *whistle* ...ad infinitum. Simple as our conversations might be, they are more special than many conversations I&amp;#39;ve had with actual people.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;5. Parrots encourage a healthy sleep schedule.&lt;/strong&gt;&lt;br /&gt;Birds wake up at sunrise and go to bed at sunset. 10 hours of sleep is the recommended amount for pet parrots. Dimming the lights for Edwin and Petrie at a reasonable hour helps me, too, go to bed at a reasonable hour. Also, birds help me be a better morning person. Actually.. they force me to be! Thanks to the Petriebird alarm clock, we never waste a day.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;6. Parrots live for a long time.&lt;/strong&gt;&lt;br /&gt;Edwin&amp;#39;s and Petrie&amp;#39;s life spans are both estimated to be 30-40 years (for some species, this number is lower, and for many species, much higher). Edwin is only 6, and Petrie is only 1, so we will hopefully have many more years together.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;7. Parrots are smart, and they love learning!&lt;/strong&gt;&lt;br /&gt;Edwin and Petrie pick up new phrases and sounds easily. They are also very easy to train. Edwin learned how to wave on command in just a couple days. Sometimes they learn things even when I&amp;#39;m not consciously training them... for example, Edwin learned how to go into his cage anytime I say &amp;quot;Go in here!&amp;quot;&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve had many kinds of pets - cats, dogs, hamsters, guinea pigs, chinchillas, rats, fish, geckoes... I love them all, but parrots definitely top the list!&lt;/p&gt;
+</description>
+        <pubDate>Mon, 11 Aug 2014 18:56:02 -0400</pubDate>
+        <link>http://feathers.io/blog/2014/08/why-i-love-living-with-parrots</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/08/why-i-love-living-with-parrots</guid>
+      </item>
+    
+      <item>
+        <title>Ruby Love</title>
+        <description>&lt;p&gt;Hello, world! I&amp;#39;ve started a software internship that has me working in Ruby on Rails. It&amp;#39;s at a company called Automated Insights, whose software generates just that: automated insights. More specifically, they automate the conversion of big data into plain English. I&amp;#39;ve spent the first week on the job improving my Ruby skills.&lt;/p&gt;
+
+&lt;p&gt;In doing so, I&amp;#39;ve gained a huge appreciation for how much of a masterpiece it is as a programming language. It&amp;#39;s concise, expressive, and extraordinarily powerful. To get a glimpse of these traits, check out how Java and Ruby compare when accomplishing the task of adding up the numbers 1 - 10.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Java:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++){&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Java, the most straightforward way to do this is to loop through the numbers 1 - 10 and add each number to a variable &lt;code&gt;sum&lt;/code&gt;. (There are more concise/elegant ways to do this in Java, but this is the way a n00b like me would most naturally go about it after a single Java course.)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Behold... Ruby:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Ruby, I only have to type one beautiful little line. This level of Ruby can be learned by n00bs in perhaps a shorter time than it takes to fully understand the &amp;quot;Hello World&amp;quot; Java program.&lt;/p&gt;
+
+&lt;p&gt;This code is much shorter in part because Ruby is dynamically typed. That is, in Ruby, you don&amp;#39;t have to specify whether a variable is an integer, a float, or a string. This is in contrast to Java, which enforces type declarations for variables and methods (hence &lt;code&gt;int&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;Ruby also has neat features that facilitate such operations - for instance, a &lt;strong&gt;range&lt;/strong&gt; data structure (e.g., 1..10, 200..300, etc.), and a very helpful method called &lt;strong&gt;inject&lt;/strong&gt; (alias: reduce) in its &lt;a href=&quot;http://www.ruby-doc.org/core-2.1.1/Enumerable.html#method-i-inject&quot;&gt;Enumerable module&lt;/a&gt;. Inject takes optional parameters of a starting value and/or a binary method symbol (e.g., :+), and optionally/alternatively a block (a chunk of code that appears between {curly braces}). If no starting value is given as a parameter, then inject/reduce uses the first value in the array/range/etc. as the starting value. Here are some other ways I could have written this code to get the same result:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Inject works by putting in the first number (either 0 or 1, depending on whether I&amp;#39;ve given 0 as a parameter) as &amp;quot;result&amp;quot;, and the following number (1 or 2) as the &amp;quot;num&amp;quot; that gets added. The result is returned by the block and then inputted as the next &amp;quot;result&amp;quot;, with the following number (2 or 3) inputted as the next &amp;quot;num&amp;quot;, and so on until inject has gone through the entire range. The final result of &amp;quot;result + num&amp;quot; is returned.&lt;/p&gt;
+
+&lt;p&gt;Java offers &lt;a href=&quot;http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html#reduce&quot;&gt;reduction functionality&lt;/a&gt;, but it is not as... lovely! as Ruby&amp;#39;s.&lt;/p&gt;
+
+&lt;p&gt;There are so many other things I like about Ruby - and I&amp;#39;m only just getting started! I&amp;#39;m thrilled to have the opportunity to use it in the workplace.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 18 May 2014 15:47:36 -0400</pubDate>
+        <link>http://feathers.io/blog/2014/05/ruby-love</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/05/ruby-love</guid>
+      </item>
+    
+      <item>
+        <title>Switching Careers</title>
+        <description>&lt;p&gt;I recently did a career switch from evolutionary biology academia to technology. It was sudden and quasi-awkward, but it was an excellent decision for me personally. I&amp;#39;m writing this post to A) tell the story, and B) offer advice to others interested in doing a career switch.&lt;/p&gt;
+
+&lt;h2&gt;Why I Did It&lt;/h2&gt;
+
+&lt;p&gt;A few months ago, I was working in an evolutionary biology lab that I had started working in as an undergraduate. I enjoyed the work and loved my co-workers, and I was planning to continue on in the field of academic biology and obtain a Ph.D. At a certain point, however, I realized that this wasn’t the right field for me after all.&lt;/p&gt;
+
+&lt;p&gt;I want to do work that is constantly stimulating and constantly rewarding (to the extent possible). Scientific research, unfortunately, doesn’t tend to be. Though it has moments that are extremely rewarding (like when a discovery is made, when you get to do field work, or when you publish a paper), it is generally slow and tedious between those. I also want to be able to live wherever I want — maybe near my aging parents, or in a city I’ve always found interesting, or in a place where I like the climate. My father having had serious colon cancer the year prior was a serious gamechanger for me. It made me realize that I absolutely do not want to be far from my parents should something horrible like that happen again. Unfortunately, in academia, you specialize to the point where there are only a few positions in the country that you are best suited for, leaving your options limited. I’m also interested in good pay, a reasonable work schedule, and general financial and career stability in the foreseeable future. Academic biology is not very conducive to these preferences… but technology is to all of them! After much reflection and research, I committed to making the switch.&lt;/p&gt;
+
+&lt;h2&gt;How I Did It&lt;/h2&gt;
+
+&lt;p&gt;First, I began spending my evenings learning tech skills. I refreshed on the HTML, CSS, and PHP includes that I had done for fun during middle and high school. (Sidenote: I knew what HTML stood for in 6th grade. When I leaked out that secret in class one day, my classmates gave me awkward looks that I remember to this day.) Web development is an excellent way to get into tech, and these are foundational skills for anyone interested in web development. Here is the generalized step-by-step list of how I learned these skills back in the day:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;I used online resources to learn &lt;strong&gt;&lt;em&gt;basic HTML and CSS&lt;/em&gt;&lt;/strong&gt;. I recommend &lt;a href=&quot;http://www.codecademy.com/&quot;&gt;Codecademy&lt;/a&gt; for someone getting started today. I began with a &lt;a href=&quot;http://xanga.com/&quot;&gt;Xanga&lt;/a&gt; blog (if I were doing this nowadays, I would instead use &lt;a href=&quot;http://www.tumblr.com/&quot;&gt;Tumblr&lt;/a&gt;), which can serve as a good playground for experimenting with custom CSS and HTML (which I learned about in piecemeal by Googling on how to make certain style changes). I also made simple static website files, like index.html and style.css, on my computer using a text editor. I could then open these up in a browser.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Found hosting.&lt;/em&gt;&lt;/strong&gt; I started off with extremely crappy and slow web space with unattractive addresses (like yoursitehere.awardspace.com, etc. - no offense, Awardspace - I love you!) -- because this kind of hosting is free. Crappy as it was, this free web space enabled me to learn how to make my HTML files accessible to the broader world using FTP (File Transfer Protocol). Do a Google search on free web hosting, and you will find similar free hosting to serve as learning space. Make sure to learn how to use an &lt;strong&gt;&lt;em&gt;FTP client&lt;/em&gt;&lt;/strong&gt; (I recommend &lt;a href=&quot;http://cyberduck.io/&quot;&gt;Cyberduck&lt;/a&gt; for Mac-users), too, as this makes it easy to upload files to your web space.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Used PHP to include header and footer files onto my pages.&lt;/em&gt;&lt;/strong&gt; This made it so that if I wanted to change my header, I would only have to change one file (header.php) rather than multiple (index, about, portfolio, etc.). &lt;a href=&quot;http://php.about.com/od/tutorials/ht/template_site.htm&quot;&gt;Here&amp;#39;s a good, simple tutorial on how to do this&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Those steps enabled me to set up a simple portfolio website. Then, in college, these skills went dormant as I focused on my scientific coursework. I did take an introductory programming course that taught Python. To someone trying to make a career switch, I would suggest the free PHP, Javascript, Ruby, or Python courses on &lt;a href=&quot;http://www.codecademy.com/&quot;&gt;Codecademy&lt;/a&gt; as a way to similarly &lt;strong&gt;&lt;em&gt;learn basic programming concepts&lt;/em&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;I graduated from college in 2013 and worked in biology for a few months before deciding to get into tech. At this point, after refreshing on the skills above, I learned &lt;strong&gt;&lt;em&gt;PHP beyond just includes&lt;/em&gt;&lt;/strong&gt;. PHP is the programming language used by WordPress. WordPress is one of the most popular content management systems (CMS&amp;#39;s) in the world, the CMS of my former website, and the CMS with which I worked in my first-ever tech job! I got started with PHP using &lt;a href=&quot;http://devzone.zend.com/6/php-101-php-for-the-absolute-beginner/&quot;&gt;this awesome tutorial&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Next, I decided to take a stab at &lt;strong&gt;&lt;em&gt;making a WordPress website&lt;/em&gt;&lt;/strong&gt; with a custom theme. For the first time ever, I &lt;strong&gt;&lt;em&gt;paid for hosting and bought a domain name&lt;/em&gt;&lt;/strong&gt;. I did this all through &lt;a href=&quot;http://www.bluehost.com/&quot;&gt;BlueHost&lt;/a&gt;. The investment made me feel more committed to seeing the project through. It also eliminated the frustrations associated with slow free web hosting. If you&amp;#39;re interested in buying web hosting for a WordPress site, just make sure the hosting plan allows PHP and gives you MySQL databases (you only need one, but more is better in case you decide to have multiple WordPress installations). Because WordPress is so popular, many web hosting plans will install WordPress for you. This is the case with BlueHost, where all you have to do is click on a WordPress button, and it sets everything up for you. Otherwise, you&amp;#39;ll need to upload the WordPress files yourself using FTP, create a MySQL database, create a database username/password and add them to that database, and navigate in your browser to where you&amp;#39;ve uploaded the WordPress files. A page will come up and prompt you for your database name, username, password, and hostname (usually &amp;#39;localhost&amp;#39;).&lt;/p&gt;
+
+&lt;p&gt;A good way to begin learning how to make WordPress themes is by &lt;strong&gt;&lt;em&gt;modifying an existing theme&lt;/em&gt;&lt;/strong&gt;. Activate the theme you want to modify by navigating to yoursite.com/wp-admin/, logging in, and then going to Appearances &amp;gt;&amp;gt; Themes. Then, using FTP, navigate from the root directory to wp-content/themes/yourtheme. I played with &lt;a href=&quot;https://wordpress.org/themes/twentytwelve&quot;&gt;Twenty Twelve&lt;/a&gt;, though just about any popular WordPress theme would be an equally good choice. Inside the theme directory, you&amp;#39;ll see several different files. Start by looking at index.php, page.php, header.php, and footer.php. It&amp;#39;s okay if you don&amp;#39;t understand much in these files. I didn&amp;#39;t understand anything at all. To get started with customization in a way that doesn&amp;#39;t require diving into WordPress functions and queries, I suggest &lt;strong&gt;&lt;em&gt;opening style.css, deleting everything in there, and styling it all yourself from scratch&lt;/em&gt;&lt;/strong&gt;. See what is possible through styling alone. This will also help you understand how the .php files generate the various elements that appear on different pages of your site.&lt;/p&gt;
+
+&lt;p&gt;From there, maybe start by mastering a WordPress site of only pages. Then, you only have to style; create pages in wp-admin; and look at header.php, footer.php, page.php, content.php, and maybe content-page.php. Then, add a blog and study index.php and maybe content.php, single.php, and content-single.php. Next, try to understand archives by looking at files like tag.php, archive.php, and category.php. Lastly, experiment with custom post type creation, with which you can have Portfolio Items, Testimonials, Poems, etc. From there, the world is your oyster. Don&amp;#39;t forget to explore custom taxonomies (I had a custom taxonomy called &amp;#39;Project Type&amp;#39; that I used with a custom post type &amp;#39;Portfolio&amp;#39;), queries (I&amp;#39;ve coded websites with a custom post type &amp;#39;Testimonial&amp;#39; and used queries to display 2 random testimonials on a sidebar widget), and widget creation.&lt;/p&gt;
+
+&lt;p&gt;Very early on in my own WordPress exploration -- when I hadn&amp;#39;t done more than customize styles.css, header.php, and footer.php -- I contacted a local web development company to ask if they had any interest in interns. They did! They started me out with a static web page, then a simple WordPress website, then a more complicated WordPress website in collaboration with an experienced developer, and then increasingly complicated WordPress websites that I&amp;#39;ve been doing myself. Don&amp;#39;t be afraid to similarly reach out! I&amp;#39;m so glad I did. &lt;strong&gt;&lt;em&gt;It seems like we become employable in tech not by achieving mastery, but by demonstrating potential -- which happens much earlier than you would think.&lt;/em&gt;&lt;/strong&gt; The sooner you get your foot in the door somewhere, the more accelerated your learning becomes. My WordPress learning was slow and clunky at first but took off once I joined that company. From that point on, I was able to troubleshoot problems more quickly because I was around experienced developers who were able to point me in the right direction.&lt;/p&gt;
+
+&lt;p&gt;Once I started working as a WordPress developer, I made enough more per hour that I could afford to work only part time. That allowed me to begin taking online computer science courses through North Carolina State University on the side to earn a &lt;a href=&quot;http://engineeringonline.ncsu.edu/PS/CPC.html&quot;&gt;computer programming certificate&lt;/a&gt;. It encompasses the coursework of a bachelor&amp;#39;s in computer science and meets prerequisites for computer science graduate school programs. &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;With nothing more than toying around with code in my spare time and having a blast, I&amp;#39;ve been able to totally turn my life in a different direction.&lt;/strong&gt; I look forward to what lies ahead for me in this exciting field. If you are in similar shoes, say at the beginning of your career-switching journey, I encourage &lt;a href=&quot;http://twitter.com/depaysant&quot;&gt;you to reach out to me&lt;/a&gt; for anything at all - encouragement, advice, etc.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 21 Mar 2014 07:47:36 -0400</pubDate>
+        <link>http://feathers.io/blog/2014/03/switching-careers</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/03/switching-careers</guid>
+      </item>
+    
+      <item>
+        <title>Painting With Feathers</title>
+        <description>&lt;p&gt;I recently did a painting of my maximilian pionus parrot, Edwin. He&amp;#39;s sweet, wonderful, brilliant, and (conveniently) fond of molting.&lt;/p&gt;
+
+&lt;p&gt;A recent trip to Asheville, NC, and its &lt;a href=&quot;http://www.riverartsdistrict.com/&quot;&gt;River Arts District&lt;/a&gt; inspired me to create this painting. While there, I met an amazing artist who incorporates dried plant material and other found objects into her paintings. After seeing her work, I decided to play with using found objects... certain feathery found objects that magically appear all over my apartment!&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve been saving Edwin&amp;#39;s beautiful dropped feathers since my trip to Asheville. Come Christmas-time, I had accumulated a stash large enough to experiment with them in paintings. I began this feathery adventure with a photo of Edwin:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_photo.jpg&quot; alt=&quot;Edwin&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;After cropping the image into a portrait composition, I drew Edwin onto a canvas panel.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_sketch.jpg&quot; alt=&quot;Edwin sketch&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, I did an underpainting involving lots of modeling paste (which would later act as glue for the feathers).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_underpainting.jpg&quot; alt=&quot;Edwin underpainting&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Next, I added in whites on the upper part of Edwin&amp;#39;s head, where he has light gray downy feathers. I also added in dark purple (which acts as black/shadow-color) into Edwin&amp;#39;s chest area and began working on his beak.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_wip1.jpg&quot; alt=&quot;Edwin WIP&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;A few steps get blended together in the image below. I put some feathers into the modeling paste/paint and painted over them with dark purples. Then, I added in feathery texture to the face and neck using U-shaped blobs of dark purple and light green.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_wip2.jpg&quot; alt=&quot;Edwin WIP&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally, I added more feathers, finished his beak, and did his eye!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_finished.jpg&quot; alt=&quot;Edwin Painting&quot;&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 01 Jan 2014 11:47:36 -0500</pubDate>
+        <link>http://feathers.io/blog/2014/01/painting-with-feathers</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2014/01/painting-with-feathers</guid>
+      </item>
+    
+      <item>
+        <title>Painting Grumpy Cat</title>
+        <description>&lt;p&gt;If I said I didn&amp;#39;t love the well-known internet celebrity, &lt;a href=&quot;http://www.quickmeme.com/Grumpy-Cat/&quot;&gt;Grumpy Cat&lt;/a&gt;, then I would be lying. She is maybe the grumpiest-looking cat on the planet, but I suspect that she&amp;#39;s actually a happy kitty trapped in a grumpy shell. She&amp;#39;s an adorable enigma, so I decided to paint her.&lt;/p&gt;
+
+&lt;p&gt;I started with a photo of her and a small canvas panel, drew a grid of four, and then sketched her. Here&amp;#39;s the initial sketch:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_sketch.jpg&quot; alt=&quot;Grumpy Cat Sketch&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, I did an underpainting. An underpainting is a haphazard-ish blobbing of colors that approximate the final colors of each part of the painting.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_wip1.jpg&quot; alt=&quot;Grumpy Cat Underpainting&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;I&amp;#39;ve been experimenting with modeling pastes and textured gels. There are all kinds of pastes and gels that you can mix in with acrylics. Some turn acrylic paint into almost-clay that will maintain the texture of the original brush strokes, some slow down the drying time (which makes the acrylics more blendable and similar in appearance to oil paint), some create a highly shiny appearance, and some add strange textures (sandy, crackly, etc.). I used modeling paste to try and maintain some of the brushstrokes used in the fur, and I used a sandy-textured medium on the snout. I applied these using a palette knife right onto the painting without first mixing them with color, which I suspect is not the proper way to use them. (But it is definitely more blobby, gooey, and fun that way.)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_wip2.jpg&quot; alt=&quot;Grumpy Cat WIP&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Looks like she&amp;#39;s getting a facial. Next, I added color in to these gels.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_wip3.jpg&quot; alt=&quot;Grumpy Cat WIP&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Grumpy Cat is pretty strange looking so far. Things started coming together a little bit when I put details into the fur using a smaller-diameter brush. I also put dark purple in the areas of deep shadow (see her mouth, her nostrils, and the fur fringing her snout). An art teacher long ago instilled in me to never, ever use black, but to instead create blacks by mixing complementary colors (purple+yellow, for example). I find that a dark purple usually does the job.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_wip4.jpg&quot; alt=&quot;Grumpy Cat WIP&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Then, the fun part -- the eyes! The little white reflections of light in the eyes wrap it up.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_finished.jpg&quot; alt=&quot;Grumpy Cat Painting&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;Voila! Grumpy Cat documented in acrylics for posterity. Perhaps the best thing about this painting is that it can be used as a mask when I need to convey certain grumpy emotions.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_mask.jpg&quot; alt=&quot;Grumpy Cat&quot;&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 27 Dec 2013 08:22:36 -0500</pubDate>
+        <link>http://feathers.io/blog/2013/12/painting-grumpy-cat</link>
+        <guid isPermaLink="true">http://feathers.io/blog/2013/12/painting-grumpy-cat</guid>
+      </item>
+    
+  </channel>
+</rss>

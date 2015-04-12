@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>feathers.io - Clojure</title>
+		<title>annekjohnson.com - Clojure</title>
 		<description>Posts categorized as 'Clojure'</description>
-		<link>http://feathers.io</link>
-		<atom:link href="http://feathers.io/blog/feed.clojure.xml" rel="self" type="application/rss+xml" />
+		<link>http://annekjohnson.com</link>
+		<atom:link href="http://annekjohnson.com/blog/feed.clojure.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>Using Clojurescript to Make Charts with Raphael.js</title>
@@ -165,8 +165,8 @@
 &lt;p&gt;Refresh your page in the browser. At this point, you should have a &lt;a href=&quot;http://annejohnson.github.io/cljs-raphael&quot; target=&quot;_blank&quot;&gt;sweet animated pie chart&lt;/a&gt; - powered by the magical intersection of Clojurescript, the JVM, and interop with RaphaelJS. Get up and start dancing!&lt;/p&gt;
 </description>
 				<pubDate>Sun, 12 Oct 2014 10:34:18 -0400</pubDate>
-				<link>http://feathers.io/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</link>
-				<guid isPermaLink="true">http://feathers.io/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</guid>
+				<link>http://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</link>
+				<guid isPermaLink="true">http://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</guid>
 			</item>
 		
 	</channel>

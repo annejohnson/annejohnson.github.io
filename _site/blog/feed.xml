@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>feathers.io</title>
+    <title>annekjohnson.com</title>
     <description>Personal site of Anne Johnson</description>    
-    <link>http://feathers.io</link>
-    <atom:link href="http://feathers.io/blog/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://annekjohnson.com</link>
+    <atom:link href="http://annekjohnson.com/blog/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Namespacing in Javascript</title>
@@ -150,8 +150,8 @@
 &lt;p&gt;This wraps up my examples. I hope you&amp;#39;re inspired to start namespacing your Javascript if you weren&amp;#39;t already. Happy closures!&lt;/p&gt;
 </description>
         <pubDate>Sun, 21 Dec 2014 07:39:06 -0500</pubDate>
-        <link>http://feathers.io/blog/2014/12/namespacing-in-javascript</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/12/namespacing-in-javascript</guid>
+        <link>http://annekjohnson.com/blog/2014/12/namespacing-in-javascript</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/12/namespacing-in-javascript</guid>
       </item>
     
       <item>
@@ -199,8 +199,8 @@
 &lt;p&gt;I look forward to doing more landscape painting.&lt;/p&gt;
 </description>
         <pubDate>Tue, 02 Dec 2014 16:27:08 -0500</pubDate>
-        <link>http://feathers.io/blog/2014/12/getting-started-with-landscape-painting</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/12/getting-started-with-landscape-painting</guid>
+        <link>http://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting</guid>
       </item>
     
       <item>
@@ -286,8 +286,8 @@
 &lt;p&gt;Ruby is so pleasantly documented that I have read much of its documentation for fun. Luckily, there&amp;#39;s still an unending number of subtle, powerful features that I have yet to learn about, so I won&amp;#39;t get bored for a while. &lt;a href=&quot;http://ruby-doc.org/&quot; target=&quot;_blank&quot;&gt;Check out the documentation here!&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 10 Nov 2014 16:02:00 -0500</pubDate>
-        <link>http://feathers.io/blog/2014/11/current-favorites-in-ruby-structs-nil-retries</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/11/current-favorites-in-ruby-structs-nil-retries</guid>
+        <link>http://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries</guid>
       </item>
     
       <item>
@@ -449,8 +449,8 @@
 &lt;p&gt;Refresh your page in the browser. At this point, you should have a &lt;a href=&quot;http://annejohnson.github.io/cljs-raphael&quot; target=&quot;_blank&quot;&gt;sweet animated pie chart&lt;/a&gt; - powered by the magical intersection of Clojurescript, the JVM, and interop with RaphaelJS. Get up and start dancing!&lt;/p&gt;
 </description>
         <pubDate>Sun, 12 Oct 2014 10:34:18 -0400</pubDate>
-        <link>http://feathers.io/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</guid>
+        <link>http://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael</guid>
       </item>
     
       <item>
@@ -493,8 +493,8 @@
 &lt;p&gt;&lt;strong&gt;THANK YOU!&lt;/strong&gt; This experience meant so much to me! Not just for all that I learned, but also for the rare opportunity to see diversity in technology. And, rarer still, for the opportunity to see people from diverse backgrounds &lt;strong&gt;giving talks&lt;/strong&gt; and &lt;strong&gt;being leaders&lt;/strong&gt; in the industry. I feel revitalized and inspired. I can&amp;#39;t wait to pay this experience forward.&lt;/p&gt;
 </description>
         <pubDate>Mon, 29 Sep 2014 16:34:18 -0400</pubDate>
-        <link>http://feathers.io/blog/2014/09/strange-loop-2014</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/09/strange-loop-2014</guid>
+        <link>http://annekjohnson.com/blog/2014/09/strange-loop-2014</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/09/strange-loop-2014</guid>
       </item>
     
       <item>
@@ -524,8 +524,8 @@
 &lt;p&gt;I&amp;#39;ve had many kinds of pets - cats, dogs, hamsters, guinea pigs, chinchillas, rats, fish, geckoes... I love them all, but parrots definitely top the list!&lt;/p&gt;
 </description>
         <pubDate>Mon, 11 Aug 2014 18:56:02 -0400</pubDate>
-        <link>http://feathers.io/blog/2014/08/why-i-love-living-with-parrots</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/08/why-i-love-living-with-parrots</guid>
+        <link>http://annekjohnson.com/blog/2014/08/why-i-love-living-with-parrots</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/08/why-i-love-living-with-parrots</guid>
       </item>
     
       <item>
@@ -565,8 +565,8 @@
 &lt;p&gt;There are so many other things I like about Ruby - and I&amp;#39;m only just getting started! I&amp;#39;m thrilled to have the opportunity to use it in the workplace.&lt;/p&gt;
 </description>
         <pubDate>Sun, 18 May 2014 15:47:36 -0400</pubDate>
-        <link>http://feathers.io/blog/2014/05/ruby-love</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/05/ruby-love</guid>
+        <link>http://annekjohnson.com/blog/2014/05/ruby-love</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/05/ruby-love</guid>
       </item>
     
       <item>
@@ -606,8 +606,8 @@
 &lt;p&gt;&lt;strong&gt;With nothing more than toying around with code in my spare time and having a blast, I&amp;#39;ve been able to totally turn my life in a different direction.&lt;/strong&gt; I look forward to what lies ahead for me in this exciting field. If you are in similar shoes, say at the beginning of your career-switching journey, I encourage &lt;a href=&quot;http://twitter.com/depaysant&quot;&gt;you to reach out to me&lt;/a&gt; for anything at all - encouragement, advice, etc.&lt;/p&gt;
 </description>
         <pubDate>Fri, 21 Mar 2014 07:47:36 -0400</pubDate>
-        <link>http://feathers.io/blog/2014/03/switching-careers</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/03/switching-careers</guid>
+        <link>http://annekjohnson.com/blog/2014/03/switching-careers</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/03/switching-careers</guid>
       </item>
     
       <item>
@@ -641,8 +641,8 @@
 &lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_finished.jpg&quot; alt=&quot;Edwin Painting&quot;&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 01 Jan 2014 11:47:36 -0500</pubDate>
-        <link>http://feathers.io/blog/2014/01/painting-with-feathers</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2014/01/painting-with-feathers</guid>
+        <link>http://annekjohnson.com/blog/2014/01/painting-with-feathers</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/01/painting-with-feathers</guid>
       </item>
     
       <item>
@@ -678,8 +678,8 @@
 &lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_mask.jpg&quot; alt=&quot;Grumpy Cat&quot;&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 27 Dec 2013 08:22:36 -0500</pubDate>
-        <link>http://feathers.io/blog/2013/12/painting-grumpy-cat</link>
-        <guid isPermaLink="true">http://feathers.io/blog/2013/12/painting-grumpy-cat</guid>
+        <link>http://annekjohnson.com/blog/2013/12/painting-grumpy-cat</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2013/12/painting-grumpy-cat</guid>
       </item>
     
   </channel>

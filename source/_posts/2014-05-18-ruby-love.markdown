@@ -1,0 +1,42 @@
+---
+layout: post
+title:  "Ruby Love"
+date:   2014-05-18 19:47:36
+categories: Programming Java Ruby
+---
+Hello, world! I've started a software internship that has me working in Ruby on Rails. It's at a company called Automated Insights, whose software generates just that: automated insights. More specifically, they automate the conversion of big data into plain English. I've spent the first week on the job improving my Ruby skills.
+
+In doing so, I've gained a huge appreciation for how much of a masterpiece it is as a programming language. It's concise, expressive, and extraordinarily powerful. To get a glimpse of these traits, check out how Java and Ruby compare when accomplishing the task of adding up the numbers 1 - 10.
+
+**Java:**
+{% highlight java %}
+int sum = 0;
+for (int i = 1; i <= 10; i++){
+  sum += i;
+}
+return sum;
+{% endhighlight %}
+
+In Java, the most straightforward way to do this is to loop through the numbers 1 - 10 and add each number to a variable `sum`. (There are more concise/elegant ways to do this in Java, but this is the way a n00b like me would most naturally go about it after a single Java course.)
+
+**Behold... Ruby:**
+{% highlight ruby %}
+(1..10).inject(:+)
+{% endhighlight %}
+
+In Ruby, I only have to type one beautiful little line. This level of Ruby can be learned by n00bs in perhaps a shorter time than it takes to fully understand the "Hello World" Java program.
+
+This code is much shorter in part because Ruby is dynamically typed. That is, in Ruby, you don't have to specify whether a variable is an integer, a float, or a string. This is in contrast to Java, which enforces type declarations for variables and methods (hence `int`).
+
+Ruby also has neat features that facilitate such operations - for instance, a **range** data structure (e.g., 1..10, 200..300, etc.), and a very helpful method called **inject** (alias: reduce) in its [Enumerable module](http://www.ruby-doc.org/core-2.1.1/Enumerable.html#method-i-inject). Inject takes optional parameters of a starting value and/or a binary method symbol (e.g., :+), and optionally/alternatively a block (a chunk of code that appears between {curly braces}). If no starting value is given as a parameter, then inject/reduce uses the first value in the array/range/etc. as the starting value. Here are some other ways I could have written this code to get the same result:
+{% highlight ruby %}
+(1..10).inject(0, :+)
+(1..10).inject(0) { |result, num| result + num }
+(1..10).inject { |result, num| result + num }
+{% endhighlight %}
+
+Inject works by putting in the first number (either 0 or 1, depending on whether I've given 0 as a parameter) as "result", and the following number (1 or 2) as the "num" that gets added. The result is returned by the block and then inputted as the next "result", with the following number (2 or 3) inputted as the next "num", and so on until inject has gone through the entire range. The final result of "result + num" is returned.
+
+Java offers [reduction functionality](http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html#reduce), but it is not as... lovely! as Ruby's.
+
+There are so many other things I like about Ruby - and I'm only just getting started! I'm thrilled to have the opportunity to use it in the workplace.

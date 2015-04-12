@@ -1,0 +1,44 @@
+@import "compass"
+
+@import "settings"
+@import "foundation"
+
+@import "top_nav"
+@import "home"
+@import "art"
+@import "code"
+@import "blog"
+/* syntax settings */
+@import "syntax"
+/* syntax theme */
+@import "inkpot"
+@import "404"
+
+@import "font-awesome/font-awesome"
+
+body
+  background: $white
+
+.row
+  padding-left: 20px
+  padding-right: 20px
+
+  @media #{$small-only}
+    padding-left: 6px
+    padding-right: 6px
+
+a
+  +transition(color 0.3s ease)
+
+.main
+  font-family: $body-font-family
+  font-weight: $font-weight-normal
+  padding-top: $top-bar-height + 30px
+  padding-bottom: 70px
+
+  @media #{$small-only}
+    padding-bottom: 40px
+
+  @media #{$screen} and (max-width: $top-bar-breakpoint)
+    padding-top: $top-bar-height-at-breakpoint + 30px
+

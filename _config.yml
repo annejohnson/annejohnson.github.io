@@ -1,0 +1,18 @@
+name: feathers.io
+description: Personal site of Anne Johnson
+url: http://feathers.io
+markdown: redcarpet
+highlighter: pygments
+encoding: utf-8
+permalink: /blog/:year/:month/:title
+source: source/
+paginate: 5
+paginate_path: "/blog/page/:num"
+
+collections:
+  art:
+    output: true
+    permalink: /art/:path/
+  code:
+    output: true
+    permalink: /code/:path/

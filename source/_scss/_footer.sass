@@ -1,0 +1,49 @@
+.footer
+  background: $primary-color
+  color: white
+  padding-top: 50px
+  padding-bottom: 50px
+  clear: both
+
+  h1, h2, h3, h4, h5, h6, i
+    color: white
+
+  a i
+    display: inline-block
+    color: $primary-color
+    background-color: white
+    +border-radius(15px)
+    padding: 5px
+    margin: 0 3px
+    font-size: 40px
+    border: 4px solid white
+    +transition(all 0.3s ease)
+
+    &:hover
+      background-color: $primary-color
+      color: white
+      border: 4px solid white
+      +transition(all 0.3s ease)
+
+  h5.email
+    padding: 5px 10px
+    margin: 15px 0
+    display: inline-block
+    font-family: $body-font-family
+    font-weight: 300
+
+  .fa-arrow-right
+    @media #{$small-only}
+      display: none
+
+  .fa-arrow-down
+    @media #{$medium-up}
+      display: none
+
+  @media #{$medium-only}
+    h4.email
+      font-size: 1.2rem
+    h2
+      font-size: 1.6rem
+    a i
+      font-size: 26px

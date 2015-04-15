@@ -5,21 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.url }}/blog/feed.xml">
-    <title>{% if page.title %}{{ page.title }} | {% endif %}Anne Johnson</title>
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.name }}</title>
+    <meta name="description" content="{{ site.description }}">
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/css/app.css">
     <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
   </head>
   <body>
 
-    <div class="top-nav">
-      <h1><a href="/">annekjohnson.com</a></h1>
-      <a class="button secondary round" href="/code">Code</a>
-      <a class="button secondary round" href="/art">Art</a>
-      <a class="button secondary round" href="/blog">Blog</a>
-    </div>
+    {% include top_nav.html %}
 
     {{content}}
+
+    {% include footer.html %}
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

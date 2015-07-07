@@ -9,8 +9,7 @@ title: art
     <ul class="art_projects block-grid small-block-grid-2 medium-block-grid-4">
       {% for artwork in site.art %}
         <li>
-        	<a href="{{ artwork.url }}" style="background-image:url('{{ artwork.image }}');">
-          </a>
+          <a href="{{ artwork.url }}" style="background-image:url('{{ artwork.image }}');"></a>
         </li>
       {% endfor %}
     </ul>

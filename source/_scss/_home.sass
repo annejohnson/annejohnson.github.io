@@ -25,7 +25,7 @@
     span
       font-size: 24px
       font-family: $header-font-family
-      font-weight: 400
+      font-weight: 600
 
     .first
       margin-bottom: 25px
@@ -37,14 +37,18 @@
 
     a
       text-decoration: underline
+      &:hover
+        color: lighten($primary-color, 10%)
 
   @media #{$small-only}
 
-    padding-top: 240px
-    padding-bottom: 86px
+    padding-top: 230px
+    padding-bottom: 76px
 
     .intro
       padding: 0 25px
+      .first
+        margin-bottom: 50px
 
     strong
       display: none

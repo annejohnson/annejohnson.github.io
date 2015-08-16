@@ -13,11 +13,15 @@
   </head>
   <body>
 
-    {% include top_nav.html %}
+    {% unless page.hide_header %}
+      {% include header.html %}
+    {% endunless %}
 
     {{content}}
 
-    {% include footer.html %}
+    {% unless page.hide_footer %}
+      {% include footer.html %}
+    {% endunless %}
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

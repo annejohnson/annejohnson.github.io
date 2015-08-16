@@ -2,7 +2,7 @@
 @import "foundation"
 @import "compass"
 
-@import "top_nav"
+@import "header"
 @import "footer"
 @import "home"
 @import "art"
@@ -33,12 +33,3 @@ a
 .main
   font-family: $body-font-family
   font-weight: $font-weight-normal
-  padding-top: $top-bar-height + 30px
-  padding-bottom: 70px
-
-  @media #{$small-only}
-    padding-bottom: 40px
-
-  @media #{$screen} and (max-width: $top-bar-breakpoint)
-    padding-top: $top-bar-height-at-breakpoint + 30px
-

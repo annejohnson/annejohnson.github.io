@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="alternate" type="application/rss+xml" title="Anne K. Johnson" href="http://annekjohnson.com/blog/feed.xml">
+    <title>Crash Course in Solving Software Bugs | Anne K. Johnson</title>
+    <meta name="description" content="Personal site of Anne K. Johnson">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+  </head>
+  <body>
+
+    <div class="top-nav">
+  <h1><a href="/">annekjohnson.com</a></h1>
+  <a class="button secondary round" href="/code">Code</a>
+  <a class="button secondary round" href="/art">Art</a>
+  <a class="button secondary round" href="/blog">Blog</a>
+</div>
+
+
+    <div class="main row">
+  <div class="small-12 large-11 large-centered columns" id="post">
+    <h2>Crash Course in Solving Software Bugs</h2>
+    <h5 class="meta">August 16, 2015</h5>
+
+    <p>Much time on the job as a developer is spent not writing new code, but fixing bugs in old code. Bugs inevitably appear over time in an evolving codebase, and they need to be hunted down and cleaned up. Sometimes hunting them down is challenging. Here is a process for sniffing out the causes of enigmatic bugs in web applications. My examples involve Rails, but the concepts can be generalized to other web application environments.</p>
+
+<h3>Research the Bug</h3>
+
+<ul>
+<li>Take what you know already (if anything) and begin a <strong>list of knowns</strong>. Add any information available from the bug report. You might have a list of knowns like:
+
+<ul>
+<li>The issue happens on the &#39;Edit Account&#39; page.</li>
+<li>The issue only affects users who had a payment failure.</li>
+</ul></li>
+<li>See if the bug is easily <em>reproducible</em>. If it is, add information such as the following to your list of knowns:
+
+<ul>
+<li><strong>Which methods are involved in the symptom</strong>. If the bug reveals itself from a web server action in Rails, you can determine some of the methods involved in the symptoms from the <code>rails server</code> output.</li>
+<li><strong>What preconditions need to be met for the bug to appear</strong>. Are there scenarios that <em>do not</em> reproduce the bug? Note any differences between those scenarios and the scenarios that <em>do</em> reproduce the bug.</li>
+</ul></li>
+<li><strong>Find commonalities</strong> between records in the database known to have been involved with this bug. Do the affected records or their associated records share any unusual attribute values? Add any similarities you find to your growing list.</li>
+<li><strong>Do the affected records have any temporal overlap or patterns?</strong> Their <code>created_at</code> and <code>updated_at</code> timestamps or those of their associated records could suggest that this is a new problem, perhaps introduced by a code change around that time, or that the issue only happens at a certain time of day or certain day of the month. Add any information you gather here to your list. You might note information like:
+
+<ul>
+<li>The issue has been happening since Aug. 5.</li>
+<li>The issue seems to happen each day between 3 PM - 4 PM.</li>
+</ul></li>
+<li>Draw on any other available resources to gather similar information. Other resources could include log files, data sent to external services, etc.</li>
+</ul>
+
+<p>At this point, you have a better understanding of the conditions that reproduce the bug. This is a major step. Next, you need to determine which part(s) of the code is related and how you need to change that code in order to fix the bug.</p>
+
+<h3>Finding the Code Related to the Bug</h3>
+
+<ul>
+<li>If you found any common values for attributes, search for parts of the codebase that set those attributes.
+
+<ul>
+<li>For example, if you found that affected user records share the value &quot;unconfirmed&quot; for their <code>status</code>, you can run searches from the command line like <code>grep -rn &quot;status =&quot; .</code> (the <code>r</code> option says to recursively search in subdirectories; the <code>n</code> option says to show the line number). You can pipe that into a further search for &quot;unconfirmed&quot; if you suspect that the value is being set directly, e.g. <code>grep -rn &quot;status =&quot; . | grep &quot;unconfirmed&quot;</code>.</li>
+</ul></li>
+<li>If you found temporal commonalities along the lines of &quot;The issue has been happening since ___&quot;, look at the commit history around that time. Look at both the commit messages and the code changes within the commits for any clues.</li>
+<li>If there were any temporal patterns like &quot;The issue happens each day between 3 PM - 4 PM&quot;, see if there are any scheduled jobs that run around that time. If so, the job code could be related.</li>
+</ul>
+
+<p>Study &amp; trace through these possibly related parts of the code. If you are able to <strong>reproduce the bug under a set of conditions, update the code with a fix, and then observe that the bug no longer happens under those same conditions</strong>, then congratulations - you have most likely squashed the bug!</p>
+
+<h3>And, if the Bug is Still Mysterious...</h3>
+
+<p>Some bugs, no matter how much you try to study and reproduce them locally, remain mystifying. With those, you might have reason to suspect that the bug is related to something that differs between your local environment and the environment where the bug was observed. There are 2 places to look to gather clues for these bugs:</p>
+
+<ul>
+<li><strong>Inside the app</strong>. Search for any relevant differences between the config files in <code>config/environments/</code>, and look for <code>Rails.environment</code> conditionals throughout the codebase. Something you find here could explain why the bug manifests in one environment but not the other.</li>
+<li><strong>Outside the app</strong>. Search for any infrastructure-related or external-service-related causes in remote logfiles, in data sent to external services, etc.</li>
+</ul>
+
+<p>In the worst case scenario, the bug remains unreproducible, and the cause of the bug remains only a conjecture. However, if you have conducted research and eliminated a variety of other possible causes, and if you are putting in a hopeful-fix based on the information you&#39;ve gathered, you should feel optimistic.</p>
+
+  </div>
+</div>
+
+
+    <div class="footer">
+  <div class="row">
+    <div class="small-12 medium-4 columns">
+
+      <h2 class="small-text-center medium-text-left">
+        Get in touch <i class="fa fa-arrow-right"></i><i class="fa fa-arrow-down"></i>
+      </h2>
+
+    </div>
+
+    <div class="small-12 medium-4 columns">
+      <h5 class="small-12 columns text-center email">
+        annecodes {at} gmail.com
+      </h5>
+    </div>
+
+    <div class="small-12 medium-4 columns">
+
+      <p class="small-text-center medium-text-right">
+        <a href="https://www.linkedin.com/in/annekjohnson" target="_blank"><i class="fa fa-linkedin"></i></a> <a href="https://twitter.com/depaysant" target="_blank"><i class="fa fa-twitter"></i></a> <a href="https://github.com/annejohnson" target="_blank"><i class="fa fa-github"></i></a>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-49462738-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

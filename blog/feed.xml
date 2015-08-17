@@ -1,10 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>annekjohnson.com</title>
+    <title>Anne K. Johnson</title>
     <description>Personal site of Anne K. Johnson</description>    
     <link>http://annekjohnson.com</link>
     <atom:link href="http://annekjohnson.com/blog/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Crash Course in Solving Software Bugs</title>
+        <description>&lt;p&gt;Much time on the job as a developer is spent not writing new code, but fixing bugs in old code. Bugs inevitably appear over time in an evolving codebase, and they need to be hunted down and cleaned up. Sometimes hunting them down is challenging. Here is a process for sniffing out the causes of enigmatic bugs in web applications. My examples involve Rails, but the concepts can be generalized to other web application environments.&lt;/p&gt;
+
+&lt;h3&gt;Research the Bug&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Take what you know already (if anything) and begin a &lt;strong&gt;list of knowns&lt;/strong&gt;. Add any information available from the bug report. You might have a list of knowns like:
+
+&lt;ul&gt;
+&lt;li&gt;The issue happens on the &amp;#39;Edit Account&amp;#39; page.&lt;/li&gt;
+&lt;li&gt;The issue only affects users who had a payment failure.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;See if the bug is easily &lt;em&gt;reproducible&lt;/em&gt;. If it is, add information such as the following to your list of knowns:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Which methods are involved in the symptom&lt;/strong&gt;. If the bug reveals itself from a web server action in Rails, you can determine some of the methods involved in the symptoms from the &lt;code&gt;rails server&lt;/code&gt; output.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;What preconditions need to be met for the bug to appear&lt;/strong&gt;. Are there scenarios that &lt;em&gt;do not&lt;/em&gt; reproduce the bug? Note any differences between those scenarios and the scenarios that &lt;em&gt;do&lt;/em&gt; reproduce the bug.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Find commonalities&lt;/strong&gt; between records in the database known to have been involved with this bug. Do the affected records or their associated records share any unusual attribute values? Add any similarities you find to your growing list.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Do the affected records have any temporal overlap or patterns?&lt;/strong&gt; Their &lt;code&gt;created_at&lt;/code&gt; and &lt;code&gt;updated_at&lt;/code&gt; timestamps or those of their associated records could suggest that this is a new problem, perhaps introduced by a code change around that time, or that the issue only happens at a certain time of day or certain day of the month. Add any information you gather here to your list. You might note information like:
+
+&lt;ul&gt;
+&lt;li&gt;The issue has been happening since Aug. 5.&lt;/li&gt;
+&lt;li&gt;The issue seems to happen each day between 3 PM - 4 PM.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Draw on any other available resources to gather similar information. Other resources could include log files, data sent to external services, etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At this point, you have a better understanding of the conditions that reproduce the bug. This is a major step. Next, you need to determine which part(s) of the code is related and how you need to change that code in order to fix the bug.&lt;/p&gt;
+
+&lt;h3&gt;Finding the Code Related to the Bug&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If you found any common values for attributes, search for parts of the codebase that set those attributes.
+
+&lt;ul&gt;
+&lt;li&gt;For example, if you found that affected user records share the value &amp;quot;unconfirmed&amp;quot; for their &lt;code&gt;status&lt;/code&gt;, you can run searches from the command line like &lt;code&gt;grep -rn &amp;quot;status =&amp;quot; .&lt;/code&gt; (the &lt;code&gt;r&lt;/code&gt; option says to recursively search in subdirectories; the &lt;code&gt;n&lt;/code&gt; option says to show the line number). You can pipe that into a further search for &amp;quot;unconfirmed&amp;quot; if you suspect that the value is being set directly, e.g. &lt;code&gt;grep -rn &amp;quot;status =&amp;quot; . | grep &amp;quot;unconfirmed&amp;quot;&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;If you found temporal commonalities along the lines of &amp;quot;The issue has been happening since ___&amp;quot;, look at the commit history around that time. Look at both the commit messages and the code changes within the commits for any clues.&lt;/li&gt;
+&lt;li&gt;If there were any temporal patterns like &amp;quot;The issue happens each day between 3 PM - 4 PM&amp;quot;, see if there are any scheduled jobs that run around that time. If so, the job code could be related.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Study &amp;amp; trace through these possibly related parts of the code. If you are able to &lt;strong&gt;reproduce the bug under a set of conditions, update the code with a fix, and then observe that the bug no longer happens under those same conditions&lt;/strong&gt;, then congratulations - you have most likely squashed the bug!&lt;/p&gt;
+
+&lt;h3&gt;And, if the Bug is Still Mysterious...&lt;/h3&gt;
+
+&lt;p&gt;Some bugs, no matter how much you try to study and reproduce them locally, remain mystifying. With those, you might have reason to suspect that the bug is related to something that differs between your local environment and the environment where the bug was observed. There are 2 places to look to gather clues for these bugs:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Inside the app&lt;/strong&gt;. Search for any relevant differences between the config files in &lt;code&gt;config/environments/&lt;/code&gt;, and look for &lt;code&gt;Rails.environment&lt;/code&gt; conditionals throughout the codebase. Something you find here could explain why the bug manifests in one environment but not the other.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Outside the app&lt;/strong&gt;. Search for any infrastructure-related or external-service-related causes in remote logfiles, in data sent to external services, etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the worst case scenario, the bug remains unreproducible, and the cause of the bug remains only a conjecture. However, if you have conducted research and eliminated a variety of other possible causes, and if you are putting in a hopeful-fix based on the information you&amp;#39;ve gathered, you should feel optimistic.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 16 Aug 2015 12:22:00 -0400</pubDate>
+        <link>http://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs</guid>
+      </item>
     
       <item>
         <title>Namespacing in Javascript</title>
@@ -643,43 +704,6 @@
         <pubDate>Wed, 01 Jan 2014 11:47:36 -0500</pubDate>
         <link>http://annekjohnson.com/blog/2014/01/painting-with-feathers</link>
         <guid isPermaLink="true">http://annekjohnson.com/blog/2014/01/painting-with-feathers</guid>
-      </item>
-    
-      <item>
-        <title>Painting Grumpy Cat</title>
-        <description>&lt;p&gt;If I said I didn&amp;#39;t love the well-known internet celebrity, &lt;a href=&quot;http://www.quickmeme.com/Grumpy-Cat/&quot;&gt;Grumpy Cat&lt;/a&gt;, then I would be lying. She is maybe the grumpiest-looking cat on the planet, but I suspect that she&amp;#39;s actually a happy kitty trapped in a grumpy shell. She&amp;#39;s an adorable enigma, so I decided to paint her.&lt;/p&gt;
-
-&lt;p&gt;I started with a photo of her and a small canvas panel, drew a grid of four, and then sketched her. Here&amp;#39;s the initial sketch:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_sketch.jpg&quot; alt=&quot;Grumpy Cat Sketch&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Then, I did an underpainting. An underpainting is a haphazard-ish blobbing of colors that approximate the final colors of each part of the painting.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_wip1.jpg&quot; alt=&quot;Grumpy Cat Underpainting&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;I&amp;#39;ve been experimenting with modeling pastes and textured gels. There are all kinds of pastes and gels that you can mix in with acrylics. Some turn acrylic paint into almost-clay that will maintain the texture of the original brush strokes, some slow down the drying time (which makes the acrylics more blendable and similar in appearance to oil paint), some create a highly shiny appearance, and some add strange textures (sandy, crackly, etc.). I used modeling paste to try and maintain some of the brushstrokes used in the fur, and I used a sandy-textured medium on the snout. I applied these using a palette knife right onto the painting without first mixing them with color, which I suspect is not the proper way to use them. (But it is definitely more blobby, gooey, and fun that way.)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_wip2.jpg&quot; alt=&quot;Grumpy Cat WIP&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Looks like she&amp;#39;s getting a facial. Next, I added color in to these gels.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_wip3.jpg&quot; alt=&quot;Grumpy Cat WIP&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Grumpy Cat is pretty strange looking so far. Things started coming together a little bit when I put details into the fur using a smaller-diameter brush. I also put dark purple in the areas of deep shadow (see her mouth, her nostrils, and the fur fringing her snout). An art teacher long ago instilled in me to never, ever use black, but to instead create blacks by mixing complementary colors (purple+yellow, for example). I find that a dark purple usually does the job.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_wip4.jpg&quot; alt=&quot;Grumpy Cat WIP&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Then, the fun part -- the eyes! The little white reflections of light in the eyes wrap it up.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_finished.jpg&quot; alt=&quot;Grumpy Cat Painting&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Voila! Grumpy Cat documented in acrylics for posterity. Perhaps the best thing about this painting is that it can be used as a mask when I need to convey certain grumpy emotions.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/grumpy_cat/grumpy_mask.jpg&quot; alt=&quot;Grumpy Cat&quot;&gt;&lt;/p&gt;
-</description>
-        <pubDate>Fri, 27 Dec 2013 08:22:36 -0500</pubDate>
-        <link>http://annekjohnson.com/blog/2013/12/painting-grumpy-cat</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2013/12/painting-grumpy-cat</guid>
       </item>
     
   </channel>

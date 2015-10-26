@@ -1,5 +1,5 @@
 ---
 layout: art
-title:  Baboon and Snake
-image: /images/art/oil/baboon.jpg
+title:  Baboon
+image: /images/art/acrylic/baboon.jpg
 ---

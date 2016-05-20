@@ -1,54 +1,22 @@
+.home-code-block
+  font-family: $code-font-family
+  font-size: 50px
+  line-height: 60px
+  display: inline-block
+
+  .keyword, .operator
+    color: $secondary-color
+
+  a
+    text-decoration: underline
+    &:hover
+      color: lighten($primary-color, 10%)
+
 #home
-  text-align: center
-  line-height: 30px
-  padding-top: 230px
-  padding-bottom: 100px
   color: $black
   background: $white
-  font-size: $home-font-size
-
-  span, strong
-    font-weight: $font-weight-bold
-    color: $primary-color
-
-  strong
-    font-family: $header-font-family
-    font-weight: $font-weight-bold
-    font-size: 60px
-    display: block
-    margin-bottom: 50px
-
-  .intro
-    margin: 0 auto
-    max-width: 440px
-
-    span
-      font-size: 24px
-      font-family: $header-font-family
-      font-weight: 600
-
-    .first
-      margin-bottom: 25px
-
-    .second
-      font-size: $home-font-size - 2
-      span
-        font-size: 20px
-
-    a
-      text-decoration: underline
-      &:hover
-        color: lighten($primary-color, 10%)
 
   @media #{$small-only}
 
     padding-top: 230px
     padding-bottom: 76px
-
-    .intro
-      padding: 0 25px
-      .first
-        margin-bottom: 50px
-
-    strong
-      display: none

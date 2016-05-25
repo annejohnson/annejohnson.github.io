@@ -7,6 +7,76 @@
     <atom:link href="http://annekjohnson.com/blog/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Refactoring: DNA Patterns</title>
+        <description>&lt;p&gt;In the absence of a side project, yet with an urge to do some programming, I dug up some old side projects. I suspected I would find opportunities for refactoring. Indeed, I did! This post is about the adventure of refactoring my &lt;a href=&quot;/dna-patterns&quot;&gt;DNA Patterns&lt;/a&gt; side project (&lt;a href=&quot;https://github.com/annejohnson/dna-patterns&quot;&gt;Github&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h3&gt;About DNA Patterns&lt;/h3&gt;
+
+&lt;p&gt;DNA Patterns is a single page Javascript app that displays visualizations of DNA sequences. Each visualization is a simple background of animated circles, with the diameter of each circle corresponding to an A, T, G, or C nucleotide in a DNA sequence. The user can switch between a few different species to see how the sequence varies from species to species.&lt;/p&gt;
+
+&lt;h3&gt;Old Implementation&lt;/h3&gt;
+
+&lt;p&gt;The app was implemented as a single Javascript file, with everything happening in a single self-executing anonymous function. The Javascript had a few rigid dependencies:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The presence of a &lt;code&gt;#birdVis&lt;/code&gt; element on the page&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;window.onload&lt;/code&gt; handler for app initialization&lt;/li&gt;
+&lt;li&gt;The &lt;a href=&quot;https://github.com/DmitryBaranovskiy/raphael&quot;&gt;Raphael&lt;/a&gt; library for rendering the circles&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Unfortunately, these dependencies were mixed throughout the code and not configurable, making the code not very reusable.&lt;/p&gt;
+
+&lt;h3&gt;Refactoring for Reusability &amp;amp; Configurability&lt;/h3&gt;
+
+&lt;p&gt;To make the code more reusable and configurable, I did the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Split up pieces of functionality into small classes, each focused on one thing&lt;/li&gt;
+&lt;li&gt;Made the app instantiable at will (e.g. a call to &lt;code&gt;(new App()).start()&lt;/code&gt; instead of a &lt;code&gt;window.onload&lt;/code&gt; handler)&lt;/li&gt;
+&lt;li&gt;Parameterized the &lt;code&gt;birdVis&lt;/code&gt; ID string (e.g. &lt;code&gt;new App(&amp;#39;birdVis&amp;#39;)&lt;/code&gt;), instead of letting it live in the core Javascript&lt;/li&gt;
+&lt;li&gt;Isolated the communication with the Raphael library into a wrapper class&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As a result of those changes, I can now do the following easily:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Initialize the app at a different point in time than &lt;code&gt;onload&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Render the app in a different container element&lt;/li&gt;
+&lt;li&gt;Replace the Raphael library (SVG-based) with a canvas-based library&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Refactoring Toward the Model/View/Controller Paradigm&lt;/h3&gt;
+
+&lt;p&gt;I then composed the new classes within explicit view, model, and controller classes.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The &lt;strong&gt;model&lt;/strong&gt; represents a collection of species (each one having a DNA sequence), plus the index of the selected species.&lt;/li&gt;
+&lt;li&gt;The &lt;strong&gt;view&lt;/strong&gt; handles rendering the UI controls and the data visualizations.&lt;/li&gt;
+&lt;li&gt;The &lt;strong&gt;controller&lt;/strong&gt; is the middle-man between the view and the model.
+
+&lt;ul&gt;
+&lt;li&gt;When the view sees that the user has clicked to select a new species, it communicates &lt;em&gt;only&lt;/em&gt; with the controller. The controller then handles triggering updates on the model.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;What happens after the model has changed? How does the view know to update the displayed visualization? I wanted a way for the view to know that the model has changed, but I didn&amp;#39;t want the model to have to communicate directly with the view.&lt;/p&gt;
+
+&lt;h3&gt;Implementing Pub/Sub as a Way for the Model to Communicate Abstractly to the View&lt;/h3&gt;
+
+&lt;p&gt;Enter the &lt;strong&gt;publish-subscribe pattern&lt;/strong&gt; (pub/sub)!&lt;/p&gt;
+
+&lt;p&gt;Because the model is the authoritative source of exciting information, it behaves as a &lt;strong&gt;publisher&lt;/strong&gt;, letting it subscribers know whenever an interesting change occurs. It behaves as a publisher by implementing a publisher interface (e.g. by defining methods like &lt;code&gt;publish&lt;/code&gt; and &lt;code&gt;subscribe&lt;/code&gt;). Whenever it changes in an interesting way, it calls the &lt;code&gt;publish&lt;/code&gt; method to inform its subscribers of the change.&lt;/p&gt;
+
+&lt;p&gt;The &lt;strong&gt;subscribers&lt;/strong&gt; are those who have subscribed themselves to the model using its &lt;code&gt;subscribe&lt;/code&gt; method. When they receive the notification of the change, they can act however they wish. In this app, there is only one subscriber, the view. It acts by rendering the visualization for the newly selected species.&lt;/p&gt;
+
+&lt;p&gt;A major benefit of using this pattern is that I can now add new views easily. Say I wanted to add a widget in the foreground that contains a smaller visualization. With pub/sub, it&amp;#39;s simply a matter of creating a new type of view and subscribing it to the model. Both views will receive a notification whenever the model updates. So exciting!&lt;/p&gt;
+</description>
+        <pubDate>Tue, 24 May 2016 14:46:08 -0400</pubDate>
+        <link>http://annekjohnson.com/blog/2016/05/refactoring-dna-patterns</link>
+        <guid isPermaLink="true">http://annekjohnson.com/blog/2016/05/refactoring-dna-patterns</guid>
+      </item>
+    
+      <item>
         <title>Crash Course in Solving Software Bugs</title>
         <description>&lt;p&gt;Much time on the job as a developer is spent not writing new code, but fixing bugs in old code. Bugs inevitably appear over time in an evolving codebase, and they need to be hunted down and cleaned up. Sometimes hunting them down is challenging. Here is a process for sniffing out the causes of enigmatic bugs in web applications. My examples involve Rails, but the concepts can be generalized to other web application environments.&lt;/p&gt;
 
@@ -669,41 +739,6 @@
         <pubDate>Fri, 21 Mar 2014 07:47:36 -0400</pubDate>
         <link>http://annekjohnson.com/blog/2014/03/switching-careers</link>
         <guid isPermaLink="true">http://annekjohnson.com/blog/2014/03/switching-careers</guid>
-      </item>
-    
-      <item>
-        <title>Painting With Feathers</title>
-        <description>&lt;p&gt;I recently did a painting of my maximilian pionus parrot, Edwin. He&amp;#39;s sweet, wonderful, brilliant, and (conveniently) fond of molting.&lt;/p&gt;
-
-&lt;p&gt;A recent trip to Asheville, NC, and its &lt;a href=&quot;http://www.riverartsdistrict.com/&quot;&gt;River Arts District&lt;/a&gt; inspired me to create this painting. While there, I met an amazing artist who incorporates dried plant material and other found objects into her paintings. After seeing her work, I decided to play with using found objects... certain feathery found objects that magically appear all over my apartment!&lt;/p&gt;
-
-&lt;p&gt;I&amp;#39;ve been saving Edwin&amp;#39;s beautiful dropped feathers since my trip to Asheville. Come Christmas-time, I had accumulated a stash large enough to experiment with them in paintings. I began this feathery adventure with a photo of Edwin:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_photo.jpg&quot; alt=&quot;Edwin&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;After cropping the image into a portrait composition, I drew Edwin onto a canvas panel.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_sketch.jpg&quot; alt=&quot;Edwin sketch&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Then, I did an underpainting involving lots of modeling paste (which would later act as glue for the feathers).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_underpainting.jpg&quot; alt=&quot;Edwin underpainting&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Next, I added in whites on the upper part of Edwin&amp;#39;s head, where he has light gray downy feathers. I also added in dark purple (which acts as black/shadow-color) into Edwin&amp;#39;s chest area and began working on his beak.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_wip1.jpg&quot; alt=&quot;Edwin WIP&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;A few steps get blended together in the image below. I put some feathers into the modeling paste/paint and painted over them with dark purples. Then, I added in feathery texture to the face and neck using U-shaped blobs of dark purple and light green.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_wip2.jpg&quot; alt=&quot;Edwin WIP&quot;&gt;&lt;/p&gt;
-
-&lt;p&gt;Finally, I added more feathers, finished his beak, and did his eye!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/edwin_painting/edwin_finished.jpg&quot; alt=&quot;Edwin Painting&quot;&gt;&lt;/p&gt;
-</description>
-        <pubDate>Wed, 01 Jan 2014 11:47:36 -0500</pubDate>
-        <link>http://annekjohnson.com/blog/2014/01/painting-with-feathers</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/01/painting-with-feathers</guid>
       </item>
     
   </channel>

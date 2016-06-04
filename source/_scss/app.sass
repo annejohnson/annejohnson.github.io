@@ -1,7 +1,12 @@
+@import "bourbon/bourbon"
+@import "neat/neat"
+@import "font-awesome/font-awesome"
+
 @import "settings"
 
 @import "top_nav"
 @import "footer"
+
 @import "home"
 @import "art"
 @import "code"
@@ -13,31 +18,51 @@
 /* syntax theme */
 @import "inkpot"
 
-@import "font-awesome/font-awesome"
-
 body
-  background: $white
-
-.row
-  padding-left: 20px
-  padding-right: 20px
-
-  @media #{$small-only}
-    padding-left: 6px
-    padding-right: 6px
-
-a
-  +transition(color 0.3s ease)
-
-.main
+  margin: 0
+  padding: 0
   font-family: $body-font-family
   font-weight: $font-weight-normal
-  padding-top: $top-bar-height + 40px
-  padding-bottom: 70px
+  font-size: 140%
+  color: $default-font-color
 
-  @media #{$small-only}
-    padding-bottom: 40px
+strong
+  font-weight: $font-weight-bold
 
-  @media #{$screen} and (max-width: $top-bar-breakpoint)
-    padding-top: $top-bar-height-at-breakpoint
+h1,h2,h3,h4,h5,h6
+  font-family: $header-font-family
+  font-weight: $header-font-weight
+  margin: 0.3em 0
 
+h6
+  font-size: 0.8em
+h5
+  font-size: 0.9em
+h4
+  font-size: 1em
+h3
+  font-size: 1.2em
+h2
+  font-size: 1.4em
+h1
+  font-size: 1.6em
+
+p,li
+  line-height: $default-line-height
+
+.main
+  +outer_container($main-width)
+
+a
+  color: $link-color
+  text-decoration: none
+  border-bottom: 1px solid $link-color
+  +transition(all 0.2s linear)
+  &:hover
+    color: $link-color
+    border-color: $link-color-hover
+
+::-moz-selection
+  background: $selection-color
+::selection
+  background: $selection-color

@@ -1,11 +1,19 @@
 ---
 layout: default
 ---
-<div class="main row">
-  <div class="small-12 large-11 large-centered columns" id="post">
-    <h2>{{ page.title }}</h2>
-    <h5 class="meta">{{ page.date | date: "%B %-d, %Y" }}</h5>
 
-    {{ content }}
+<div class="main">
+  <div class="post">
+    <h2 class="post-title">
+      {{ page.title }}
+    </h2>
+
+    <h3 class="post-meta">
+      {{ page.date | date: "%B %-d, %Y" }}
+    </h3>
+
+    <div class="post-content">
+      {{ content }}
+    </div>
   </div>
 </div>

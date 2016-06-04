@@ -1,36 +1,6 @@
-a.alert-container, a.alert-container:visited
+.work-code, .other-code
+  +span-columns(6)
+
+.github-link
   display: block
-  width: 90%
-  max-width: 600px
-  margin-left: auto
-  margin-right: auto
-  margin-top: 30px
   clear: both
-
-  &:hover
-    .alert
-      background-color: darken($primary-color, 5%)
-      border-color: darken($dark-primary-color, 5%)
-
-.alert
-  background-color: $primary-color
-  border-style: solid
-  border-color: $dark-primary-color
-  border-width: 0 0 10px 0
-  padding: 30px
-  +border-radius(100px)
-  color: rgba($white, 0.95)
-  font-size: 26px
-  line-height: 1.6
-  font-weight: $font-weight-bold
-  font-family: $header-font-family
-  width: 100%
-  +transition(all 0.2s ease)
-
-  span
-    color: $white
-    font-size: 30px
-
-  @media #{$small-only}
-    +border-radius(50px)
-    padding: 15px

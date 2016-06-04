@@ -4,24 +4,27 @@ title: Blog
 ---
 
 <div id="blog" class="main">
-  <h1>blog</h1>
-  <ul class="posts">
+  <h1 class="page-title">
+    blog
+  </h1>
+
+  <div class="post-list">
     {% for post in paginator.posts %}
-      <li>
-        <h3>
+      <div class="post-list-item">
+        <h3 class="post-list-item-title">
           <a href="{{ post.url }}">{{ post.title }}</a>
         </h3>
 
-        <h6 class="meta">
+        <h6 class="post-list-item-meta">
           {{ post.date | date: "%B %-d, %Y" }}
         </h6>
 
-        <p>
+        <p class="post-list-item-excerpt">
           {{ post.excerpt | strip_html | truncatewords: 20 }}
         </p>
-      </li>
+      </div>
     {% endfor %}
-  </ul>
+  </div>
 
   {% if paginator.total_pages > 1 %}
     <div class="pagination">

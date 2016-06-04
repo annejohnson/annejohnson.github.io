@@ -3,15 +3,13 @@ layout: default
 title: Art
 ---
 
-<div id="art" class="main row">
-  <div class="small-12 columns">
-    <h1>art</h1>
-    <ul class="art_projects block-grid small-block-grid-2 medium-block-grid-4">
-      {% for artwork in site.art %}
-        <li>
-          <a href="{{ artwork.url }}" style="background-image:url('{{ artwork.image }}');"></a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
+<div id="art" class="main">
+  <h1>art</h1>
+  <ul class="art-projects">
+    {% for artwork in site.art %}
+      <li>
+        <a href="{{ artwork.url }}" style="background-image:url('{{ artwork.image }}');"></a>
+      </li>
+    {% endfor %}
+  </ul>
 </div>

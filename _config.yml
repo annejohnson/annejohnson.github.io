@@ -4,7 +4,7 @@ url: http://annekjohnson.com
 markdown: redcarpet
 highlighter: pygments
 encoding: utf-8
-permalink: /blog/:year/:month/:title
+permalink: /blog/:year/:month/:title/index.html
 source: source/
 paginate: 5
 paginate_path: "/blog/page/:num"

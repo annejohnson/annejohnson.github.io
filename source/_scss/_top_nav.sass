@@ -1,3 +1,5 @@
+$top-nav-breakpoint: new-breakpoint(max-width 600px 1)
+
 .top-nav
   padding: 0.5em
   margin-bottom: 1em
@@ -9,8 +11,17 @@
   color: $primary-color-light
   background-color: $primary-color-dark
 
+  +media($top-nav-breakpoint)
+    padding: 0.8em 0.5em
+
   a, a:hover
     color: $font-color-light
 
+.page-links
+  display: inline-block
+  +media($top-nav-breakpoint)
+    display: block
+    font-size: 0.8em
+    margin-top: 0.5em
 .home-link
   border-width: 0

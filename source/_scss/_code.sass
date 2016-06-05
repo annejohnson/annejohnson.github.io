@@ -1,9 +1,16 @@
+$code-breakpoint: new-breakpoint(max-width 640px 1)
+
 .work-code, .other-code
   +span-columns(6)
+  +media($code-breakpoint)
+    +span-columns(1)
 
 .github-link-container
   text-align: center
   margin: 0.3em 0 2em
+  +media($code-breakpoint)
+    text-align: left
+    margin: 1em 0 3.4em
 
 .github-link
   display: inline-block

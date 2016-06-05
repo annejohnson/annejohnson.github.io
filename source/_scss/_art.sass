@@ -1,3 +1,5 @@
+$art-breakpoint: new-breakpoint(max-width 600px 6)
+
 .art-list
   +outer-container(100%)
   margin-bottom: 1.5em
@@ -6,6 +8,15 @@
   +span-columns(3)
   +omega(4n)
   margin-bottom: 1em
+
+  opacity: 0.9
+  +transition(opacity 0.2s linear)
+  &:hover
+    opacity: 1
+
+  +media($art-breakpoint)
+    +span-columns(3)
+    +omega(2n)
 
   height: 130px
 
@@ -26,3 +37,5 @@
     width: auto
     height: auto
     margin: 0.5em 0 2em
+    +media($art-breakpoint)
+      margin-bottom: 3em

@@ -32,6 +32,8 @@ body
   &.with-footer
     margin: 0 0 $footer-height
 
+  +media($medium)
+    font-size: 110%
 
 strong
   font-weight: $font-weight-bold
@@ -40,6 +42,7 @@ h1,h2,h3,h4,h5,h6
   font-family: $header-font-family
   font-weight: $header-font-weight
   margin: 0.3em 0
+  line-height: 1.7
 
 h6
   font-size: 0.8em
@@ -60,8 +63,12 @@ p,li
 p,ul,ol
   margin: 1em 0
 
+ul,ol
+  padding-left: 1.2em
+
 .main
   +outer-container($main-width)
+  padding: 0 1.5em
 
 a
   color: $link-color

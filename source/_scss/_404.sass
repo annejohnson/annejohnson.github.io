@@ -1,6 +1,10 @@
+$f04-breakpoint: new-breakpoint(max-width 540px 1)
+
 .not-found
   text-align: center
 
 iframe
   max-width: 100%
   margin: 1em 0 2em
+  +media($f04-breakpoint)
+    height: 200px

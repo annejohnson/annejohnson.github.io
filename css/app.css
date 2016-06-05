@@ -1381,7 +1381,7 @@ html {
 .home-about {
   display: inline-block;
   padding: 0.3em 2.6em 1em;
-  max-width: 600px; }
+  max-width: 650px; }
   @media screen and (max-width: 800px) {
     .home-about {
       max-width: 500px; } }

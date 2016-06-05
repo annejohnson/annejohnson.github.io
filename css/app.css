@@ -1324,6 +1324,39 @@ html {
 .fa-plus-square-o:before {
   content: ""; }
 
+.top-nav {
+  padding: 0.5em;
+  margin-bottom: 1em;
+  font-family: "Inconsolata";
+  font-size: 1.8em;
+  text-transform: lowercase;
+  text-align: center;
+  color: #ed6c9b;
+  background-color: #ad1457; }
+  .top-nav a, .top-nav a:hover {
+    color: #FFFFFF; }
+
+.home-link {
+  border-width: 0; }
+
+.footer {
+  text-align: center;
+  background-color: #ccff90;
+  padding: 1.5em;
+  margin-top: 1.4em;
+  font-size: 1.3em;
+  font-family: "Inconsolata";
+  font-weight: 400; }
+  .footer a {
+    border-width: 0;
+    margin-left: 0.3em; }
+    .footer a:first-child {
+      margin-left: 0.1em; }
+  .footer a, .footer a:hover {
+    color: #000000; }
+  .footer .email, .footer .social-media-links, .footer a {
+    display: inline-block; }
+
 .home-section {
   text-align: center;
   padding: 4em 1em; }
@@ -1354,12 +1387,52 @@ html {
   color: #FFFFFF; }
 
 .home-about {
-  max-width: 700px; }
+  max-width: 600px; }
   .home-about p {
     margin-bottom: 1.2em; }
 
 .home-about-title {
-  margin-bottom: 1em; }
+  margin-bottom: 1em;
+  font-size: 2em; }
+
+.art-list {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto; }
+  .art-list::after {
+    clear: both;
+    content: "";
+    display: table; }
+
+.art-list-item {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 23.23176%;
+  margin-bottom: 1em;
+  height: 130px; }
+  .art-list-item:last-child {
+    margin-right: 0; }
+  .art-list-item:nth-child(4n) {
+    margin-right: 0; }
+  .art-list-item:nth-child(4n+1) {
+    clear: left; }
+  .art-list-item a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-width: 0;
+    background-position: center;
+    background-size: cover; }
+
+.art-item {
+  text-align: center; }
+
+.art-item img {
+  max-width: 100%;
+  max-height: 500px;
+  width: auto;
+  height: auto; }
 
 .work-code, .other-code {
   float: left;
@@ -1369,9 +1442,22 @@ html {
   .work-code:last-child, .other-code:last-child {
     margin-right: 0; }
 
+.github-link-container {
+  text-align: center;
+  margin: 0.6em 0; }
+
 .github-link {
-  display: block;
-  clear: both; }
+  display: inline-block;
+  clear: both;
+  font-size: 1.6em;
+  font-weight: 600; }
+
+.pagination {
+  text-align: center;
+  margin: 1.5em 0 0.5em; }
+  .pagination a, .pagination span {
+    display: inline-block;
+    margin: 0 0.3em; }
 
 iframe {
   max-width: 100%; }
@@ -1763,7 +1849,7 @@ body {
   padding: 0;
   font-family: "Open Sans";
   font-weight: 300;
-  font-size: 140%;
+  font-size: 150%;
   color: #000000; }
 
 strong {
@@ -1796,7 +1882,7 @@ p, li {
   line-height: 1.7; }
 
 .main {
-  max-width: 1050px;
+  max-width: 850px;
   margin-left: auto;
   margin-right: auto; }
   .main::after {
@@ -1820,5 +1906,10 @@ a {
 
 ::selection {
   background: #f3e5f5; }
+
+.clearfix::after {
+  clear: both;
+  content: "";
+  display: table; }
 
 /*# sourceMappingURL=app.css.map */

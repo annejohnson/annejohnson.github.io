@@ -1,5 +1,8 @@
 TODO
 ---
-- Extract out Foundation
-  - Replace with something that is easier to upgrade
-- Redesign
+- Footer
+- Code page
+- Blog index
+- Post page
+- 404
+- Make responsive

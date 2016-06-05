@@ -23,7 +23,7 @@ body
   padding: 0
   font-family: $body-font-family
   font-weight: $font-weight-normal
-  font-size: 140%
+  font-size: 150%
   color: $default-font-color
 
 strong
@@ -51,7 +51,7 @@ p,li
   line-height: $default-line-height
 
 .main
-  +outer_container($main-width)
+  +outer-container($main-width)
 
 a
   color: $link-color
@@ -66,3 +66,6 @@ a
   background: $selection-color
 ::selection
   background: $selection-color
+
+.clearfix
+  +clearfix

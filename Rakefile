@@ -6,5 +6,5 @@ end
 task :sass do
   source_file = 'source/_scss/app.sass'
   dest_file = 'source/css/app.css'
-  system "sass --watch #{source_file}:#{dest_file}"
+  system "sass --watch #{source_file}:#{dest_file} --style compressed"
 end

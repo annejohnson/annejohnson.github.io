@@ -1331,7 +1331,7 @@ html {
   font-size: 1.8em;
   text-transform: lowercase;
   text-align: center;
-  color: #ed6c9b;
+  color: #f29aba;
   background-color: #ad1457; }
   .top-nav a, .top-nav a:hover {
     color: #FFFFFF; }
@@ -1364,34 +1364,34 @@ html {
 .home-section {
   text-align: center;
   padding: 4em 1em; }
-  .home-section:first-child {
+  .home-section.home-section-primary {
     padding: 6.5em 1em; }
 
-.home-subsection {
-  display: inline-block; }
-
-.home-code-block {
-  text-align: left;
-  font-family: "Inconsolata";
-  font-weight: 400;
-  line-height: 1.4;
-  font-size: 3em; }
-  .home-code-block .operator, .home-code-block .keyword {
-    color: #d81b60; }
-  .home-code-block a, .home-code-block a:hover {
-    color: #000000; }
-  .home-code-block a {
+.home-section-primary {
+  background-color: #ad1457;
+  color: #FFFFFF; }
+  .home-section-primary a, .home-section-primary a:hover {
+    color: #FFFFFF; }
+  .home-section-primary a {
     text-decoration: none;
     border-bottom: 2px solid #64dd17;
     -webkit-transition: border-color 0.2s linear;
     -moz-transition: border-color 0.2s linear;
     transition: border-color 0.2s linear; }
-    .home-code-block a:hover {
+    .home-section-primary a:hover {
       border-color: #d81b60; }
 
-.home-section-odd {
-  background-color: #ad1457;
-  color: #FFFFFF; }
+.home-subsection {
+  display: inline-block; }
+
+.home-code-block {
+  font-family: "Inconsolata";
+  font-weight: 400;
+  text-align: left;
+  line-height: 1.4;
+  font-size: 3em; }
+  .home-code-block .operator, .home-code-block .keyword {
+    color: #f29aba; }
 
 .home-about {
   max-width: 600px; }

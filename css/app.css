@@ -1333,8 +1333,19 @@ html {
   text-align: center;
   color: #f29aba;
   background-color: #ad1457; }
+  @media screen and (max-width: 600px) {
+    .top-nav {
+      padding: 0.8em 0.5em; } }
   .top-nav a, .top-nav a:hover {
     color: #FFFFFF; }
+
+.page-links {
+  display: inline-block; }
+  @media screen and (max-width: 600px) {
+    .page-links {
+      display: block;
+      font-size: 0.8em;
+      margin-top: 0.5em; } }
 
 .home-link {
   border-width: 0; }
@@ -1358,23 +1369,32 @@ html {
       margin-left: 0.1em; }
   .footer a, .footer a:hover {
     color: #000000; }
-  .footer .email, .footer .social-media-links, .footer a {
+  .footer .email, .footer .social-media-links, .footer .footer-divider, .footer a {
     display: inline-block; }
+  @media screen and (max-width: 550px) {
+    .footer .footer-divider, .footer .email {
+      display: none; } }
 
 .home {
   text-align: center; }
 
 .home-about {
   display: inline-block;
-  padding: 0.3em 0 1em;
+  padding: 0.3em 2.6em 1em;
   max-width: 600px; }
+  @media screen and (max-width: 800px) {
+    .home-about {
+      max-width: 500px; } }
   .home-about p {
     margin: 0 0 1.3em;
     font-size: 1.1em; }
 
 .home-about-title {
-  margin-bottom: 1em;
+  margin-bottom: 0.8em;
   font-size: 1.8em; }
+  @media screen and (max-width: 800px) {
+    .home-about-title {
+      margin-top: 0; } }
 
 .home-images {
   text-align: center;
@@ -1387,6 +1407,11 @@ html {
   height: 100px;
   padding: 6px;
   border: 1px solid #d81b60; }
+  @media screen and (max-width: 450px) {
+    .home-image-container {
+      margin: 0 0.4em;
+      width: 90px;
+      height: 90px; } }
 
 .edwin, .anne, .petrie {
   width: 100%;
@@ -1419,6 +1444,10 @@ html {
   margin-right: 2.35765%;
   width: 23.23176%;
   margin-bottom: 1em;
+  opacity: 0.9;
+  -webkit-transition: opacity 0.2s linear;
+  -moz-transition: opacity 0.2s linear;
+  transition: opacity 0.2s linear;
   height: 130px; }
   .art-list-item:last-child {
     margin-right: 0; }
@@ -1426,6 +1455,20 @@ html {
     margin-right: 0; }
   .art-list-item:nth-child(4n+1) {
     clear: left; }
+  .art-list-item:hover {
+    opacity: 1; }
+  @media screen and (max-width: 600px) {
+    .art-list-item {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 47.58542%; }
+      .art-list-item:last-child {
+        margin-right: 0; }
+      .art-list-item:nth-child(2n) {
+        margin-right: 0; }
+      .art-list-item:nth-child(2n+1) {
+        clear: left; } }
   .art-list-item a {
     display: block;
     width: 100%;
@@ -1442,6 +1485,9 @@ html {
     width: auto;
     height: auto;
     margin: 0.5em 0 2em; }
+    @media screen and (max-width: 600px) {
+      .art-item img {
+        margin-bottom: 3em; } }
 
 .work-code, .other-code {
   float: left;
@@ -1450,10 +1496,22 @@ html {
   width: 48.82117%; }
   .work-code:last-child, .other-code:last-child {
     margin-right: 0; }
+  @media screen and (max-width: 640px) {
+    .work-code, .other-code {
+      float: left;
+      display: block;
+      margin-right: 38.19821%;
+      width: 100%; }
+      .work-code:last-child, .other-code:last-child {
+        margin-right: 0; } }
 
 .github-link-container {
   text-align: center;
   margin: 0.3em 0 2em; }
+  @media screen and (max-width: 640px) {
+    .github-link-container {
+      text-align: left;
+      margin: 1em 0 3.4em; } }
 
 .github-link {
   display: inline-block;
@@ -1467,9 +1525,15 @@ html {
   .pagination a, .pagination span {
     display: inline-block;
     margin: 0 0.3em; }
+  @media screen and (max-width: 800px) {
+    .pagination {
+      font-size: 1.5em; } }
 
 .post {
   margin: 0 0 2em; }
+  .post img {
+    max-width: 100%;
+    height: auto; }
 
 .post-list-item {
   margin: 1em 0 1.6em; }
@@ -1483,6 +1547,10 @@ html {
 
 .alignleft, .alignright {
   display: block; }
+  @media screen and (max-width: 650px) {
+    .alignleft, .alignright {
+      float: none !important;
+      margin: 0 auto 1em !important; } }
 
 .alignleft {
   float: left;
@@ -1498,6 +1566,9 @@ html {
 iframe {
   max-width: 100%;
   margin: 1em 0 2em; }
+  @media screen and (max-width: 540px) {
+    iframe {
+      height: 200px; } }
 
 /* syntax settings */
 .highlight {
@@ -1894,6 +1965,9 @@ body {
   color: #000000; }
   body.with-footer {
     margin: 0 0 106px; }
+  @media screen and (max-width: 800px) {
+    body {
+      font-size: 110%; } }
 
 strong {
   font-weight: 600; }
@@ -1901,7 +1975,8 @@ strong {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans", "Helvetica", sans-serif;
   font-weight: 600;
-  margin: 0.3em 0; }
+  margin: 0.3em 0;
+  line-height: 1.7; }
 
 h6 {
   font-size: 0.8em; }
@@ -1927,10 +2002,14 @@ p, li {
 p, ul, ol {
   margin: 1em 0; }
 
+ul, ol {
+  padding-left: 1.2em; }
+
 .main {
   max-width: 850px;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  padding: 0 1.5em; }
   .main::after {
     clear: both;
     content: "";

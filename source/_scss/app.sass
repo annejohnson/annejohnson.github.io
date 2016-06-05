@@ -18,13 +18,20 @@
 /* syntax theme */
 @import "inkpot"
 
+html
+  position: relative
+  min-height: 100%
+
 body
   margin: 0
   padding: 0
   font-family: $body-font-family
   font-weight: $font-weight-normal
-  font-size: 150%
+  font-size: 140%
   color: $default-font-color
+  &.with-footer
+    margin: 0 0 $footer-height
+
 
 strong
   font-weight: $font-weight-bold
@@ -49,6 +56,9 @@ h1
 
 p,li
   line-height: $default-line-height
+
+p,ul,ol
+  margin: 1em 0
 
 .main
   +outer-container($main-width)

@@ -1,8 +1,4 @@
 TODO
 ---
-- Footer
-- Code page
-- Blog index
-- Post page
-- 404
+- Home page
 - Make responsive

@@ -1,6 +1,8 @@
 .home-section
   text-align: center
   padding: 4em 1em
+  &:first-child
+    padding: 6.5em 1em
 .home-subsection
   display: inline-block
 
@@ -8,6 +10,7 @@
   text-align: left
   font-family: $code-font-family
   font-weight: $code-font-weight
+  line-height: 1.4
   font-size: 3em
 
   .operator, .keyword
@@ -29,7 +32,7 @@
 .home-about
   max-width: $home-about-width
   p
-    margin-bottom: 1.2em
+    margin: 0 0 1.5em
 .home-about-title
   margin-bottom: 1em
   font-size: 2em

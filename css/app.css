@@ -1484,7 +1484,7 @@ html {
     max-height: 500px;
     width: auto;
     height: auto;
-    margin: 0.5em 0 2em; }
+    margin: 0.5em 0 2.5em; }
     @media screen and (max-width: 600px) {
       .art-item img {
         margin-bottom: 3em; } }
@@ -1530,7 +1530,7 @@ html {
       font-size: 1.5em; } }
 
 .post {
-  margin: 0 0 2em; }
+  margin: 0 0 2.5em; }
   .post img {
     max-width: 100%;
     height: auto; }

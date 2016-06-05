@@ -1361,46 +1361,20 @@ html {
   .footer .email, .footer .social-media-links, .footer a {
     display: inline-block; }
 
-.home-section {
-  text-align: center;
-  padding: 4em 1em; }
-  .home-section.home-section-primary {
-    padding: 6.5em 1em; }
-
-.home-section-primary {
-  background-color: #ad1457;
-  color: #FFFFFF; }
-  .home-section-primary a, .home-section-primary a:hover {
-    color: #FFFFFF; }
-  .home-section-primary a {
-    text-decoration: none;
-    border-bottom: 2px solid #64dd17;
-    -webkit-transition: border-color 0.2s linear;
-    -moz-transition: border-color 0.2s linear;
-    transition: border-color 0.2s linear; }
-    .home-section-primary a:hover {
-      border-color: #d81b60; }
-
-.home-subsection {
-  display: inline-block; }
-
-.home-code-block {
-  font-family: "Inconsolata";
-  font-weight: 400;
-  text-align: left;
-  line-height: 1.4;
-  font-size: 3em; }
-  .home-code-block .operator, .home-code-block .keyword {
-    color: #f29aba; }
+.home {
+  text-align: center; }
 
 .home-about {
+  display: inline-block;
+  padding: 1.6em 1em;
   max-width: 600px; }
   .home-about p {
-    margin: 0 0 1.5em; }
+    margin: 0 0 1.3em;
+    font-size: 1.1em; }
 
 .home-about-title {
   margin-bottom: 1em;
-  font-size: 2em; }
+  font-size: 1.8em; }
 
 .art-list {
   max-width: 100%;

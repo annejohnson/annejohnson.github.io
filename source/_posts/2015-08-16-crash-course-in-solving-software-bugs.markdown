@@ -23,7 +23,8 @@ At this point, you have a better understanding of the conditions that reproduce 
 
 ### Finding the Code Related to the Bug
 - If you found any common values for attributes, search for parts of the codebase that set those attributes.
-  - For example, if you found that affected user records share the value "unconfirmed" for their <code>status</code>, you can run searches from the command line like <code>grep -rn "status =" .</code> (the <code>r</code> option says to recursively search in subdirectories; the <code>n</code> option says to show the line number). You can pipe that into a further search for "unconfirmed" if you suspect that the value is being set directly, e.g. <code>grep -rn "status =" . | grep "unconfirmed"</code>.
+  - For example, if you found that affected user records share the value "unconfirmed" for their <code>status</code>, you can run searches for strings containing "unconfirmed" or "status =".
+      - I normally use <code>grep</code> to search codebases. Grep is a unix command that lets you run searches from the command line like <code>grep -rn "status =" .</code> (The <code>r</code> option says to recursively search in subdirectories; the <code>n</code> option says to show the line number.) You can pipe that into a further search for "unconfirmed" if you suspect that the value is being set directly, e.g. <code>grep -rn "status =" . | grep "unconfirmed"</code>.
 - If you found temporal commonalities along the lines of "The issue has been happening since \_\_\_", look at the commit history around that time. Look at both the commit messages and the code changes within the commits for any clues.
 - If there were any temporal patterns like "The issue happens each day between 3 PM - 4 PM", see if there are any scheduled jobs that run around that time. If so, the job code could be related.
 

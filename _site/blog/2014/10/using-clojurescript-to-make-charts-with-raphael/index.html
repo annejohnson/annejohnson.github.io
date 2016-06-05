@@ -99,19 +99,19 @@
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
-    <span class="nt">&lt;head&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=edge&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;title&gt;</span>Clojurescript/Raphael Funsies!<span class="nt">&lt;/title&gt;</span>
-        <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;/head&gt;</span>
-    <span class="nt">&lt;body&gt;</span>
-        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;my-pie&quot;</span> <span class="na">style=</span><span class="s">&quot;height: 400px;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/raphael-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/g.raphael-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/g.pie-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/app.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;/body&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=edge&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Clojurescript/Raphael Funsies!<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;my-pie&quot;</span> <span class="na">style=</span><span class="s">&quot;height: 400px;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/raphael-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/g.raphael-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/g.pie-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/app.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span></code></pre></figure>
 
 <p>Let&#39;s put something on the page using Clojurescript. Make a new file, <code>src/cljs_raphael/pie.cljs</code>, and put this in it:</p>
@@ -136,20 +136,20 @@
 
 <figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">init</span> <span class="p">[]</span>
   <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">r</span> <span class="p">(</span><span class="nf">js/Raphael</span> <span class="s">&quot;my-pie&quot;</span><span class="p">)</span>
-        <span class="nv">pie</span> <span class="p">(</span><span class="nf">.piechart</span> 
-             <span class="nv">r</span> <span class="mi">320</span> <span class="mi">240</span> <span class="mi">100</span> 
+        <span class="nv">pie</span> <span class="p">(</span><span class="nf">.piechart</span>
+             <span class="nv">r</span> <span class="mi">320</span> <span class="mi">240</span> <span class="mi">100</span>
              <span class="p">(</span><span class="nf">array</span> <span class="mi">55</span> <span class="mi">20</span> <span class="mi">13</span> <span class="mi">32</span> <span class="mi">5</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">10</span><span class="p">)</span>
-             <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;legend&quot;</span> <span class="p">(</span><span class="nf">array</span> <span class="s">&quot;with-55&quot;</span> <span class="s">&quot;with-20&quot;</span> <span class="s">&quot;so on...&quot;</span><span class="p">)</span> 
+             <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;legend&quot;</span> <span class="p">(</span><span class="nf">array</span> <span class="s">&quot;with-55&quot;</span> <span class="s">&quot;with-20&quot;</span> <span class="s">&quot;so on...&quot;</span><span class="p">)</span>
                      <span class="s">&quot;legendpos&quot;</span> <span class="s">&quot;west&quot;</span><span class="p">))]</span>
         <span class="p">(</span><span class="nf">other-functions-in-scope</span><span class="p">)))</span></code></pre></figure>
 
 <p>This corresponds to the following Javascript:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">Raphael</span><span class="p">(</span><span class="s2">&quot;my-pie&quot;</span><span class="p">),</span>
-        <span class="nx">pie</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">piechart</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> 
-                <span class="p">{</span> <span class="nx">legend</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;with-55&quot;</span><span class="p">,</span> <span class="s2">&quot;with-20&quot;</span><span class="p">,</span> <span class="s2">&quot;so on...&quot;</span><span class="p">],</span> 
-                  <span class="nx">legendpos</span><span class="o">:</span> <span class="s2">&quot;west&quot;</span> 
-                <span class="p">});</span>
+    <span class="nx">pie</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">piechart</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">{</span>
+            <span class="nx">legend</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;with-55&quot;</span><span class="p">,</span> <span class="s2">&quot;with-20&quot;</span><span class="p">,</span> <span class="s2">&quot;so on...&quot;</span><span class="p">],</span>
+            <span class="nx">legendpos</span><span class="o">:</span> <span class="s2">&quot;west&quot;</span>
+          <span class="p">});</span>
 <span class="nx">otherFunctionsInScope</span><span class="p">();</span></code></pre></figure>
 
 <p>Note that in Clojurescript, we use <code>(let [r &quot;some-value&quot;] (code-to-execute-in-scope))</code> syntax to define Javascript scope variables. Also note the use of <code>(array)</code> and <code>(js-obj)</code> functions to create those particular JS data structures in Clojurescript.</p>
@@ -158,15 +158,15 @@
 
 <p>Now let&#39;s add a title. Replace <code>(other-functions-in-scope)</code> with this:</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">.attr</span> 
- <span class="p">(</span><span class="nf">.text</span> <span class="nv">r</span> <span class="mi">320</span> <span class="mi">100</span> <span class="s">&quot;Clojurescript/Raphael Demo&quot;</span><span class="p">)</span> 
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">.attr</span>
+ <span class="p">(</span><span class="nf">.text</span> <span class="nv">r</span> <span class="mi">320</span> <span class="mi">100</span> <span class="s">&quot;Clojurescript/Raphael Demo&quot;</span><span class="p">)</span>
  <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;font&quot;</span> <span class="s">&quot;20px sans-serif&quot;</span><span class="p">))</span></code></pre></figure>
 
 <p>This corresponds to:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;Clojurescript/Raphael Demo&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">({</span> <span class="nx">font</span><span class="o">:</span> <span class="s2">&quot;20px sans-serif&quot;</span> <span class="p">});</span></code></pre></figure>
 
-<p>And refresh your page. You should see your pie chart, a legend, and the title! </p>
+<p>And refresh your page. You should see your pie chart, a legend, and the title!</p>
 
 <p>Next, let&#39;s add the fun hover effect. Start by adding this function above <code>init</code>:</p>
 
@@ -178,22 +178,22 @@
    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">)</span>
      <span class="p">(</span><span class="nf">do</span>
        <span class="p">(</span><span class="nf">.stop</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">0</span><span class="p">))</span>
-       <span class="p">(</span><span class="nf">.attr</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span> 
+       <span class="p">(</span><span class="nf">.attr</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
               <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;r&quot;</span> <span class="mf">7.5</span><span class="p">))</span>
-       <span class="p">(</span><span class="nf">.attr</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">1</span><span class="p">)</span> 
+       <span class="p">(</span><span class="nf">.attr</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">1</span><span class="p">)</span>
               <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;font-weight&quot;</span> <span class="mi">800</span><span class="p">))))))</span></code></pre></figure>
 
 <p>This animates the wedges and corresponding labels when we hover over a pie chart wedge. In order to make this work, I used the <code>this-as</code> macro to open up access to <code>this</code>. Here is the corresponding Javascript:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cx</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cy</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cx</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cy</span><span class="p">);</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">stop</span><span class="p">();</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="nx">r</span><span class="o">:</span> <span class="mf">7.5</span> <span class="p">});</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="s2">&quot;font-weight&quot;</span><span class="o">:</span> <span class="mi">800</span> <span class="p">});</span>
-    <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">stop</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="nx">r</span><span class="o">:</span> <span class="mf">7.5</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="s2">&quot;font-weight&quot;</span><span class="o">:</span> <span class="mi">800</span> <span class="p">});</span>
+  <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
 <p>Next, add this function also above init. This is the function that will be called when the mouse leaves a wedge.</p>
@@ -201,12 +201,12 @@
 <figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">sector-mouseout</span>
   <span class="p">[]</span>
   <span class="p">(</span><span class="nf">this-as</span> <span class="nv">this</span>
-   <span class="p">(</span><span class="nf">.animate</span> 
-    <span class="p">(</span><span class="nf">.-sector</span> <span class="nv">this</span><span class="p">)</span> 
-    <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;transform&quot;</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;s1 1 &quot;</span> <span class="p">(</span><span class="nf">.-cx</span> <span class="nv">this</span><span class="p">)</span> <span class="s">&quot; &quot;</span> <span class="p">(</span><span class="nf">.-cy</span> <span class="nv">this</span><span class="p">)))</span> 
+   <span class="p">(</span><span class="nf">.animate</span>
+    <span class="p">(</span><span class="nf">.-sector</span> <span class="nv">this</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;transform&quot;</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;s1 1 &quot;</span> <span class="p">(</span><span class="nf">.-cx</span> <span class="nv">this</span><span class="p">)</span> <span class="s">&quot; &quot;</span> <span class="p">(</span><span class="nf">.-cy</span> <span class="nv">this</span><span class="p">)))</span>
     <span class="mi">500</span> <span class="s">&quot;bounce&quot;</span><span class="p">)</span>
    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">)</span>
-     <span class="p">(</span><span class="k">do </span>
+     <span class="p">(</span><span class="nf">do</span>
        <span class="p">(</span><span class="nf">.animate</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;r&quot;</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">500</span> <span class="s">&quot;bounce&quot;</span><span class="p">)</span>
        <span class="p">(</span><span class="nf">.attr</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;font-weight&quot;</span> <span class="mi">400</span><span class="p">))))))</span></code></pre></figure>
 

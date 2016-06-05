@@ -48,19 +48,19 @@ We also need an `index.html` page onto which our Clojurescript can render graphs
 {% highlight html %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Clojurescript/Raphael Funsies!</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <div id="my-pie" style="height: 400px;"></div>
-        <script src="js/raphael-min.js"></script>
-        <script src="js/g.raphael-min.js"></script>
-        <script src="js/g.pie-min.js"></script>
-        <script src="js/app.js"></script>
-    </body>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Clojurescript/Raphael Funsies!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div id="my-pie" style="height: 400px;"></div>
+    <script src="js/raphael-min.js"></script>
+    <script src="js/g.raphael-min.js"></script>
+    <script src="js/g.pie-min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>
 {% endhighlight %}
 
@@ -89,10 +89,10 @@ First, go to your `pie.cljs` file and update the `init` function to look like th
 {% highlight clojure %}
 (defn init []
   (let [r (js/Raphael "my-pie")
-        pie (.piechart 
-             r 320 240 100 
+        pie (.piechart
+             r 320 240 100
              (array 55 20 13 32 5 1 2 10)
-             (js-obj "legend" (array "with-55" "with-20" "so on...") 
+             (js-obj "legend" (array "with-55" "with-20" "so on...")
                      "legendpos" "west"))]
         (other-functions-in-scope)))
 {% endhighlight %}
@@ -101,10 +101,10 @@ This corresponds to the following Javascript:
 
 {% highlight javascript %}
 var r = Raphael("my-pie"),
-        pie = r.piechart(320, 240, 100, [55, 20, 13, 32, 5, 1, 2, 10], 
-                { legend: ["with-55", "with-20", "so on..."], 
-                  legendpos: "west" 
-                });
+    pie = r.piechart(320, 240, 100, [55, 20, 13, 32, 5, 1, 2, 10], {
+            legend: ["with-55", "with-20", "so on..."],
+            legendpos: "west"
+          });
 otherFunctionsInScope();
 {% endhighlight %}
 
@@ -116,8 +116,8 @@ Take another look at the dot and dot-dash characters in the Clojurescript above.
 Now let's add a title. Replace `(other-functions-in-scope)` with this:
 
 {% highlight clojure %}
-(.attr 
- (.text r 320 100 "Clojurescript/Raphael Demo") 
+(.attr
+ (.text r 320 100 "Clojurescript/Raphael Demo")
  (js-obj "font" "20px sans-serif"))
 {% endhighlight %}
 
@@ -126,7 +126,7 @@ This corresponds to:
 r.text(320, 100, "Clojurescript/Raphael Demo").attr({ font: "20px sans-serif" });
 {% endhighlight %}
 
-And refresh your page. You should see your pie chart, a legend, and the title! 
+And refresh your page. You should see your pie chart, a legend, and the title!
 
 Next, let's add the fun hover effect. Start by adding this function above `init`:
 
@@ -139,9 +139,9 @@ Next, let's add the fun hover effect. Start by adding this function above `init`
    (if (.-label this)
      (do
        (.stop (nth (.-items (.-label this)) 0))
-       (.attr (nth (.-items (.-label this)) 0) 
+       (.attr (nth (.-items (.-label this)) 0)
               (js-obj "r" 7.5))
-       (.attr (nth (.-items (.-label this)) 1) 
+       (.attr (nth (.-items (.-label this)) 1)
               (js-obj "font-weight" 800))))))
 {% endhighlight %}
 
@@ -149,14 +149,14 @@ This animates the wedges and corresponding labels when we hover over a pie chart
 
 {% highlight javascript %}
 function () {
-    this.sector.stop();
-    this.sector.scale(1.1, 1.1, this.cx, this.cy);
+  this.sector.stop();
+  this.sector.scale(1.1, 1.1, this.cx, this.cy);
 
-    if (this.label) {
-        this.label[0].stop();
-        this.label[0].attr({ r: 7.5 });
-        this.label[1].attr({ "font-weight": 800 });
-    }
+  if (this.label) {
+    this.label[0].stop();
+    this.label[0].attr({ r: 7.5 });
+    this.label[1].attr({ "font-weight": 800 });
+  }
 }
 {% endhighlight %}
 
@@ -166,12 +166,12 @@ Next, add this function also above init. This is the function that will be calle
 (defn sector-mouseout
   []
   (this-as this
-   (.animate 
-    (.-sector this) 
-    (js-obj "transform" (str "s1 1 " (.-cx this) " " (.-cy this))) 
+   (.animate
+    (.-sector this)
+    (js-obj "transform" (str "s1 1 " (.-cx this) " " (.-cy this)))
     500 "bounce")
    (if (.-label this)
-     (do 
+     (do
        (.animate (nth (.-items (.-label this)) 0) (js-obj "r" 5) 500 "bounce")
        (.attr (nth (.-items (.-label this)) 1) (js-obj "font-weight" 400))))))
 {% endhighlight %}

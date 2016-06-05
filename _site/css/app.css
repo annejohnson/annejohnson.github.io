@@ -1454,6 +1454,17 @@ html {
   font-size: 0.8em;
   font-style: italic; }
 
+.alignleft, .alignright {
+  display: block; }
+
+.alignleft {
+  float: left;
+  margin: 0 1em 1em 0; }
+
+.alignright {
+  float: right;
+  margin: 0 0 1em 1em; }
+
 .not-found {
   text-align: center; }
 

@@ -1518,6 +1518,9 @@ html {
   clear: both;
   font-size: 1.4em;
   font-weight: 600; }
+  @media screen and (max-width: 640px) {
+    .github-link {
+      font-size: 1.1em; } }
 
 .pagination {
   text-align: center;

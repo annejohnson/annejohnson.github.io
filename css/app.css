@@ -1340,11 +1340,15 @@ html {
   border-width: 0; }
 
 .footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 106px;
+  width: 100%;
   text-align: center;
   background-color: #ccff90;
   padding: 1.5em;
-  margin-top: 1.4em;
-  font-size: 1.3em;
+  font-size: 26px;
   font-family: "Inconsolata";
   font-weight: 400; }
   .footer a {
@@ -1360,6 +1364,8 @@ html {
 .home-section {
   text-align: center;
   padding: 4em 1em; }
+  .home-section:first-child {
+    padding: 6.5em 1em; }
 
 .home-subsection {
   display: inline-block; }
@@ -1368,6 +1374,7 @@ html {
   text-align: left;
   font-family: "Inconsolata";
   font-weight: 400;
+  line-height: 1.4;
   font-size: 3em; }
   .home-code-block .operator, .home-code-block .keyword {
     color: #d81b60; }
@@ -1389,7 +1396,7 @@ html {
 .home-about {
   max-width: 600px; }
   .home-about p {
-    margin-bottom: 1.2em; }
+    margin: 0 0 1.5em; }
 
 .home-about-title {
   margin-bottom: 1em;
@@ -1398,7 +1405,8 @@ html {
 .art-list {
   max-width: 100%;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  margin-bottom: 1.5em; }
   .art-list::after {
     clear: both;
     content: "";
@@ -1427,12 +1435,12 @@ html {
 
 .art-item {
   text-align: center; }
-
-.art-item img {
-  max-width: 100%;
-  max-height: 500px;
-  width: auto;
-  height: auto; }
+  .art-item img {
+    max-width: 100%;
+    max-height: 500px;
+    width: auto;
+    height: auto;
+    margin-bottom: 2em; }
 
 .work-code, .other-code {
   float: left;
@@ -1444,23 +1452,40 @@ html {
 
 .github-link-container {
   text-align: center;
-  margin: 0.6em 0; }
+  margin: 0.3em 0 2em; }
 
 .github-link {
   display: inline-block;
   clear: both;
-  font-size: 1.6em;
+  font-size: 1.4em;
   font-weight: 600; }
 
 .pagination {
   text-align: center;
-  margin: 1.5em 0 0.5em; }
+  margin: 1.8em 0 2.2em; }
   .pagination a, .pagination span {
     display: inline-block;
     margin: 0 0.3em; }
 
+.post {
+  margin: 0 0 2em; }
+
+.post-list-item {
+  margin: 1em 0 1.6em; }
+
+.post-list-item-excerpt {
+  margin: 0.5em 0; }
+
+.post-meta, .post-list-item-meta {
+  font-size: 0.8em;
+  font-style: italic; }
+
+.not-found {
+  text-align: center; }
+
 iframe {
-  max-width: 100%; }
+  max-width: 100%;
+  margin: 1em 0 2em; }
 
 /* syntax settings */
 .highlight {
@@ -1844,13 +1869,19 @@ pre {
   background-color: #000000; }
 
 /* Literal.Number.Integer.Long */
+html {
+  position: relative;
+  min-height: 100%; }
+
 body {
   margin: 0;
   padding: 0;
   font-family: "Open Sans";
   font-weight: 300;
-  font-size: 150%;
+  font-size: 140%;
   color: #000000; }
+  body.with-footer {
+    margin: 0 0 106px; }
 
 strong {
   font-weight: 600; }
@@ -1880,6 +1911,9 @@ h1 {
 
 p, li {
   line-height: 1.7; }
+
+p, ul, ol {
+  margin: 1em 0; }
 
 .main {
   max-width: 850px;

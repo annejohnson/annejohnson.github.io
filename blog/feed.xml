@@ -3,8 +3,8 @@
   <channel>
     <title>Anne K. Johnson</title>
     <description>Personal site of Anne K. Johnson</description>    
-    <link>http://annekjohnson.com</link>
-    <atom:link href="http://annekjohnson.com/blog/feed.xml" rel="self" type="application/rss+xml" />
+    <link>https://annekjohnson.com</link>
+    <atom:link href="https://annekjohnson.com/blog/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Publishing Elixir Packages</title>
@@ -48,8 +48,8 @@
 &lt;p&gt;Make the lovely documentation you generated available to the world by running &lt;code&gt;mix hex.docs&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sun, 21 Aug 2016 13:28:33 -0400</pubDate>
-        <link>http://annekjohnson.com/blog/2016/08/publishing-elixir-packages/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2016/08/publishing-elixir-packages/index.html</guid>
+        <link>https://annekjohnson.com/blog/2016/08/publishing-elixir-packages/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2016/08/publishing-elixir-packages/index.html</guid>
       </item>
     
       <item>
@@ -118,8 +118,8 @@
 &lt;p&gt;A major benefit of using this pattern is that I can now add new views easily. Say I wanted to add a widget in the foreground that contains a smaller visualization. With pub/sub, it&amp;#39;s simply a matter of creating a new type of view and subscribing it to the model. Both views will receive a notification whenever the model updates. So exciting!&lt;/p&gt;
 </description>
         <pubDate>Tue, 24 May 2016 14:46:08 -0400</pubDate>
-        <link>http://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/index.html</guid>
+        <link>https://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/index.html</guid>
       </item>
     
       <item>
@@ -183,8 +183,8 @@
 &lt;p&gt;In the worst case scenario, the bug remains unreproducible, and the cause of the bug remains only a conjecture. However, if you have conducted research and eliminated a variety of other possible causes, and if you are putting in a hopeful-fix based on the information you&amp;#39;ve gathered, you should feel optimistic.&lt;/p&gt;
 </description>
         <pubDate>Sun, 16 Aug 2015 12:22:00 -0400</pubDate>
-        <link>http://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/index.html</guid>
+        <link>https://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/index.html</guid>
       </item>
     
       <item>
@@ -331,8 +331,8 @@
 &lt;p&gt;This wraps up my examples. I hope you&amp;#39;re inspired to start namespacing your Javascript if you weren&amp;#39;t already. Happy closures!&lt;/p&gt;
 </description>
         <pubDate>Sun, 21 Dec 2014 07:39:06 -0500</pubDate>
-        <link>http://annekjohnson.com/blog/2014/12/namespacing-in-javascript/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/12/namespacing-in-javascript/index.html</guid>
+        <link>https://annekjohnson.com/blog/2014/12/namespacing-in-javascript/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/12/namespacing-in-javascript/index.html</guid>
       </item>
     
       <item>
@@ -380,8 +380,8 @@
 &lt;p&gt;I look forward to doing more landscape painting.&lt;/p&gt;
 </description>
         <pubDate>Tue, 02 Dec 2014 16:27:08 -0500</pubDate>
-        <link>http://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/index.html</guid>
+        <link>https://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/index.html</guid>
       </item>
     
       <item>
@@ -467,8 +467,8 @@
 &lt;p&gt;Ruby is so pleasantly documented that I have read much of its documentation for fun. Luckily, there&amp;#39;s still an unending number of subtle, powerful features that I have yet to learn about, so I won&amp;#39;t get bored for a while. &lt;a href=&quot;http://ruby-doc.org/&quot; target=&quot;_blank&quot;&gt;Check out the documentation here!&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 10 Nov 2014 16:02:00 -0500</pubDate>
-        <link>http://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/index.html</guid>
+        <link>https://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/index.html</guid>
       </item>
     
       <item>
@@ -630,8 +630,8 @@
 &lt;p&gt;Refresh your page in the browser. At this point, you should have a &lt;a href=&quot;http://annejohnson.github.io/cljs-raphael&quot; target=&quot;_blank&quot;&gt;sweet animated pie chart&lt;/a&gt; - powered by the magical intersection of Clojurescript, the JVM, and interop with RaphaelJS. Get up and start dancing!&lt;/p&gt;
 </description>
         <pubDate>Sun, 12 Oct 2014 10:34:18 -0400</pubDate>
-        <link>http://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/index.html</guid>
+        <link>https://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/index.html</guid>
       </item>
     
       <item>
@@ -674,8 +674,8 @@
 &lt;p&gt;&lt;strong&gt;THANK YOU!&lt;/strong&gt; This experience meant so much to me! Not just for all that I learned, but also for the rare opportunity to see diversity in technology. And, rarer still, for the opportunity to see people from diverse backgrounds &lt;strong&gt;giving talks&lt;/strong&gt; and &lt;strong&gt;being leaders&lt;/strong&gt; in the industry. I feel revitalized and inspired. I can&amp;#39;t wait to pay this experience forward.&lt;/p&gt;
 </description>
         <pubDate>Mon, 29 Sep 2014 16:34:18 -0400</pubDate>
-        <link>http://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html</guid>
+        <link>https://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html</guid>
       </item>
     
       <item>
@@ -705,8 +705,8 @@
 &lt;p&gt;I&amp;#39;ve had many kinds of pets - cats, dogs, hamsters, guinea pigs, chinchillas, rats, fish, geckoes... I love them all, but parrots definitely top the list!&lt;/p&gt;
 </description>
         <pubDate>Mon, 11 Aug 2014 18:56:02 -0400</pubDate>
-        <link>http://annekjohnson.com/blog/2014/08/why-i-love-living-with-parrots/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/08/why-i-love-living-with-parrots/index.html</guid>
+        <link>https://annekjohnson.com/blog/2014/08/why-i-love-living-with-parrots/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/08/why-i-love-living-with-parrots/index.html</guid>
       </item>
     
       <item>
@@ -746,8 +746,8 @@
 &lt;p&gt;There are so many other things I like about Ruby - and I&amp;#39;m only just getting started! I&amp;#39;m thrilled to have the opportunity to use it in the workplace.&lt;/p&gt;
 </description>
         <pubDate>Sun, 18 May 2014 15:47:36 -0400</pubDate>
-        <link>http://annekjohnson.com/blog/2014/05/ruby-love/index.html</link>
-        <guid isPermaLink="true">http://annekjohnson.com/blog/2014/05/ruby-love/index.html</guid>
+        <link>https://annekjohnson.com/blog/2014/05/ruby-love/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/05/ruby-love/index.html</guid>
       </item>
     
   </channel>

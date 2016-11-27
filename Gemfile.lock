@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     bourbon (4.2.7)
       sass (~> 3.4)
@@ -55,4 +56,4 @@ DEPENDENCIES
   sass (~> 3.4)
 
 BUNDLED WITH
-   1.12.5
+   1.13.6

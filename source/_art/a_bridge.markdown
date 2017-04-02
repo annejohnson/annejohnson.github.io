@@ -1,5 +1,5 @@
 ---
 layout: art
-title:  A Bridge
+title:  Bridge
 image: /images/art/pastel/a_bridge.jpg
 ---

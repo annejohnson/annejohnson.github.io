@@ -1,5 +1,5 @@
 ---
 layout: art
-title:  Cat Closeup
+title:  Cat
 image: /images/art/acrylic/cat_closeup.jpg
 ---

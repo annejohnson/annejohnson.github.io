@@ -17,7 +17,7 @@ AWS Lambda allows you to write code directly into a web editor for simple script
 
 I created a new code directory, `poetryrobot/`, containing a single Python file, `poetryrobot.py`.
 
-Next, I picked out a Python Twitter package, [twitter-python](https://github.com/bear/python-twitter), and installed it into the code directory with the following:
+Next, I picked out a Python Twitter package, [python-twitter](https://github.com/bear/python-twitter), and installed it into the code directory with the following:
 
 {% highlight bash %}
 # cd into the code directory, and then:

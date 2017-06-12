@@ -20,7 +20,7 @@
 
 &lt;p&gt;I created a new code directory, &lt;code&gt;poetryrobot/&lt;/code&gt;, containing a single Python file, &lt;code&gt;poetryrobot.py&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;Next, I picked out a Python Twitter package, &lt;a href=&quot;https://github.com/bear/python-twitter&quot;&gt;twitter-python&lt;/a&gt;, and installed it into the code directory with the following:&lt;/p&gt;
+&lt;p&gt;Next, I picked out a Python Twitter package, &lt;a href=&quot;https://github.com/bear/python-twitter&quot;&gt;python-twitter&lt;/a&gt;, and installed it into the code directory with the following:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# cd into the code directory, and then:&lt;/span&gt;
 pip install python-twitter -t &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;

@@ -7,6 +7,92 @@
     <atom:link href="https://annekjohnson.com/blog/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Deploying a Python Twitter Bot on AWS Lambda</title>
+        <description>&lt;p&gt;Once upon a time, I created a Twitter bot, &lt;a href=&quot;https://twitter.com/poetryrobot&quot;&gt;@poetryrobot&lt;/a&gt;, to retweet poems every 30 minutes and send words of encouragement to people who tweet poetry. I &lt;a href=&quot;https://github.com/annejohnson/poetryrobot&quot;&gt;wrote the bot in Ruby&lt;/a&gt; and deployed it as a continually running process on an AWS t2.micro EC2 instance. It ran free of charge within the AWS free tier usage limits for 12 happy months.&lt;/p&gt;
+
+&lt;p&gt;After 12 months of free-tier usage, EC2 starts to cost money, but &lt;a href=&quot;https://aws.amazon.com/lambda/pricing/&quot;&gt;AWS Lambda has a free tier that continues indefinitely&lt;/a&gt;. I wanted to keep @poetryrobot running in the cheapest way possible, so I decided to migrate it from EC2 to Lambda. Because AWS Lambda does not support Ruby, I needed to port the bot to one of the supported languages: Java, C#, Javascript, or Python. I went with Python. I had a fun and interesting time working with Python and AWS Lambda, so I thought I would write up the adventure. &lt;a href=&quot;https://github.com/annejohnson/poetryrobot_py&quot;&gt;The full code for the ported bot is here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This process assumes that Python v3 and a compatible version of pip are pre-installed.&lt;/p&gt;
+
+&lt;h1&gt;Step 1: Bootstrap the project&lt;/h1&gt;
+
+&lt;p&gt;AWS Lambda allows you to write code directly into a web editor for simple scripts. However, if multiple files or external dependencies are needed, then development needs to occur in a directory whose files can then be zipped and uploaded to AWS Lambda.&lt;/p&gt;
+
+&lt;p&gt;I created a new code directory, &lt;code&gt;poetryrobot/&lt;/code&gt;, containing a single Python file, &lt;code&gt;poetryrobot.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Next, I picked out a Python Twitter package, &lt;a href=&quot;https://github.com/bear/python-twitter&quot;&gt;twitter-python&lt;/a&gt;, and installed it into the code directory with the following:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# cd into the code directory, and then:&lt;/span&gt;
+pip install python-twitter -t &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The dependency needs to be installed in the code directory so that it can be included as part of the zip file.&lt;/p&gt;
+
+&lt;h1&gt;Step 2: Implement the bot&lt;/h1&gt;
+
+&lt;p&gt;I created a &lt;code&gt;credentials.json&lt;/code&gt; file which contained the following information:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;quot;consumer_key&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;...&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;quot;consumer_secret&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;...&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;quot;access_token_key&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;...&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;quot;access_token_secret&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;...&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;In the &lt;code&gt;poetryrobot.py&lt;/code&gt; file, I imported the dependencies I would use and loaded the credentials:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;twitter&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;json&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;random&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;credentials.json&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;credentials&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loads&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Then, still in &lt;code&gt;poetryrobot.py&lt;/code&gt;, I implemented the following method to be the AWS Lambda entry point (the &amp;quot;main&amp;quot; method), and I implemented the methods it calls (like &lt;code&gt;poem_tweets&lt;/code&gt; and &lt;code&gt;retweet_someone&lt;/code&gt;):&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;lambda_handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_event_json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tweets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;poem_tweets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Retweet a poet more often than reply to a poet:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;retweet_someone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tweets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;reply_to_someone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tweets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;follow_someone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tweets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;follow_followers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;It&amp;#39;s important that this main method accepts two arguments, because AWS Lambda will pass it two arguments.&lt;/p&gt;
+
+&lt;p&gt;The full &lt;code&gt;poetryrobot.py&lt;/code&gt; file can be seen &lt;a href=&quot;https://github.com/annejohnson/poetryrobot_py/blob/master/poetryrobot.py&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1&gt;Step 3: Create the zip file&lt;/h1&gt;
+
+&lt;p&gt;I highlighted everything in the code directory (not including the code directory itself) and compressed it into a zip file.&lt;/p&gt;
+
+&lt;h1&gt;Step 4: Create the Lambda function&lt;/h1&gt;
+
+&lt;p&gt;I went to the AWS Lambda management console and clicked to create a new Lambda function. I selected the Blank Function template.&lt;/p&gt;
+
+&lt;p&gt;I clicked &amp;quot;Next&amp;quot; on the trigger screen to skip that step for now.&lt;/p&gt;
+
+&lt;p&gt;On the next screen, I set the runtime to Python 3.6 and named the function &lt;code&gt;poetryrobot&lt;/code&gt;. I clicked to upload a zip file rather than type code inline, and I uploaded the generated zip file from Step 3. Then, I typed &lt;code&gt;poetryrobot.lambda_handler&lt;/code&gt; (the name of the &amp;quot;main&amp;quot; method) into the handler field. I set a &lt;code&gt;lambda_basic_execution&lt;/code&gt; role with CloudWatch log permissions. Finally, under &amp;quot;Advanced&amp;quot;, I increased the timeout from the default to 20 seconds.&lt;/p&gt;
+
+&lt;h1&gt;Step 5: Testing the Lambda function&lt;/h1&gt;
+
+&lt;p&gt;With just these steps, the Lambda function was ready to roll. I clicked the &amp;quot;Test&amp;quot; button and saw activity on Twitter along with logs send to CloudWatch.&lt;/p&gt;
+
+&lt;h1&gt;Step 6: Scheduling the Lambda function&lt;/h1&gt;
+
+&lt;p&gt;This is the final step! I went to the CloudWatch management console, navigated to the events &amp;gt;&amp;gt; rules section, and clicked &amp;quot;Create rule&amp;quot;. On the next screen, I set the event source to &amp;quot;Schedule&amp;quot; and set a fixed rate of 30 minutes. Then, I set the target to the &lt;code&gt;poetryrobot&lt;/code&gt; Lambda function. Finally, I named the CloudWatch rule &lt;code&gt;poetryrobot_event&lt;/code&gt; and clicked to create it. From there, the bot was up and running on its schedule!&lt;/p&gt;
+
+&lt;h1&gt;Thanks!&lt;/h1&gt;
+
+&lt;p&gt;Thanks to &lt;a href=&quot;http://blog.pythonicneteng.com/2016/09/make-twitter-bot-in-python-and-aws.html&quot;&gt;this article&lt;/a&gt; and &lt;a href=&quot;http://joelgrus.com/2015/12/30/polyglot-twitter-bot-part-3-python-27-aws-lambda/&quot;&gt;the one it references&lt;/a&gt; for providing me with helpful Python and Lambda guidance.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 11 Jun 2017 17:26:04 -0400</pubDate>
+        <link>https://annekjohnson.com/blog/2017/06/python-twitter-bot-on-aws-lambda/index.html</link>
+        <guid isPermaLink="true">https://annekjohnson.com/blog/2017/06/python-twitter-bot-on-aws-lambda/index.html</guid>
+      </item>
+    
+      <item>
         <title>Antarctica</title>
         <description>&lt;p&gt;This winter, I visited the otherworldly Antarctic peninsula. It was an adventure full of cold wind, zodiac boats, and penguin hops.&lt;/p&gt;
 
@@ -805,37 +891,6 @@
         <pubDate>Mon, 29 Sep 2014 16:34:18 -0400</pubDate>
         <link>https://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html</link>
         <guid isPermaLink="true">https://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Why I Love Living With Parrots</title>
-        <description>&lt;p&gt;Strange and wonderful things happen when you adopt parrots! &lt;/p&gt;
-
-&lt;p&gt;I have 2 parrots, Edwin and Petrie. I adopted Edwin in August, 2013, followed by Petrie in November. Last Tuesday marked one year of birdhood for me, and it has been delightful!&lt;/p&gt;
-
-&lt;p&gt;Here are some of the awesome things I&amp;#39;ve found about having parrots:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/parrots/edwin.jpg&quot; alt=&quot;Edwin&quot; class=&quot;alignleft&quot; /&gt;&lt;strong&gt;1. Parrots are challenging, but dedication pays off.&lt;/strong&gt;&lt;br /&gt;When I first brought Edwin home, he didn&amp;#39;t want ANYTHING to do with me. I had anticipated this because it&amp;#39;s typical behavior for a rehomed adult bird, but it was still disconcerting. Nevertheless, I closely followed the advice of being friendly but distant, slowly gaining his trust. After a few days, he accepted food from me, and after a week, he stepped up on my arm. After a month or two, he let me scratch his neck. After several months, he started saying &amp;quot;I love you!&amp;quot; Our relationship continues to grow each day.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;2. Parrots can be the most loving creatures on earth.&lt;/strong&gt;&lt;br /&gt;Petrie came to me at the tender age of 7 months, naïve, clipped, and with broken stumpy tail feathers. He was trusting from the start, but not loving - though this has changed. Over time, Petrie became more and more affectionate. Nowadays, he&amp;#39;s either sitting on my laptop when I&amp;#39;m surfing the internet, bobbing his head when I talk to him, or flying to me when I leave the room. I&amp;#39;m honored to have won his affections!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/blog/parrots/petrie.jpg&quot; alt=&quot;Petrie loves blueberries&quot; class=&quot;alignright&quot; /&gt;&lt;strong&gt;3. Parrots encourage healthy eating.&lt;/strong&gt;&lt;br /&gt;It&amp;#39;s already rewarding to eat healthy fruits and vegetables, but it becomes doubly rewarding when I&amp;#39;m able to share these foods with my 2 dearests. Not to mention that it&amp;#39;s really fun to discover new foods that they like. A few months ago, I discovered that Petrie &lt;em&gt;loves&lt;/em&gt; blueberries.&lt;/p&gt;
-
-&lt;p&gt;And since parrots are naturally vegetarians, I can buy food for them that is neither sketchy nor smelly (I&amp;#39;m talking about you, dogfood and catfood).&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;4. Parrots are great to talk to.&lt;/strong&gt;&lt;br /&gt;It feels a little less like I&amp;#39;m talking to myself with these guys than it would with other pets. Sometimes Edwin and Petrie even talk back. We&amp;#39;ve definitely had conversations before, usually consisting of: &amp;quot;Hello.&amp;quot; &amp;quot;Hello.&amp;quot; &amp;quot;Hello!&amp;quot; &amp;quot;Hello.&amp;quot; *whistle* *whistle* ...ad infinitum. Simple as our conversations might be, they are more special than many conversations I&amp;#39;ve had with actual people.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;5. Parrots encourage a healthy sleep schedule.&lt;/strong&gt;&lt;br /&gt;Birds wake up at sunrise and go to bed at sunset. 10 hours of sleep is the recommended amount for pet parrots. Dimming the lights for Edwin and Petrie at a reasonable hour helps me, too, go to bed at a reasonable hour. Also, birds help me be a better morning person. Actually.. they force me to be! Thanks to the Petriebird alarm clock, we never waste a day.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;6. Parrots live for a long time.&lt;/strong&gt;&lt;br /&gt;Edwin&amp;#39;s and Petrie&amp;#39;s life spans are both estimated to be 30-40 years (for some species, this number is lower, and for many species, much higher). Edwin is only 6, and Petrie is only 1, so we will hopefully have many more years together.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;7. Parrots are smart, and they love learning!&lt;/strong&gt;&lt;br /&gt;Edwin and Petrie pick up new phrases and sounds easily. They are also very easy to train. Edwin learned how to wave on command in just a couple days. Sometimes they learn things even when I&amp;#39;m not consciously training them... for example, Edwin learned how to go into his cage anytime I say &amp;quot;Go in here!&amp;quot;&lt;/p&gt;
-
-&lt;p&gt;I&amp;#39;ve had many kinds of pets - cats, dogs, hamsters, guinea pigs, chinchillas, rats, fish, geckoes... I love them all, but parrots definitely top the list!&lt;/p&gt;
-</description>
-        <pubDate>Mon, 11 Aug 2014 18:56:02 -0400</pubDate>
-        <link>https://annekjohnson.com/blog/2014/08/why-i-love-living-with-parrots/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/08/why-i-love-living-with-parrots/index.html</guid>
       </item>
     
   </channel>

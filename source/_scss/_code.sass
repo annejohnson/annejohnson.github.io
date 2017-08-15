@@ -1,9 +1,15 @@
 $code-breakpoint: new-breakpoint(max-width 640px 1)
 
-.work-code, .other-code
+.code-list
   +span-columns(6)
-  +media($code-breakpoint)
+
++media($code-breakpoint)
+  .code-list
     +span-columns(1)
+  .code-list-left
+    margin-bottom: 0
+  .code-list-right
+    margin-top: 0
 
 .github-link-container
   text-align: center

@@ -21,32 +21,24 @@
 
 .home-images
   text-align: center
-  padding: 0.5em 0 3.2em
+  padding: 0.3em 0 3em
 
 $home-image-breakpoint: new-breakpoint(max-width 450px 1)
 
 .home-image-container
   display: inline-block
-  margin: 0 0.8em
-  width: 100px
-  height: 100px
+  margin: 0
+  width: 150px
+  height: 150px
   padding: 6px
   border: 1px solid $primary-color
 
-  +media($home-image-breakpoint)
-    margin: 0 0.3em
-    width: 80px
-    height: 80px
+.home-image-container, .anne
+  border-radius: 10%
 
-.edwin, .anne, .petrie
+.anne
   width: 100%
   height: 100%
   background-position: center
   background-size: cover
-
-.edwin
-  background-image: url('/images/edwin.jpg')
-.anne
   background-image: url('/images/anne.jpg')
-.petrie
-  background-image: url('/images/petrie.jpg')

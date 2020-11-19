@@ -3,8 +3,8 @@
 	<channel>
 		<title>Anne K. Johnson - Clojurescript</title>
 		<description>Posts categorized as 'Clojurescript'</description>
-		<link>https://annejohnson.github.io</link>
-		<atom:link href="https://annejohnson.github.io/blog/feed.clojurescript.xml" rel="self" type="application/rss+xml" />
+		<link>https://annekjohnson.com</link>
+		<atom:link href="https://annekjohnson.com/blog/feed.clojurescript.xml" rel="self" type="application/rss+xml" />
 		
 	</channel>
 </rss>

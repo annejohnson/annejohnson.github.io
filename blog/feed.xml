@@ -1,14 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Anne K. Johnson</title>
-    <description>Personal site of Anne K. Johnson</description>
-    <link>https://annekjohnson.com</link>
-    <atom:link href="https://annekjohnson.com/blog/feed.xml" rel="self" type="application/rss+xml" />
-    
-      <item>
-        <title>Deploying a Python Twitter Bot on AWS Lambda</title>
-        <description>&lt;p&gt;Once upon a time, I created a Twitter bot, &lt;a href=&quot;https://twitter.com/poetryrobot&quot;&gt;@poetryrobot&lt;/a&gt;, to retweet poems every 30 minutes and send words of encouragement to people who tweet poetry. I &lt;a href=&quot;https://github.com/annejohnson/poetryrobot&quot;&gt;wrote the bot in Ruby&lt;/a&gt; and deployed it as a continually running process on an AWS t2.micro EC2 instance. It ran free of charge within the AWS free tier usage limits for 12 happy months.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://annekjohnson.com/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://annekjohnson.com/" rel="alternate" type="text/html" /><updated>2020-11-21T17:32:53-05:00</updated><id>https://annekjohnson.com/blog/feed.xml</id><title type="html">Anne K. Johnson</title><subtitle>Personal site of Anne K. Johnson</subtitle><entry><title type="html">Deploying a Python Twitter Bot on AWS Lambda</title><link href="https://annekjohnson.com/blog/2017/06/python-twitter-bot-on-aws-lambda/index.html" rel="alternate" type="text/html" title="Deploying a Python Twitter Bot on AWS Lambda" /><published>2017-06-11T17:26:04-04:00</published><updated>2017-06-11T17:26:04-04:00</updated><id>https://annekjohnson.com/blog/2017/06/python-twitter-bot-on-aws-lambda/python-twitter-bot-on-aws-lambda</id><content type="html" xml:base="https://annekjohnson.com/blog/2017/06/python-twitter-bot-on-aws-lambda/index.html">&lt;p&gt;Once upon a time, I created a Twitter bot, &lt;a href=&quot;https://twitter.com/poetryrobot&quot;&gt;@poetryrobot&lt;/a&gt;, to retweet poems every 30 minutes and send words of encouragement to people who tweet poetry. I &lt;a href=&quot;https://github.com/annejohnson/poetryrobot&quot;&gt;wrote the bot in Ruby&lt;/a&gt; and deployed it as a continually running process on an AWS t2.micro EC2 instance. It ran free of charge within the AWS free tier usage limits for 12 happy months.&lt;/p&gt;
 
 &lt;p&gt;After 12 months of free-tier usage, EC2 starts to cost money, but &lt;a href=&quot;https://aws.amazon.com/lambda/pricing/&quot;&gt;AWS Lambda has a free tier that continues indefinitely&lt;/a&gt;. I wanted to keep @poetryrobot running in the cheapest way possible, so I decided to migrate it from EC2 to Lambda. Because AWS Lambda does not support Ruby, I needed to port the bot to one of the supported languages: Java, C#, Javascript, or Python. I went with Python. I had a fun and interesting time working with Python and AWS Lambda, so I thought I would write up the adventure. &lt;a href=&quot;https://github.com/annejohnson/poetryrobot_py&quot;&gt;The full code for the ported bot is here&lt;/a&gt;.&lt;/p&gt;
 
@@ -85,16 +75,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 
 &lt;h1 id=&quot;thanks&quot;&gt;Thanks!&lt;/h1&gt;
 
-&lt;p&gt;Thanks to &lt;a href=&quot;http://blog.pythonicneteng.com/2016/09/make-twitter-bot-in-python-and-aws.html&quot;&gt;this article&lt;/a&gt; and &lt;a href=&quot;http://joelgrus.com/2015/12/30/polyglot-twitter-bot-part-3-python-27-aws-lambda/&quot;&gt;the one it references&lt;/a&gt; for providing me with helpful Python and Lambda guidance.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 11 Jun 2017 17:26:04 -0400</pubDate>
-        <link>https://annekjohnson.com/blog/2017/06/python-twitter-bot-on-aws-lambda/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2017/06/python-twitter-bot-on-aws-lambda/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Antarctica</title>
-        <description>&lt;p&gt;This winter, I visited the otherworldly Antarctic peninsula. It was an adventure full of cold wind, zodiac boats, and penguin hops.&lt;/p&gt;
+&lt;p&gt;Thanks to &lt;a href=&quot;http://blog.pythonicneteng.com/2016/09/make-twitter-bot-in-python-and-aws.html&quot;&gt;this article&lt;/a&gt; and &lt;a href=&quot;http://joelgrus.com/2015/12/30/polyglot-twitter-bot-part-3-python-27-aws-lambda/&quot;&gt;the one it references&lt;/a&gt; for providing me with helpful Python and Lambda guidance.&lt;/p&gt;</content><author><name></name></author><category term="Programming" /><category term="Python" /><category term="AWS" /><summary type="html">Once upon a time, I created a Twitter bot, @poetryrobot, to retweet poems every 30 minutes and send words of encouragement to people who tweet poetry. I wrote the bot in Ruby and deployed it as a continually running process on an AWS t2.micro EC2 instance. It ran free of charge within the AWS free tier usage limits for 12 happy months.</summary></entry><entry><title type="html">Antarctica</title><link href="https://annekjohnson.com/blog/2017/01/antarctica/index.html" rel="alternate" type="text/html" title="Antarctica" /><published>2017-01-07T10:28:45-05:00</published><updated>2017-01-07T10:28:45-05:00</updated><id>https://annekjohnson.com/blog/2017/01/antarctica/antarctica</id><content type="html" xml:base="https://annekjohnson.com/blog/2017/01/antarctica/index.html">&lt;p&gt;This winter, I visited the otherworldly Antarctic peninsula. It was an adventure full of cold wind, zodiac boats, and penguin hops.&lt;/p&gt;
 
 &lt;p&gt;The idea for the trip came in May, 2015, when I brainstormed on what I wanted to have achieved in the next five years. At the top of the list was to visit all seven continents.&lt;/p&gt;
 
@@ -214,16 +195,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 
 &lt;p&gt;The dance party began somewhere in the middle of the Drake Passage. A couple of young ladies I’d befriended were so excited because they’d been pushing for the dance party for days after noticing the disco ball in the front of the lecture room. They and other folks populated the dance floor immediately. I was sitting with some new friends close to the bar, talking and enjoying their company for one of the last times before the end of the trip. I’m shy, but I have been known to dance before in public settings, but I didn’t think it would happen this time around because there was no compelling enough peer pressure.&lt;/p&gt;
 
-&lt;p&gt;The tides turned when the lady from Monaco who I’d seen on the ship but had never talked to took my hand and walked me to the dance floor. I shrugged and waved goodbye to the people I was talking to, and then had a blast alongside the lady from Monaco and others as we danced to pop and hip-hop under the disco ball. Despite the rocking of the ship and the alcohol consumption, nobody fell to the floor dramatically. I certainly needed the exercise after having eaten dessert at least twice a day for the last week. Dancing one’s tail off over rocky waters of the Drake Passage is a pretty special experience and a lovely way to wrap up an extraordinarily special trip, full of incredible wildlife, adventures, breathtaking icy scenery, and fascinating new friends from all over the world.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 07 Jan 2017 10:28:45 -0500</pubDate>
-        <link>https://annekjohnson.com/blog/2017/01/antarctica/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2017/01/antarctica/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Publishing Elixir Packages</title>
-        <description>&lt;p&gt;You have some Elixir code in a Mix project and pushed to a Github repository. You’re code-complete-ish and ready to release your shiny and fabulous v0 to the world. Read on!&lt;/p&gt;
+&lt;p&gt;The tides turned when the lady from Monaco who I’d seen on the ship but had never talked to took my hand and walked me to the dance floor. I shrugged and waved goodbye to the people I was talking to, and then had a blast alongside the lady from Monaco and others as we danced to pop and hip-hop under the disco ball. Despite the rocking of the ship and the alcohol consumption, nobody fell to the floor dramatically. I certainly needed the exercise after having eaten dessert at least twice a day for the last week. Dancing one’s tail off over rocky waters of the Drake Passage is a pretty special experience and a lovely way to wrap up an extraordinarily special trip, full of incredible wildlife, adventures, breathtaking icy scenery, and fascinating new friends from all over the world.&lt;/p&gt;</content><author><name></name></author><category term="Antarctica" /><category term="Travel" /><summary type="html">This winter, I visited the otherworldly Antarctic peninsula. It was an adventure full of cold wind, zodiac boats, and penguin hops.</summary></entry><entry><title type="html">Publishing Elixir Packages</title><link href="https://annekjohnson.com/blog/2016/08/publishing-elixir-packages/index.html" rel="alternate" type="text/html" title="Publishing Elixir Packages" /><published>2016-08-21T13:28:33-04:00</published><updated>2016-08-21T13:28:33-04:00</updated><id>https://annekjohnson.com/blog/2016/08/publishing-elixir-packages/publishing-elixir-packages</id><content type="html" xml:base="https://annekjohnson.com/blog/2016/08/publishing-elixir-packages/index.html">&lt;p&gt;You have some Elixir code in a Mix project and pushed to a Github repository. You’re code-complete-ish and ready to release your shiny and fabulous v0 to the world. Read on!&lt;/p&gt;
 
 &lt;h3 id=&quot;documentation-make-it-easy-for-people-to-use-your-code&quot;&gt;Documentation: Make it easy for people to use your code&lt;/h3&gt;
 
@@ -260,16 +232,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 
 &lt;h3 id=&quot;publish-your-documentation-to-hexdocs&quot;&gt;Publish your documentation to Hexdocs&lt;/h3&gt;
 
-&lt;p&gt;Make the lovely documentation you generated available to the world by running &lt;code&gt;mix hex.docs&lt;/code&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 21 Aug 2016 13:28:33 -0400</pubDate>
-        <link>https://annekjohnson.com/blog/2016/08/publishing-elixir-packages/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2016/08/publishing-elixir-packages/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Refactoring: DNA Patterns</title>
-        <description>&lt;p&gt;In the absence of a side project, yet with an urge to do some programming, I dug up some old side projects. I suspected I would find opportunities for refactoring. Indeed, I did! This post is about the adventure of refactoring my &lt;a href=&quot;/dna-patterns&quot;&gt;DNA Patterns&lt;/a&gt; side project (&lt;a href=&quot;https://github.com/annejohnson/dna-patterns&quot;&gt;Github&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Make the lovely documentation you generated available to the world by running &lt;code&gt;mix hex.docs&lt;/code&gt;.&lt;/p&gt;</content><author><name></name></author><category term="Programming" /><category term="Elixir" /><summary type="html">You have some Elixir code in a Mix project and pushed to a Github repository. You’re code-complete-ish and ready to release your shiny and fabulous v0 to the world. Read on!</summary></entry><entry><title type="html">Refactoring: DNA Patterns</title><link href="https://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/index.html" rel="alternate" type="text/html" title="Refactoring: DNA Patterns" /><published>2016-05-24T14:46:08-04:00</published><updated>2016-05-24T14:46:08-04:00</updated><id>https://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/refactoring-dna-patterns</id><content type="html" xml:base="https://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/index.html">&lt;p&gt;In the absence of a side project, yet with an urge to do some programming, I dug up some old side projects. I suspected I would find opportunities for refactoring. Indeed, I did! This post is about the adventure of refactoring my &lt;a href=&quot;/dna-patterns&quot;&gt;DNA Patterns&lt;/a&gt; side project (&lt;a href=&quot;https://github.com/annejohnson/dna-patterns&quot;&gt;Github&lt;/a&gt;).&lt;/p&gt;
 
 &lt;h3 id=&quot;about-dna-patterns&quot;&gt;About DNA Patterns&lt;/h3&gt;
 
@@ -330,16 +293,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 
 &lt;p&gt;The &lt;strong&gt;subscribers&lt;/strong&gt; are those who have subscribed themselves to the model using its &lt;code&gt;subscribe&lt;/code&gt; method. When they receive the notification of the change, they can act however they wish. In this app, there is only one subscriber, the view. It acts by rendering the visualization for the newly selected species.&lt;/p&gt;
 
-&lt;p&gt;A major benefit of using this pattern is that I can now add new views easily. Say I wanted to add a widget in the foreground that contains a smaller visualization. With pub/sub, it’s simply a matter of creating a new type of view and subscribing it to the model. Both views will receive a notification whenever the model updates. So exciting!&lt;/p&gt;
-</description>
-        <pubDate>Tue, 24 May 2016 14:46:08 -0400</pubDate>
-        <link>https://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2016/05/refactoring-dna-patterns/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Crash Course in Solving Software Bugs</title>
-        <description>&lt;p&gt;Much time on the job as a developer is spent not writing new code, but fixing bugs in old code. Bugs inevitably appear over time in an evolving codebase, and they need to be hunted down and cleaned up. Sometimes hunting them down is challenging. Here is a process for sniffing out the causes of enigmatic bugs in web applications. My examples involve Rails, but the concepts can be generalized to other web application environments.&lt;/p&gt;
+&lt;p&gt;A major benefit of using this pattern is that I can now add new views easily. Say I wanted to add a widget in the foreground that contains a smaller visualization. With pub/sub, it’s simply a matter of creating a new type of view and subscribing it to the model. Both views will receive a notification whenever the model updates. So exciting!&lt;/p&gt;</content><author><name></name></author><category term="Programming" /><category term="Refactoring" /><summary type="html">In the absence of a side project, yet with an urge to do some programming, I dug up some old side projects. I suspected I would find opportunities for refactoring. Indeed, I did! This post is about the adventure of refactoring my DNA Patterns side project (Github).</summary></entry><entry><title type="html">Crash Course in Solving Software Bugs</title><link href="https://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/index.html" rel="alternate" type="text/html" title="Crash Course in Solving Software Bugs" /><published>2015-08-16T12:22:00-04:00</published><updated>2015-08-16T12:22:00-04:00</updated><id>https://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/crash-course-in-solving-software-bugs</id><content type="html" xml:base="https://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/index.html">&lt;p&gt;Much time on the job as a developer is spent not writing new code, but fixing bugs in old code. Bugs inevitably appear over time in an evolving codebase, and they need to be hunted down and cleaned up. Sometimes hunting them down is challenging. Here is a process for sniffing out the causes of enigmatic bugs in web applications. My examples involve Rails, but the concepts can be generalized to other web application environments.&lt;/p&gt;
 
 &lt;h3 id=&quot;research-the-bug&quot;&gt;Research the Bug&lt;/h3&gt;
 &lt;ul&gt;
@@ -392,16 +346,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
   &lt;li&gt;&lt;strong&gt;Outside the app&lt;/strong&gt;. Search for any infrastructure-related or external-service-related causes in remote logfiles, in data sent to external services, etc.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;In the worst case scenario, the bug remains unreproducible, and the cause of the bug remains only a conjecture. However, if you have conducted research and eliminated a variety of other possible causes, and if you are putting in a hopeful-fix based on the information you’ve gathered, you should feel optimistic.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 16 Aug 2015 12:22:00 -0400</pubDate>
-        <link>https://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2015/08/crash-course-in-solving-software-bugs/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Namespacing in Javascript</title>
-        <description>&lt;p&gt;Without namespacing, Javascript becomes disorganized and insane. Because effectively namespacing in Javascript involves anonymous functions and closures, some of Javascript’s more confusing features, it’s not always practiced. The result is a global namespace cluttered with every single variable and helper function ever used. This is bad.&lt;/p&gt;
+&lt;p&gt;In the worst case scenario, the bug remains unreproducible, and the cause of the bug remains only a conjecture. However, if you have conducted research and eliminated a variety of other possible causes, and if you are putting in a hopeful-fix based on the information you’ve gathered, you should feel optimistic.&lt;/p&gt;</content><author><name></name></author><category term="Programming" /><summary type="html">Much time on the job as a developer is spent not writing new code, but fixing bugs in old code. Bugs inevitably appear over time in an evolving codebase, and they need to be hunted down and cleaned up. Sometimes hunting them down is challenging. Here is a process for sniffing out the causes of enigmatic bugs in web applications. My examples involve Rails, but the concepts can be generalized to other web application environments.</summary></entry><entry><title type="html">Namespacing in Javascript</title><link href="https://annekjohnson.com/blog/2014/12/namespacing-in-javascript/index.html" rel="alternate" type="text/html" title="Namespacing in Javascript" /><published>2014-12-21T07:39:06-05:00</published><updated>2014-12-21T07:39:06-05:00</updated><id>https://annekjohnson.com/blog/2014/12/namespacing-in-javascript/namespacing-in-javascript</id><content type="html" xml:base="https://annekjohnson.com/blog/2014/12/namespacing-in-javascript/index.html">&lt;p&gt;Without namespacing, Javascript becomes disorganized and insane. Because effectively namespacing in Javascript involves anonymous functions and closures, some of Javascript’s more confusing features, it’s not always practiced. The result is a global namespace cluttered with every single variable and helper function ever used. This is bad.&lt;/p&gt;
 
 &lt;h3 id=&quot;namespacing-using-self-executing-anonymous-functions-and-closures&quot;&gt;Namespacing Using Self-Executing Anonymous Functions and Closures&lt;/h3&gt;
 
@@ -540,16 +485,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 &lt;span class=&quot;nx&quot;&gt;onSaturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;north&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;gravityConstant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;// ReferenceError: gravityConstant is not defined&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;This wraps up my examples. I hope you’re inspired to start namespacing your Javascript if you weren’t already. Happy closures!&lt;/p&gt;
-</description>
-        <pubDate>Sun, 21 Dec 2014 07:39:06 -0500</pubDate>
-        <link>https://annekjohnson.com/blog/2014/12/namespacing-in-javascript/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/12/namespacing-in-javascript/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Getting Started With Landscape Painting</title>
-        <description>&lt;p&gt;Painting a tiny landscape the other week was really fun, so I decided to do more landscape painting.&lt;/p&gt;
+&lt;p&gt;This wraps up my examples. I hope you’re inspired to start namespacing your Javascript if you weren’t already. Happy closures!&lt;/p&gt;</content><author><name></name></author><category term="Programming" /><category term="Javascript" /><summary type="html">Without namespacing, Javascript becomes disorganized and insane. Because effectively namespacing in Javascript involves anonymous functions and closures, some of Javascript’s more confusing features, it’s not always practiced. The result is a global namespace cluttered with every single variable and helper function ever used. This is bad.</summary></entry><entry><title type="html">Getting Started With Landscape Painting</title><link href="https://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/index.html" rel="alternate" type="text/html" title="Getting Started With Landscape Painting" /><published>2014-12-02T16:27:08-05:00</published><updated>2014-12-02T16:27:08-05:00</updated><id>https://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/getting-started-with-landscape-painting</id><content type="html" xml:base="https://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/index.html">&lt;p&gt;Painting a tiny landscape the other week was really fun, so I decided to do more landscape painting.&lt;/p&gt;
 
 &lt;p&gt;I went shopping on Black Friday and bought detail brushes - including script liners, tiny rounds, fan brushes, and even a deerfoot stippler! I also bought a book called &lt;a href=&quot;http://www.amazon.com/Paint-Landscapes-Acrylic-Lee-Hammond/dp/1600613098&quot; target=&quot;_blank&quot;&gt;Paint Landscapes in Acrylic&lt;/a&gt; by Lee Hammond.&lt;/p&gt;
 
@@ -589,16 +525,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 
 &lt;p&gt;&lt;img src=&quot;/images/blog/2014-12-02/gray_lake_scene.jpg&quot; alt=&quot;Gray Lake Scene&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;I look forward to doing more landscape painting.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 02 Dec 2014 16:27:08 -0500</pubDate>
-        <link>https://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/12/getting-started-with-landscape-painting/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Current Favorites in Ruby: Structs, .nil?, and Retries</title>
-        <description>&lt;p&gt;I’ve said it before, but I’ll say it again: I love Ruby! Here are some of my favorite Ruby features these days.&lt;/p&gt;
+&lt;p&gt;I look forward to doing more landscape painting.&lt;/p&gt;</content><author><name></name></author><category term="art" /><category term="painting" /><category term="landscape" /><summary type="html">Painting a tiny landscape the other week was really fun, so I decided to do more landscape painting.</summary></entry><entry><title type="html">Current Favorites in Ruby: Structs, .nil?, and Retries</title><link href="https://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/index.html" rel="alternate" type="text/html" title="Current Favorites in Ruby: Structs, .nil?, and Retries" /><published>2014-11-10T16:02:00-05:00</published><updated>2014-11-10T16:02:00-05:00</updated><id>https://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/current-favorites-in-ruby-structs-nil-retries</id><content type="html" xml:base="https://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/index.html">&lt;p&gt;I’ve said it before, but I’ll say it again: I love Ruby! Here are some of my favorite Ruby features these days.&lt;/p&gt;
 &lt;h2 id=&quot;struct&quot;&gt;Struct&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;Struct&lt;/code&gt; is a quick way to create simple classes with a set of readable and writeable attributes.&lt;/p&gt;
 
@@ -669,16 +596,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 
 &lt;p&gt;My inbox and my workplace’s chat client thank &lt;code&gt;retry&lt;/code&gt;. :)&lt;/p&gt;
 &lt;h2 id=&quot;for-more-see-ruby-doc&quot;&gt;For more, see Ruby-Doc&lt;/h2&gt;
-&lt;p&gt;Ruby is so pleasantly documented that I have read much of its documentation for fun. Luckily, there’s still an unending number of subtle, powerful features that I have yet to learn about, so I won’t get bored for a while. &lt;a href=&quot;http://ruby-doc.org/&quot; target=&quot;_blank&quot;&gt;Check out the documentation here!&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 10 Nov 2014 16:02:00 -0500</pubDate>
-        <link>https://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/11/current-favorites-in-ruby-structs-nil-retries/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Using Clojurescript to Make Charts with Raphael.js</title>
-        <description>&lt;p&gt;When I started using Clojurescript a few weeks ago, it was interesting learning how to translate between the two very different syntaxes of Javascript and Clojurescript. I’m going to share what I learned as I demonstrate how to use Clojurescript to make charts using &lt;a href=&quot;http://g.raphaeljs.com/&quot; target=&quot;_blank&quot;&gt;Raphael.js’s chart library&lt;/a&gt;. Code is available &lt;a href=&quot;http://github.com/annejohnson/cljs-raphael&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Ruby is so pleasantly documented that I have read much of its documentation for fun. Luckily, there’s still an unending number of subtle, powerful features that I have yet to learn about, so I won’t get bored for a while. &lt;a href=&quot;http://ruby-doc.org/&quot; target=&quot;_blank&quot;&gt;Check out the documentation here!&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="Programming" /><category term="Ruby" /><summary type="html">I’ve said it before, but I’ll say it again: I love Ruby! Here are some of my favorite Ruby features these days. Struct Struct is a quick way to create simple classes with a set of readable and writeable attributes. Node = Struct.new(:key, :value, :next) # ^ this is equivalent to: class Node attr_accessor :key, :value, :next end Interacting with structures is exactly like interacting with the equivalent classes. They can be instantiated with any number of parameter arguments up to the number of attributes in Struct.new, with the nth parameter being assigned to the nth attribute. Any attributes not set during instantiation are nil. n = Node.new # =&amp;gt; #&amp;lt;struct Node key=nil, value=nil, next=nil&amp;gt; n = Node.new(:language, &quot;French&quot;) # =&amp;gt; #&amp;lt;struct Node key=:language, value=&quot;French&quot;, next=nil&amp;gt; n = Node.new(:language, &quot;French&quot;, Node.new, &quot;oops!&quot;) # ArgumentError: struct size differs</summary></entry><entry><title type="html">Using Clojurescript to Make Charts with Raphael.js</title><link href="https://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/index.html" rel="alternate" type="text/html" title="Using Clojurescript to Make Charts with Raphael.js" /><published>2014-10-12T10:34:18-04:00</published><updated>2014-10-12T10:34:18-04:00</updated><id>https://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/using-clojurescript-to-make-charts-with-raphael</id><content type="html" xml:base="https://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/index.html">&lt;p&gt;When I started using Clojurescript a few weeks ago, it was interesting learning how to translate between the two very different syntaxes of Javascript and Clojurescript. I’m going to share what I learned as I demonstrate how to use Clojurescript to make charts using &lt;a href=&quot;http://g.raphaeljs.com/&quot; target=&quot;_blank&quot;&gt;Raphael.js’s chart library&lt;/a&gt;. Code is available &lt;a href=&quot;http://github.com/annejohnson/cljs-raphael&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;setup-with-leiningen&quot;&gt;Setup with Leiningen&lt;/h2&gt;
 
@@ -832,17 +750,7 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-clojure&quot; data-lang=&quot;clojure&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.hover&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pie&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sector-mousein&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sector-mouseout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Refresh your page in the browser. At this point, you should have a &lt;a href=&quot;http://annejohnson.github.io/cljs-raphael&quot; target=&quot;_blank&quot;&gt;sweet animated pie chart&lt;/a&gt; - powered by the magical intersection of Clojurescript, the JVM, and interop with RaphaelJS. Get up and start dancing!&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 12 Oct 2014 10:34:18 -0400</pubDate>
-        <link>https://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/10/using-clojurescript-to-make-charts-with-raphael/index.html</guid>
-      </item>
-    
-      <item>
-        <title>Strange Loop 2014</title>
-        <description>&lt;p&gt;I went to a tech conference called &lt;a href=&quot;https://thestrangeloop.com/&quot; target=&quot;_blank&quot;&gt;Strange Loop&lt;/a&gt; last week. It takes place once a year in Saint Louis, Missouri, and features talks by the creators and earliest users of cutting-edge technologies. I’ve heard that the technologies you learn about at Strange Loop are those that people will be using widely in a couple of years. Strange Loop is a way to explore this exciting future.&lt;/p&gt;
+&lt;p&gt;Refresh your page in the browser. At this point, you should have a &lt;a href=&quot;http://annejohnson.github.io/cljs-raphael&quot; target=&quot;_blank&quot;&gt;sweet animated pie chart&lt;/a&gt; - powered by the magical intersection of Clojurescript, the JVM, and interop with RaphaelJS. Get up and start dancing!&lt;/p&gt;</content><author><name></name></author><category term="Clojurescript" /><category term="Clojure" /><summary type="html">When I started using Clojurescript a few weeks ago, it was interesting learning how to translate between the two very different syntaxes of Javascript and Clojurescript. I’m going to share what I learned as I demonstrate how to use Clojurescript to make charts using Raphael.js’s chart library. Code is available here.</summary></entry><entry><title type="html">Strange Loop 2014</title><link href="https://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html" rel="alternate" type="text/html" title="Strange Loop 2014" /><published>2014-09-29T16:34:18-04:00</published><updated>2014-09-29T16:34:18-04:00</updated><id>https://annekjohnson.com/blog/2014/09/strange-loop-2014/strange-loop-2014</id><content type="html" xml:base="https://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html">&lt;p&gt;I went to a tech conference called &lt;a href=&quot;https://thestrangeloop.com/&quot; target=&quot;_blank&quot;&gt;Strange Loop&lt;/a&gt; last week. It takes place once a year in Saint Louis, Missouri, and features talks by the creators and earliest users of cutting-edge technologies. I’ve heard that the technologies you learn about at Strange Loop are those that people will be using widely in a couple of years. Strange Loop is a way to explore this exciting future.&lt;/p&gt;
 
 &lt;p&gt;This was my very first tech conference, and I had an &lt;strong&gt;amazing&lt;/strong&gt; time! I overloaded my brain with talks about new and mind-bending technologies, and I met more brilliant people than I can count.&lt;/p&gt;
 
@@ -875,12 +783,4 @@ pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;python-twitter &lt;spa
 &lt;p&gt;I attended Strange Loop with the help of a diversity scholarship. Many very generous individuals and companies contributed to the scholarship pool - and enabled Strange Loop to dramatically increase the percent of minority attendees.&lt;/p&gt;
 
 &lt;h4 id=&quot;to-those-generous-people&quot;&gt;To those generous people:&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;THANK YOU!&lt;/strong&gt; This experience meant so much to me! Not just for all that I learned, but also for the rare opportunity to see diversity in technology. And, rarer still, for the opportunity to see people from diverse backgrounds &lt;strong&gt;giving talks&lt;/strong&gt; and &lt;strong&gt;being leaders&lt;/strong&gt; in the industry. I feel revitalized and inspired. I can’t wait to pay this experience forward.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 29 Sep 2014 16:34:18 -0400</pubDate>
-        <link>https://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html</link>
-        <guid isPermaLink="true">https://annekjohnson.com/blog/2014/09/strange-loop-2014/index.html</guid>
-      </item>
-    
-  </channel>
-</rss>
+&lt;p&gt;&lt;strong&gt;THANK YOU!&lt;/strong&gt; This experience meant so much to me! Not just for all that I learned, but also for the rare opportunity to see diversity in technology. And, rarer still, for the opportunity to see people from diverse backgrounds &lt;strong&gt;giving talks&lt;/strong&gt; and &lt;strong&gt;being leaders&lt;/strong&gt; in the industry. I feel revitalized and inspired. I can’t wait to pay this experience forward.&lt;/p&gt;</content><author><name></name></author><category term="programming" /><category term="technology" /><category term="conference" /><summary type="html">I went to a tech conference called Strange Loop last week. It takes place once a year in Saint Louis, Missouri, and features talks by the creators and earliest users of cutting-edge technologies. I’ve heard that the technologies you learn about at Strange Loop are those that people will be using widely in a couple of years. Strange Loop is a way to explore this exciting future.</summary></entry></feed>

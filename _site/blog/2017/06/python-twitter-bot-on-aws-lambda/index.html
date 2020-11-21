@@ -65,76 +65,76 @@
 
 <p>This process assumes that Python v3 and a compatible version of pip are pre-installed.</p>
 
-<h1>Step 1: Bootstrap the project</h1>
+<h1 id="step-1-bootstrap-the-project">Step 1: Bootstrap the project</h1>
 
 <p>AWS Lambda allows you to write code directly into a web editor for simple scripts. However, if multiple files or external dependencies are needed, then development needs to occur in a directory whose files can then be zipped and uploaded to AWS Lambda.</p>
 
-<p>I created a new code directory, <code>poetryrobot/</code>, containing a single Python file, <code>poetryrobot.py</code>.</p>
+<p>I created a new code directory, <code class="language-plaintext highlighter-rouge">poetryrobot/</code>, containing a single Python file, <code class="language-plaintext highlighter-rouge">poetryrobot.py</code>.</p>
 
 <p>Next, I picked out a Python Twitter package, <a href="https://github.com/bear/python-twitter">python-twitter</a>, and installed it into the code directory with the following:</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># cd into the code directory, and then:</span>
-pip install python-twitter -t <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span></code></pre></figure>
+pip <span class="nb">install </span>python-twitter <span class="nt">-t</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span></code></pre></figure>
 
 <p>The dependency needs to be installed in the code directory so that it can be included as part of the zip file.</p>
 
-<h1>Step 2: Implement the bot</h1>
+<h1 id="step-2-implement-the-bot">Step 2: Implement the bot</h1>
 
-<p>I created a <code>credentials.json</code> file which contained the following information:</p>
+<p>I created a <code class="language-plaintext highlighter-rouge">credentials.json</code> file which contained the following information:</p>
 
-<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span>
-  <span class="nt">&quot;consumer_key&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;consumer_secret&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;access_token_key&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;access_token_secret&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span>
-<span class="p">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="nl">"consumer_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"consumer_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"access_token_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"access_token_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
 
-<p>In the <code>poetryrobot.py</code> file, I imported the dependencies I would use and loaded the credentials:</p>
+<p>In the <code class="language-plaintext highlighter-rouge">poetryrobot.py</code> file, I imported the dependencies I would use and loaded the credentials:</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">twitter</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">random</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;credentials.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">credentials</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span></code></pre></figure>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'credentials.json'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">credentials</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">())</span></code></pre></figure>
 
-<p>Then, still in <code>poetryrobot.py</code>, I implemented the following method to be the AWS Lambda entry point (the &quot;main&quot; method), and I implemented the methods it calls (like <code>poem_tweets</code> and <code>retweet_someone</code>):</p>
+<p>Then, still in <code class="language-plaintext highlighter-rouge">poetryrobot.py</code>, I implemented the following method to be the AWS Lambda entry point (the “main” method), and I implemented the methods it calls (like <code class="language-plaintext highlighter-rouge">poem_tweets</code> and <code class="language-plaintext highlighter-rouge">retweet_someone</code>):</p>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">_event_json</span><span class="p">,</span> <span class="n">_context</span><span class="p">):</span>
     <span class="n">tweets</span> <span class="o">=</span> <span class="n">poem_tweets</span><span class="p">()</span>
-    <span class="c"># Retweet a poet more often than reply to a poet:</span>
-    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">0.9</span><span class="p">:</span>
+    <span class="c1"># Retweet a poet more often than reply to a poet:
+</span>    <span class="k">if</span> <span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">0.9</span><span class="p">:</span>
         <span class="n">retweet_someone</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">reply_to_someone</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
     <span class="n">follow_someone</span><span class="p">(</span><span class="n">tweets</span><span class="p">)</span>
     <span class="n">follow_followers</span><span class="p">()</span></code></pre></figure>
 
-<p>It&#39;s important that this main method accepts two arguments, because AWS Lambda will pass it two arguments.</p>
+<p>It’s important that this main method accepts two arguments, because AWS Lambda will pass it two arguments.</p>
 
-<p>The full <code>poetryrobot.py</code> file can be seen <a href="https://github.com/annejohnson/poetryrobot_py/blob/master/poetryrobot.py">here</a>.</p>
+<p>The full <code class="language-plaintext highlighter-rouge">poetryrobot.py</code> file can be seen <a href="https://github.com/annejohnson/poetryrobot_py/blob/master/poetryrobot.py">here</a>.</p>
 
-<h1>Step 3: Create the zip file</h1>
+<h1 id="step-3-create-the-zip-file">Step 3: Create the zip file</h1>
 
 <p>I highlighted everything in the code directory (not including the code directory itself) and compressed it into a zip file.</p>
 
-<h1>Step 4: Create the Lambda function</h1>
+<h1 id="step-4-create-the-lambda-function">Step 4: Create the Lambda function</h1>
 
 <p>I went to the AWS Lambda management console and clicked to create a new Lambda function. I selected the Blank Function template.</p>
 
-<p>I clicked &quot;Next&quot; on the trigger screen to skip that step for now.</p>
+<p>I clicked “Next” on the trigger screen to skip that step for now.</p>
 
-<p>On the next screen, I set the runtime to Python 3.6 and named the function <code>poetryrobot</code>. I clicked to upload a zip file rather than type code inline, and I uploaded the generated zip file from Step 3. Then, I typed <code>poetryrobot.lambda_handler</code> (the name of the &quot;main&quot; method) into the handler field. I set a <code>lambda_basic_execution</code> role with CloudWatch log permissions. Finally, under &quot;Advanced&quot;, I increased the timeout from the default to 20 seconds.</p>
+<p>On the next screen, I set the runtime to Python 3.6 and named the function <code class="language-plaintext highlighter-rouge">poetryrobot</code>. I clicked to upload a zip file rather than type code inline, and I uploaded the generated zip file from Step 3. Then, I typed <code class="language-plaintext highlighter-rouge">poetryrobot.lambda_handler</code> (the name of the “main” method) into the handler field. I set a <code class="language-plaintext highlighter-rouge">lambda_basic_execution</code> role with CloudWatch log permissions. Finally, under “Advanced”, I increased the timeout from the default to 20 seconds.</p>
 
-<h1>Step 5: Testing the Lambda function</h1>
+<h1 id="step-5-testing-the-lambda-function">Step 5: Testing the Lambda function</h1>
 
-<p>With just these steps, the Lambda function was ready to roll. I clicked the &quot;Test&quot; button and saw activity on Twitter along with logs send to CloudWatch.</p>
+<p>With just these steps, the Lambda function was ready to roll. I clicked the “Test” button and saw activity on Twitter along with logs send to CloudWatch.</p>
 
-<h1>Step 6: Scheduling the Lambda function</h1>
+<h1 id="step-6-scheduling-the-lambda-function">Step 6: Scheduling the Lambda function</h1>
 
-<p>This is the final step! I went to the CloudWatch management console, navigated to the events &gt;&gt; rules section, and clicked &quot;Create rule&quot;. On the next screen, I set the event source to &quot;Schedule&quot; and set a fixed rate of 30 minutes. Then, I set the target to the <code>poetryrobot</code> Lambda function. Finally, I named the CloudWatch rule <code>poetryrobot_event</code> and clicked to create it. From there, the bot was up and running on its schedule!</p>
+<p>This is the final step! I went to the CloudWatch management console, navigated to the events » rules section, and clicked “Create rule”. On the next screen, I set the event source to “Schedule” and set a fixed rate of 30 minutes. Then, I set the target to the <code class="language-plaintext highlighter-rouge">poetryrobot</code> Lambda function. Finally, I named the CloudWatch rule <code class="language-plaintext highlighter-rouge">poetryrobot_event</code> and clicked to create it. From there, the bot was up and running on its schedule!</p>
 
-<h1>Thanks!</h1>
+<h1 id="thanks">Thanks!</h1>
 
 <p>Thanks to <a href="http://blog.pythonicneteng.com/2016/09/make-twitter-bot-in-python-and-aws.html">this article</a> and <a href="http://joelgrus.com/2015/12/30/polyglot-twitter-bot-part-3-python-27-aws-lambda/">the one it references</a> for providing me with helpful Python and Lambda guidance.</p>
 

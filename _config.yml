@@ -1,14 +1,16 @@
-name: Anne K. Johnson
+title: Anne K. Johnson
 description: Personal site of Anne K. Johnson
 url: https://annekjohnson.com
-markdown: redcarpet
-highlighter: pygments
+markdown: kramdown
 encoding: utf-8
 permalink: /blog/:year/:month/:title/index.html
 source: source/
 paginate: 5
 paginate_path: "/blog/page/:num"
-gems: [jekyll-paginate]
+plugins:
+  - jekyll-feed
+feed:
+  path: blog/feed.xml
 
 collections:
   art:

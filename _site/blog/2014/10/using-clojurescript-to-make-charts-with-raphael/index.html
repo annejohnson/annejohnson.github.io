@@ -59,130 +59,130 @@
     </h3>
 
     <div class="post-content">
-      <p>When I started using Clojurescript a few weeks ago, it was interesting learning how to translate between the two very different syntaxes of Javascript and Clojurescript. I&#39;m going to share what I learned as I demonstrate how to use Clojurescript to make charts using <a href="http://g.raphaeljs.com/" target="_blank">Raphael.js&#39;s chart library</a>. Code is available <a href="http://github.com/annejohnson/cljs-raphael" target="_blank">here</a>.</p>
+      <p>When I started using Clojurescript a few weeks ago, it was interesting learning how to translate between the two very different syntaxes of Javascript and Clojurescript. I’m going to share what I learned as I demonstrate how to use Clojurescript to make charts using <a href="http://g.raphaeljs.com/" target="_blank">Raphael.js’s chart library</a>. Code is available <a href="http://github.com/annejohnson/cljs-raphael" target="_blank">here</a>.</p>
 
-<h2>Setup with Leiningen</h2>
+<h2 id="setup-with-leiningen">Setup with Leiningen</h2>
 
-<p>First, start a Clojure project using <a href="http://leiningen.org/" target="_blank">Leiningen</a> with the line <code>lein new cljs-raphael</code>. It&#39;s possible to use the Clojurescript compiler directly, but lein is the way to go if you want to develop other parts your project in Clojure.</p>
+<p>First, start a Clojure project using <a href="http://leiningen.org/" target="_blank">Leiningen</a> with the line <code class="language-plaintext highlighter-rouge">lein new cljs-raphael</code>. It’s possible to use the Clojurescript compiler directly, but lein is the way to go if you want to develop other parts your project in Clojure.</p>
 
-<p>Go into the cljs-raphael directory and open up project.clj. Add a Clojurescript dependency: <code>[org.clojure/clojurescript &quot;0.0-2173&quot;]</code>, and add the Clojurescript plugin: <code>:plugins [[lein-cljsbuild &quot;1.0.2&quot;]]</code>. Your project.clj should look like this:</p>
+<p>Go into the cljs-raphael directory and open up project.clj. Add a Clojurescript dependency: <code class="language-plaintext highlighter-rouge">[org.clojure/clojurescript "0.0-2173"]</code>, and add the Clojurescript plugin: <code class="language-plaintext highlighter-rouge">:plugins [[lein-cljsbuild "1.0.2"]]</code>. Your project.clj should look like this:</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defproject </span><span class="nv">cljs-raphael</span> <span class="s">&quot;0.1.0-SNAPSHOT&quot;</span>
-  <span class="ss">:description</span> <span class="s">&quot;Clojurescript/Raphael funsies&quot;</span>
-  <span class="ss">:url</span> <span class="s">&quot;http://example.com/FIXME&quot;</span>
-  <span class="ss">:license</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;Eclipse Public License&quot;</span>
-            <span class="ss">:url</span> <span class="s">&quot;http://www.eclipse.org/legal/epl-v10.html&quot;</span><span class="p">}</span>
-  <span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.6.0&quot;</span><span class="p">]</span>
-                 <span class="p">[</span><span class="nv">org.clojure/clojurescript</span> <span class="s">&quot;0.0-2173&quot;</span><span class="p">]]</span>
-  <span class="ss">:plugins</span> <span class="p">[[</span><span class="nv">lein-cljsbuild</span> <span class="s">&quot;1.0.2&quot;</span><span class="p">]])</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">defproject</span><span class="w"> </span><span class="n">cljs-raphael</span><span class="w"> </span><span class="s">"0.1.0-SNAPSHOT"</span><span class="w">
+  </span><span class="no">:description</span><span class="w"> </span><span class="s">"Clojurescript/Raphael funsies"</span><span class="w">
+  </span><span class="no">:url</span><span class="w"> </span><span class="s">"http://example.com/FIXME"</span><span class="w">
+  </span><span class="no">:license</span><span class="w"> </span><span class="p">{</span><span class="no">:name</span><span class="w"> </span><span class="s">"Eclipse Public License"</span><span class="w">
+            </span><span class="no">:url</span><span class="w"> </span><span class="s">"http://www.eclipse.org/legal/epl-v10.html"</span><span class="p">}</span><span class="w">
+  </span><span class="no">:dependencies</span><span class="w"> </span><span class="p">[[</span><span class="n">org.clojure/clojure</span><span class="w"> </span><span class="s">"1.6.0"</span><span class="p">]</span><span class="w">
+                 </span><span class="p">[</span><span class="n">org.clojure/clojurescript</span><span class="w"> </span><span class="s">"0.0-2173"</span><span class="p">]]</span><span class="w">
+  </span><span class="no">:plugins</span><span class="w"> </span><span class="p">[[</span><span class="n">lein-cljsbuild</span><span class="w"> </span><span class="s">"1.0.2"</span><span class="p">]])</span></code></pre></figure>
 
-<p>Next, add your Clojurescript compiler options after the line <code>:plugins [[lein-cljsbuild &quot;1.0.2&quot;]]</code>.</p>
+<p>Next, add your Clojurescript compiler options after the line <code class="language-plaintext highlighter-rouge">:plugins [[lein-cljsbuild "1.0.2"]]</code>.</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure">  <span class="ss">:cljsbuild</span> <span class="p">{</span>
-    <span class="ss">:builds</span> <span class="p">[{</span>
-        <span class="ss">:source-paths</span> <span class="p">[</span><span class="s">&quot;src/cljs_raphael&quot;</span><span class="p">]</span>
-        <span class="ss">:compiler</span> <span class="p">{</span>
-          <span class="ss">:output-to</span> <span class="s">&quot;resources/js/app.js&quot;</span>
-          <span class="ss">:optimizations</span> <span class="ss">:whitespace</span>
-          <span class="ss">:pretty-print</span> <span class="nv">true</span><span class="p">}}]}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="w">  </span><span class="no">:cljsbuild</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="no">:builds</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="no">:source-paths</span><span class="w"> </span><span class="p">[</span><span class="s">"src/cljs_raphael"</span><span class="p">]</span><span class="w">
+        </span><span class="no">:compiler</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="no">:output-to</span><span class="w"> </span><span class="s">"resources/js/app.js"</span><span class="w">
+          </span><span class="no">:optimizations</span><span class="w"> </span><span class="no">:whitespace</span><span class="w">
+          </span><span class="no">:pretty-print</span><span class="w"> </span><span class="n">true</span><span class="p">}}]}</span></code></pre></figure>
 
-<p>With this configuration, the compiler will look in the <code>src/cljs_raphael</code> directory for Clojurescript files and compile them to <code>resources/js/app.js</code>.</p>
+<p>With this configuration, the compiler will look in the <code class="language-plaintext highlighter-rouge">src/cljs_raphael</code> directory for Clojurescript files and compile them to <code class="language-plaintext highlighter-rouge">resources/js/app.js</code>.</p>
 
-<p>At this point, run <code>lein deps</code> to get our Clojurescript dependency installed.</p>
+<p>At this point, run <code class="language-plaintext highlighter-rouge">lein deps</code> to get our Clojurescript dependency installed.</p>
 
-<h2>External JS files and index.html</h2>
+<h2 id="external-js-files-and-indexhtml">External JS files and index.html</h2>
 
-<p>In order for us to write Clojurescript that uses Raphael, we need to include the Raphael SVG library and its corresponding graph library. Download <a href="http://github.com/DmitryBaranovskiy/raphael/raw/master/raphael-min.js" target="_blank">raphael-min.js</a>, <a href="http://github.com/DmitryBaranovskiy/g.raphael/raw/master/min/g.raphael-min.js" target="_blank">g.raphael-min.js</a>, and <a href="http://github.com/DmitryBaranovskiy/g.raphael/raw/master/min/g.pie-min.js" target="_blank">g.pie-min.js</a>, and place them inside of your <code>resources/js</code> directory.</p>
+<p>In order for us to write Clojurescript that uses Raphael, we need to include the Raphael SVG library and its corresponding graph library. Download <a href="http://github.com/DmitryBaranovskiy/raphael/raw/master/raphael-min.js" target="_blank">raphael-min.js</a>, <a href="http://github.com/DmitryBaranovskiy/g.raphael/raw/master/min/g.raphael-min.js" target="_blank">g.raphael-min.js</a>, and <a href="http://github.com/DmitryBaranovskiy/g.raphael/raw/master/min/g.pie-min.js" target="_blank">g.pie-min.js</a>, and place them inside of your <code class="language-plaintext highlighter-rouge">resources/js</code> directory.</p>
 
-<p>We also need an <code>index.html</code> page onto which our Clojurescript can render graphs! Add the following into a new file, <code>resources/index.html</code>:</p>
+<p>We also need an <code class="language-plaintext highlighter-rouge">index.html</code> page onto which our Clojurescript can render graphs! Add the following into a new file, <code class="language-plaintext highlighter-rouge">resources/index.html</code>:</p>
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
   <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;X-UA-Compatible&quot;</span> <span class="na">content=</span><span class="s">&quot;IE=edge&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"X-UA-Compatible"</span> <span class="na">content=</span><span class="s">"IE=edge"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;title&gt;</span>Clojurescript/Raphael Funsies!<span class="nt">&lt;/title&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content=</span><span class="s">&quot;width=device-width, initial-scale=1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;/head&gt;</span>
   <span class="nt">&lt;body&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;my-pie&quot;</span> <span class="na">style=</span><span class="s">&quot;height: 400px;&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/raphael-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/g.raphael-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/g.pie-min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;js/app.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"my-pie"</span> <span class="na">style=</span><span class="s">"height: 400px;"</span><span class="nt">&gt;&lt;/div&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"js/raphael-min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"js/g.raphael-min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"js/g.pie-min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"js/app.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span></code></pre></figure>
 
-<p>Let&#39;s put something on the page using Clojurescript. Make a new file, <code>src/cljs_raphael/pie.cljs</code>, and put this in it:</p>
+<p>Let’s put something on the page using Clojurescript. Make a new file, <code class="language-plaintext highlighter-rouge">src/cljs_raphael/pie.cljs</code>, and put this in it:</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">ns </span><span class="nv">cljs-raphael.pie</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">ns</span><span class="w"> </span><span class="n">cljs-raphael.pie</span><span class="p">)</span><span class="w">
 
-<span class="p">(</span><span class="kd">defn </span><span class="nv">init</span> <span class="p">[]</span>
-  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">my-pie</span> <span class="p">(</span><span class="nf">.getElementById</span> <span class="nv">js/document</span> <span class="s">&quot;my-pie&quot;</span><span class="p">)]</span>
-    <span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-innerHTML</span> <span class="nv">my-pie</span><span class="p">)</span> <span class="s">&quot;Yeehaw!&quot;</span><span class="p">)))</span>
+</span><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">my-pie</span><span class="w"> </span><span class="p">(</span><span class="nf">.getElementById</span><span class="w"> </span><span class="n">js/document</span><span class="w"> </span><span class="s">"my-pie"</span><span class="p">)]</span><span class="w">
+    </span><span class="p">(</span><span class="nf">set!</span><span class="w"> </span><span class="p">(</span><span class="nf">.-innerHTML</span><span class="w"> </span><span class="n">my-pie</span><span class="p">)</span><span class="w"> </span><span class="s">"Yeehaw!"</span><span class="p">)))</span><span class="w">
 
-<span class="p">(</span><span class="nf">set!</span> <span class="p">(</span><span class="nf">.-onload</span> <span class="nv">js/window</span><span class="p">)</span> <span class="nv">init</span><span class="p">)</span></code></pre></figure>
+</span><span class="p">(</span><span class="nf">set!</span><span class="w"> </span><span class="p">(</span><span class="nf">.-onload</span><span class="w"> </span><span class="n">js/window</span><span class="p">)</span><span class="w"> </span><span class="n">init</span><span class="p">)</span></code></pre></figure>
 
-<p>Next, run <code>lein cljsbuild auto</code>. This will compile your Clojurescript file into Javascript. If you leave it running, it will watch the <code>src/cljs_raphael</code> directory and recompile anytime a .cljs file is saved.</p>
+<p>Next, run <code class="language-plaintext highlighter-rouge">lein cljsbuild auto</code>. This will compile your Clojurescript file into Javascript. If you leave it running, it will watch the <code class="language-plaintext highlighter-rouge">src/cljs_raphael</code> directory and recompile anytime a .cljs file is saved.</p>
 
-<p>Open your <code>resources/index.html</code> in a browser. You should see &quot;Yeehaw!&quot; on the page.</p>
+<p>Open your <code class="language-plaintext highlighter-rouge">resources/index.html</code> in a browser. You should see “Yeehaw!” on the page.</p>
 
-<h2>Making an Animated Pie Chart</h2>
+<h2 id="making-an-animated-pie-chart">Making an Animated Pie Chart</h2>
 
 <p>Chart-making time! I will create a pie chart based on <a href="http://g.raphaeljs.com/piechart2.html" target="_blank">this demo chart</a>.</p>
 
-<p>First, go to your <code>pie.cljs</code> file and update the <code>init</code> function to look like this:</p>
+<p>First, go to your <code class="language-plaintext highlighter-rouge">pie.cljs</code> file and update the <code class="language-plaintext highlighter-rouge">init</code> function to look like this:</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">init</span> <span class="p">[]</span>
-  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">r</span> <span class="p">(</span><span class="nf">js/Raphael</span> <span class="s">&quot;my-pie&quot;</span><span class="p">)</span>
-        <span class="nv">pie</span> <span class="p">(</span><span class="nf">.piechart</span>
-             <span class="nv">r</span> <span class="mi">320</span> <span class="mi">240</span> <span class="mi">100</span>
-             <span class="p">(</span><span class="nf">array</span> <span class="mi">55</span> <span class="mi">20</span> <span class="mi">13</span> <span class="mi">32</span> <span class="mi">5</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">10</span><span class="p">)</span>
-             <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;legend&quot;</span> <span class="p">(</span><span class="nf">array</span> <span class="s">&quot;with-55&quot;</span> <span class="s">&quot;with-20&quot;</span> <span class="s">&quot;so on...&quot;</span><span class="p">)</span>
-                     <span class="s">&quot;legendpos&quot;</span> <span class="s">&quot;west&quot;</span><span class="p">))]</span>
-        <span class="p">(</span><span class="nf">other-functions-in-scope</span><span class="p">)))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">[</span><span class="n">r</span><span class="w"> </span><span class="p">(</span><span class="nf">js/Raphael</span><span class="w"> </span><span class="s">"my-pie"</span><span class="p">)</span><span class="w">
+        </span><span class="n">pie</span><span class="w"> </span><span class="p">(</span><span class="nf">.piechart</span><span class="w">
+             </span><span class="n">r</span><span class="w"> </span><span class="mi">320</span><span class="w"> </span><span class="mi">240</span><span class="w"> </span><span class="mi">100</span><span class="w">
+             </span><span class="p">(</span><span class="nf">array</span><span class="w"> </span><span class="mi">55</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="mi">32</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">
+             </span><span class="p">(</span><span class="nf">js-obj</span><span class="w"> </span><span class="s">"legend"</span><span class="w"> </span><span class="p">(</span><span class="nf">array</span><span class="w"> </span><span class="s">"with-55"</span><span class="w"> </span><span class="s">"with-20"</span><span class="w"> </span><span class="s">"so on..."</span><span class="p">)</span><span class="w">
+                     </span><span class="s">"legendpos"</span><span class="w"> </span><span class="s">"west"</span><span class="p">))]</span><span class="w">
+        </span><span class="p">(</span><span class="nf">other-functions-in-scope</span><span class="p">)))</span></code></pre></figure>
 
 <p>This corresponds to the following Javascript:</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">Raphael</span><span class="p">(</span><span class="s2">&quot;my-pie&quot;</span><span class="p">),</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">Raphael</span><span class="p">(</span><span class="dl">"</span><span class="s2">my-pie</span><span class="dl">"</span><span class="p">),</span>
     <span class="nx">pie</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">piechart</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">{</span>
-            <span class="nx">legend</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;with-55&quot;</span><span class="p">,</span> <span class="s2">&quot;with-20&quot;</span><span class="p">,</span> <span class="s2">&quot;so on...&quot;</span><span class="p">],</span>
-            <span class="nx">legendpos</span><span class="o">:</span> <span class="s2">&quot;west&quot;</span>
+            <span class="na">legend</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">with-55</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">with-20</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">so on...</span><span class="dl">"</span><span class="p">],</span>
+            <span class="na">legendpos</span><span class="p">:</span> <span class="dl">"</span><span class="s2">west</span><span class="dl">"</span>
           <span class="p">});</span>
 <span class="nx">otherFunctionsInScope</span><span class="p">();</span></code></pre></figure>
 
-<p>Note that in Clojurescript, we use <code>(let [r &quot;some-value&quot;] (code-to-execute-in-scope))</code> syntax to define Javascript scope variables. Also note the use of <code>(array)</code> and <code>(js-obj)</code> functions to create those particular JS data structures in Clojurescript.</p>
+<p>Note that in Clojurescript, we use <code class="language-plaintext highlighter-rouge">(let [r "some-value"] (code-to-execute-in-scope))</code> syntax to define Javascript scope variables. Also note the use of <code class="language-plaintext highlighter-rouge">(array)</code> and <code class="language-plaintext highlighter-rouge">(js-obj)</code> functions to create those particular JS data structures in Clojurescript.</p>
 
-<p>Take another look at the dot and dot-dash characters in the Clojurescript above. Something like <code>(.log js/console &quot;Yeehaw&quot;)</code>, with just a dot, correponds to calling an object&#39;s function. Meanwhile, something like <code>(.-onload js/window)</code> corresponds to getting or setting an object&#39;s property (here, the window object&#39;s onload property).</p>
+<p>Take another look at the dot and dot-dash characters in the Clojurescript above. Something like <code class="language-plaintext highlighter-rouge">(.log js/console "Yeehaw")</code>, with just a dot, correponds to calling an object’s function. Meanwhile, something like <code class="language-plaintext highlighter-rouge">(.-onload js/window)</code> corresponds to getting or setting an object’s property (here, the window object’s onload property).</p>
 
-<p>Now let&#39;s add a title. Replace <code>(other-functions-in-scope)</code> with this:</p>
+<p>Now let’s add a title. Replace <code class="language-plaintext highlighter-rouge">(other-functions-in-scope)</code> with this:</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">.attr</span>
- <span class="p">(</span><span class="nf">.text</span> <span class="nv">r</span> <span class="mi">320</span> <span class="mi">100</span> <span class="s">&quot;Clojurescript/Raphael Demo&quot;</span><span class="p">)</span>
- <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;font&quot;</span> <span class="s">&quot;20px sans-serif&quot;</span><span class="p">))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">.attr</span><span class="w">
+ </span><span class="p">(</span><span class="nf">.text</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="mi">320</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="s">"Clojurescript/Raphael Demo"</span><span class="p">)</span><span class="w">
+ </span><span class="p">(</span><span class="nf">js-obj</span><span class="w"> </span><span class="s">"font"</span><span class="w"> </span><span class="s">"20px sans-serif"</span><span class="p">))</span></code></pre></figure>
 
 <p>This corresponds to:</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;Clojurescript/Raphael Demo&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">({</span> <span class="nx">font</span><span class="o">:</span> <span class="s2">&quot;20px sans-serif&quot;</span> <span class="p">});</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Clojurescript/Raphael Demo</span><span class="dl">"</span><span class="p">).</span><span class="nx">attr</span><span class="p">({</span> <span class="na">font</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20px sans-serif</span><span class="dl">"</span> <span class="p">});</span></code></pre></figure>
 
 <p>And refresh your page. You should see your pie chart, a legend, and the title!</p>
 
-<p>Next, let&#39;s add the fun hover effect. Start by adding this function above <code>init</code>:</p>
+<p>Next, let’s add the fun hover effect. Start by adding this function above <code class="language-plaintext highlighter-rouge">init</code>:</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">sector-mousein</span>
-  <span class="p">[]</span>
-  <span class="p">(</span><span class="nf">this-as</span> <span class="nv">this</span>
-   <span class="p">(</span><span class="nf">.stop</span> <span class="p">(</span><span class="nf">.-sector</span> <span class="nv">this</span><span class="p">))</span>
-   <span class="p">(</span><span class="nf">.scale</span> <span class="p">(</span><span class="nf">.-sector</span> <span class="nv">this</span><span class="p">)</span> <span class="mf">1.1</span> <span class="mf">1.1</span> <span class="p">(</span><span class="nf">.-cx</span> <span class="nv">this</span><span class="p">)</span> <span class="p">(</span><span class="nf">.-cy</span> <span class="nv">this</span><span class="p">))</span>
-   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">)</span>
-     <span class="p">(</span><span class="nf">do</span>
-       <span class="p">(</span><span class="nf">.stop</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">0</span><span class="p">))</span>
-       <span class="p">(</span><span class="nf">.attr</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span>
-              <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;r&quot;</span> <span class="mf">7.5</span><span class="p">))</span>
-       <span class="p">(</span><span class="nf">.attr</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">1</span><span class="p">)</span>
-              <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;font-weight&quot;</span> <span class="mi">800</span><span class="p">))))))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">sector-mousein</span><span class="w">
+  </span><span class="p">[]</span><span class="w">
+  </span><span class="p">(</span><span class="nf">this-as</span><span class="w"> </span><span class="n">this</span><span class="w">
+   </span><span class="p">(</span><span class="nf">.stop</span><span class="w"> </span><span class="p">(</span><span class="nf">.-sector</span><span class="w"> </span><span class="n">this</span><span class="p">))</span><span class="w">
+   </span><span class="p">(</span><span class="nf">.scale</span><span class="w"> </span><span class="p">(</span><span class="nf">.-sector</span><span class="w"> </span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="mf">1.1</span><span class="w"> </span><span class="mf">1.1</span><span class="w"> </span><span class="p">(</span><span class="nf">.-cx</span><span class="w"> </span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">.-cy</span><span class="w"> </span><span class="n">this</span><span class="p">))</span><span class="w">
+   </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">.-label</span><span class="w"> </span><span class="n">this</span><span class="p">)</span><span class="w">
+     </span><span class="p">(</span><span class="nf">do</span><span class="w">
+       </span><span class="p">(</span><span class="nf">.stop</span><span class="w"> </span><span class="p">(</span><span class="nb">nth</span><span class="w"> </span><span class="p">(</span><span class="nf">.-items</span><span class="w"> </span><span class="p">(</span><span class="nf">.-label</span><span class="w"> </span><span class="n">this</span><span class="p">))</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w">
+       </span><span class="p">(</span><span class="nf">.attr</span><span class="w"> </span><span class="p">(</span><span class="nb">nth</span><span class="w"> </span><span class="p">(</span><span class="nf">.-items</span><span class="w"> </span><span class="p">(</span><span class="nf">.-label</span><span class="w"> </span><span class="n">this</span><span class="p">))</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w">
+              </span><span class="p">(</span><span class="nf">js-obj</span><span class="w"> </span><span class="s">"r"</span><span class="w"> </span><span class="mf">7.5</span><span class="p">))</span><span class="w">
+       </span><span class="p">(</span><span class="nf">.attr</span><span class="w"> </span><span class="p">(</span><span class="nb">nth</span><span class="w"> </span><span class="p">(</span><span class="nf">.-items</span><span class="w"> </span><span class="p">(</span><span class="nf">.-label</span><span class="w"> </span><span class="n">this</span><span class="p">))</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">
+              </span><span class="p">(</span><span class="nf">js-obj</span><span class="w"> </span><span class="s">"font-weight"</span><span class="w"> </span><span class="mi">800</span><span class="p">))))))</span></code></pre></figure>
 
-<p>This animates the wedges and corresponding labels when we hover over a pie chart wedge. In order to make this work, I used the <code>this-as</code> macro to open up access to <code>this</code>. Here is the corresponding Javascript:</p>
+<p>This animates the wedges and corresponding labels when we hover over a pie chart wedge. In order to make this work, I used the <code class="language-plaintext highlighter-rouge">this-as</code> macro to open up access to <code class="language-plaintext highlighter-rouge">this</code>. Here is the corresponding Javascript:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
@@ -190,30 +190,31 @@
 
   <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">stop</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="nx">r</span><span class="o">:</span> <span class="mf">7.5</span> <span class="p">});</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="s2">&quot;font-weight&quot;</span><span class="o">:</span> <span class="mi">800</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="na">r</span><span class="p">:</span> <span class="mf">7.5</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="dl">"</span><span class="s2">font-weight</span><span class="dl">"</span><span class="p">:</span> <span class="mi">800</span> <span class="p">});</span>
   <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
 <p>Next, add this function also above init. This is the function that will be called when the mouse leaves a wedge.</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">sector-mouseout</span>
-  <span class="p">[]</span>
-  <span class="p">(</span><span class="nf">this-as</span> <span class="nv">this</span>
-   <span class="p">(</span><span class="nf">.animate</span>
-    <span class="p">(</span><span class="nf">.-sector</span> <span class="nv">this</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;transform&quot;</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;s1 1 &quot;</span> <span class="p">(</span><span class="nf">.-cx</span> <span class="nv">this</span><span class="p">)</span> <span class="s">&quot; &quot;</span> <span class="p">(</span><span class="nf">.-cy</span> <span class="nv">this</span><span class="p">)))</span>
-    <span class="mi">500</span> <span class="s">&quot;bounce&quot;</span><span class="p">)</span>
-   <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">)</span>
-     <span class="p">(</span><span class="nf">do</span>
-       <span class="p">(</span><span class="nf">.animate</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;r&quot;</span> <span class="mi">5</span><span class="p">)</span> <span class="mi">500</span> <span class="s">&quot;bounce&quot;</span><span class="p">)</span>
-       <span class="p">(</span><span class="nf">.attr</span> <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nf">.-items</span> <span class="p">(</span><span class="nf">.-label</span> <span class="nv">this</span><span class="p">))</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">js-obj</span> <span class="s">&quot;font-weight&quot;</span> <span class="mi">400</span><span class="p">))))))</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="k">defn</span><span class="w"> </span><span class="n">sector-mouseout</span><span class="w">
+  </span><span class="p">[]</span><span class="w">
+  </span><span class="p">(</span><span class="nf">this-as</span><span class="w"> </span><span class="n">this</span><span class="w">
+   </span><span class="p">(</span><span class="nf">.animate</span><span class="w">
+    </span><span class="p">(</span><span class="nf">.-sector</span><span class="w"> </span><span class="n">this</span><span class="p">)</span><span class="w">
+    </span><span class="p">(</span><span class="nf">js-obj</span><span class="w"> </span><span class="s">"transform"</span><span class="w"> </span><span class="p">(</span><span class="nb">str</span><span class="w"> </span><span class="s">"s1 1 "</span><span class="w"> </span><span class="p">(</span><span class="nf">.-cx</span><span class="w"> </span><span class="n">this</span><span class="p">)</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="p">(</span><span class="nf">.-cy</span><span class="w"> </span><span class="n">this</span><span class="p">)))</span><span class="w">
+    </span><span class="mi">500</span><span class="w"> </span><span class="s">"bounce"</span><span class="p">)</span><span class="w">
+   </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">.-label</span><span class="w"> </span><span class="n">this</span><span class="p">)</span><span class="w">
+     </span><span class="p">(</span><span class="nf">do</span><span class="w">
+       </span><span class="p">(</span><span class="nf">.animate</span><span class="w"> </span><span class="p">(</span><span class="nb">nth</span><span class="w"> </span><span class="p">(</span><span class="nf">.-items</span><span class="w"> </span><span class="p">(</span><span class="nf">.-label</span><span class="w"> </span><span class="n">this</span><span class="p">))</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">js-obj</span><span class="w"> </span><span class="s">"r"</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="mi">500</span><span class="w"> </span><span class="s">"bounce"</span><span class="p">)</span><span class="w">
+       </span><span class="p">(</span><span class="nf">.attr</span><span class="w"> </span><span class="p">(</span><span class="nb">nth</span><span class="w"> </span><span class="p">(</span><span class="nf">.-items</span><span class="w"> </span><span class="p">(</span><span class="nf">.-label</span><span class="w"> </span><span class="n">this</span><span class="p">))</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nf">js-obj</span><span class="w"> </span><span class="s">"font-weight"</span><span class="w"> </span><span class="mi">400</span><span class="p">))))))</span></code></pre></figure>
 
-<p>Lastly, add the following line inside <code>init</code> to bind those event handler functions to the pie chart wedges.</p>
+<p>Lastly, add the following line inside <code class="language-plaintext highlighter-rouge">init</code> to bind those event handler functions to the pie chart wedges.</p>
 
-<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">.hover</span> <span class="nv">pie</span> <span class="nv">sector-mousein</span> <span class="nv">sector-mouseout</span><span class="p">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">.hover</span><span class="w"> </span><span class="n">pie</span><span class="w"> </span><span class="n">sector-mousein</span><span class="w"> </span><span class="n">sector-mouseout</span><span class="p">)</span></code></pre></figure>
 
 <p>Refresh your page in the browser. At this point, you should have a <a href="http://annejohnson.github.io/cljs-raphael" target="_blank">sweet animated pie chart</a> - powered by the magical intersection of Clojurescript, the JVM, and interop with RaphaelJS. Get up and start dancing!</p>
+
 
     </div>
   </div>

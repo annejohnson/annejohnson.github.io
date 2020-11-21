@@ -59,62 +59,57 @@
     </h3>
 
     <div class="post-content">
-      <p>I&#39;ve said it before, but I&#39;ll say it again: I love Ruby! Here are some of my favorite Ruby features these days.</p>
+      <p>I’ve said it before, but I’ll say it again: I love Ruby! Here are some of my favorite Ruby features these days.</p>
+<h2 id="struct">Struct</h2>
+<p><code>Struct</code> is a quick way to create simple classes with a set of readable and writeable attributes.</p>
 
-<h2>Struct</h2>
-
-<p><code>Struct</code> is a quick way to create simple classes with a set of readable and writeable attributes. </p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Node</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:key</span><span class="p">,</span> <span class="ss">:value</span><span class="p">,</span> <span class="ss">:next</span><span class="p">)</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Node</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:key</span><span class="p">,</span> <span class="ss">:value</span><span class="p">,</span> <span class="ss">:next</span><span class="p">)</span>
 <span class="c1"># ^ this is equivalent to:</span>
 <span class="k">class</span> <span class="nc">Node</span>
-  <span class="kp">attr_accessor</span> <span class="ss">:key</span><span class="p">,</span> <span class="ss">:value</span><span class="p">,</span> <span class="ss">:next</span>
+  <span class="nb">attr_accessor</span> <span class="ss">:key</span><span class="p">,</span> <span class="ss">:value</span><span class="p">,</span> <span class="ss">:next</span>
 <span class="k">end</span></code></pre></figure>
 
 <p>Interacting with structures is exactly like interacting with the equivalent classes. They can be instantiated with any number of parameter arguments up to the number of attributes in <code>Struct.new</code>, with the nth parameter being assigned to the nth attribute. Any attributes not set during instantiation are nil.</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">n</span> <span class="o">=</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">n</span> <span class="o">=</span> <span class="no">Node</span><span class="p">.</span><span class="nf">new</span>
 <span class="c1"># =&gt; #&lt;struct Node key=nil, value=nil, next=nil&gt;</span>
-<span class="n">n</span> <span class="o">=</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:language</span><span class="p">,</span> <span class="s2">&quot;French&quot;</span><span class="p">)</span>
-<span class="c1"># =&gt; #&lt;struct Node key=:language, value=&quot;French&quot;, next=nil&gt;</span>
-<span class="n">n</span> <span class="o">=</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:language</span><span class="p">,</span> <span class="s2">&quot;French&quot;</span><span class="p">,</span> <span class="no">Node</span><span class="o">.</span><span class="n">new</span><span class="p">,</span> <span class="s2">&quot;oops!&quot;</span><span class="p">)</span>
+<span class="n">n</span> <span class="o">=</span> <span class="no">Node</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:language</span><span class="p">,</span> <span class="s2">"French"</span><span class="p">)</span>
+<span class="c1"># =&gt; #&lt;struct Node key=:language, value="French", next=nil&gt;</span>
+<span class="n">n</span> <span class="o">=</span> <span class="no">Node</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:language</span><span class="p">,</span> <span class="s2">"French"</span><span class="p">,</span> <span class="no">Node</span><span class="p">.</span><span class="nf">new</span><span class="p">,</span> <span class="s2">"oops!"</span><span class="p">)</span>
 <span class="c1"># ArgumentError: struct size differs</span></code></pre></figure>
 
 <p>To make your structures do more than just store a set of attributes, you can pass them a block:</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Person</span> <span class="o">=</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:middle_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">)</span> <span class="k">do</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Person</span> <span class="o">=</span> <span class="no">Struct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:middle_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">)</span> <span class="k">do</span>
   <span class="k">def</span> <span class="nf">full_name</span>
-    <span class="s2">&quot;</span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">middle_name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="s2">"</span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">middle_name</span><span class="si">}</span><span class="s2">"</span>
   <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="n">jane</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Jane&quot;</span><span class="p">,</span> <span class="s2">&quot;McSunshine&quot;</span><span class="p">,</span> <span class="s2">&quot;Doe&quot;</span><span class="p">)</span>
-<span class="n">jane</span><span class="o">.</span><span class="n">full_name</span>
-<span class="c1"># =&gt; &quot;Doe, Jane McSunshine&quot;</span></code></pre></figure>
+<span class="n">jane</span> <span class="o">=</span> <span class="no">Person</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Jane"</span><span class="p">,</span> <span class="s2">"McSunshine"</span><span class="p">,</span> <span class="s2">"Doe"</span><span class="p">)</span>
+<span class="n">jane</span><span class="p">.</span><span class="nf">full_name</span>
+<span class="c1"># =&gt; "Doe, Jane McSunshine"</span></code></pre></figure>
 
-<p>I&#39;ve mostly used Structs for nested helper classes that support larger data structures, like entry structures in dictionaries or linked node structures in trees.</p>
+<p>I’ve mostly used Structs for nested helper classes that support larger data structures, like entry structures in dictionaries or linked node structures in trees.</p>
 
-<h2>.nil?</h2>
-
+<h2 id="nil">.nil?</h2>
 <p><code>.nil?</code> is easy to take for granted, but it is a great example of the amazing simplicity in the Ruby language. In many other languages, some things are objects while other things are primitives. In Ruby, <strong>everything</strong> is an object - numbers, strings, and even nil itself. This means that with Ruby, you can test values like this:</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">orange_hat_people</span> <span class="o">=</span> <span class="n">query_by_hat_color</span><span class="p">(</span><span class="s2">&quot;orange&quot;</span><span class="p">)</span>
-<span class="nb">display</span><span class="p">(</span><span class="n">orange_hat_people</span><span class="p">)</span> <span class="k">unless</span> <span class="n">orange_hat_people</span><span class="o">.</span><span class="n">nil?</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">orange_hat_people</span> <span class="o">=</span> <span class="n">query_by_hat_color</span><span class="p">(</span><span class="s2">"orange"</span><span class="p">)</span>
+<span class="nb">display</span><span class="p">(</span><span class="n">orange_hat_people</span><span class="p">)</span> <span class="k">unless</span> <span class="n">orange_hat_people</span><span class="p">.</span><span class="nf">nil?</span></code></pre></figure>
 
 <p>Instead of like this (in Javascript):</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">orangeHatPeople</span> <span class="o">=</span> <span class="nx">queryByHatColor</span><span class="p">(</span><span class="s2">&quot;orange&quot;</span><span class="p">);</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">orangeHatPeople</span> <span class="o">=</span> <span class="nx">queryByHatColor</span><span class="p">(</span><span class="dl">"</span><span class="s2">orange</span><span class="dl">"</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="nx">orangeHatPeople</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">display</span><span class="p">(</span><span class="nx">orangeHatPeople</span><span class="p">);</span>
 <span class="p">}</span></code></pre></figure>
 
-<h5>The Workings of this Magic</h5>
+<h5 id="the-workings-of-this-magic">The Workings of this Magic</h5>
+<p>Ruby’s <code>Object</code> class, which all other classes inherit from, defines .nil? to return false. <code>NilClass</code> is the one class that overrides .nil? to return true.</p>
 
-<p>Ruby&#39;s <code>Object</code> class, which all other classes inherit from, defines .nil? to return false. <code>NilClass</code> is the one class that overrides .nil? to return true. </p>
-
-<h2>Retry</h2>
-
-<p>At work, I spend much of my time on a Rails application that communicates with various 3rd party services. Because mysteries happen, <code>retry</code> has become my friend. A <code>retry</code> inside of a <code>rescue</code> block causes re-execution of the contents in the <code>begin</code> block. </p>
+<h2 id="retry">Retry</h2>
+<p>At work, I spend much of my time on a Rails application that communicates with various 3rd party services. Because mysteries happen, <code>retry</code> has become my friend. A <code>retry</code> inside of a <code>rescue</code> block causes re-execution of the contents in the <code>begin</code> block.</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">begin</span>
   <span class="n">method_that_might_raise_error</span>
@@ -130,14 +125,12 @@
   <span class="n">super_fun_stuff</span>
 <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
   <span class="k">retry</span> <span class="k">if</span> <span class="n">attempts</span> <span class="o">&lt;</span> <span class="mi">5</span>
-  <span class="n">alert_developer</span><span class="p">(</span><span class="s2">&quot;exhausted retry attempts&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">attempts</span> <span class="o">&gt;=</span> <span class="mi">5</span>
+  <span class="n">alert_developer</span><span class="p">(</span><span class="s2">"exhausted retry attempts"</span><span class="p">)</span> <span class="k">if</span> <span class="n">attempts</span> <span class="o">&gt;=</span> <span class="mi">5</span>
 <span class="k">end</span></code></pre></figure>
 
-<p>My inbox and my workplace&#39;s chat client thank <code>retry</code>. :)</p>
-
-<h2>For more, see Ruby-Doc</h2>
-
-<p>Ruby is so pleasantly documented that I have read much of its documentation for fun. Luckily, there&#39;s still an unending number of subtle, powerful features that I have yet to learn about, so I won&#39;t get bored for a while. <a href="http://ruby-doc.org/" target="_blank">Check out the documentation here!</a></p>
+<p>My inbox and my workplace’s chat client thank <code>retry</code>. :)</p>
+<h2 id="for-more-see-ruby-doc">For more, see Ruby-Doc</h2>
+<p>Ruby is so pleasantly documented that I have read much of its documentation for fun. Luckily, there’s still an unending number of subtle, powerful features that I have yet to learn about, so I won’t get bored for a while. <a href="http://ruby-doc.org/" target="_blank">Check out the documentation here!</a></p>
 
     </div>
   </div>

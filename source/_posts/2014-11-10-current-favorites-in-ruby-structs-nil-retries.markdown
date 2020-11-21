@@ -2,11 +2,11 @@
 layout: post
 title: "Current Favorites in Ruby: Structs, .nil?, and Retries"
 date: 2014-11-10 21:02:00
-categories: Programming Ruby
+tags: programming ruby
 ---
 I've said it before, but I'll say it again: I love Ruby! Here are some of my favorite Ruby features these days.
 ## Struct
-<code>Struct</code> is a quick way to create simple classes with a set of readable and writeable attributes. 
+<code>Struct</code> is a quick way to create simple classes with a set of readable and writeable attributes.
 {% highlight ruby %}
 Node = Struct.new(:key, :value, :next)
 # ^ this is equivalent to:
@@ -54,10 +54,10 @@ if (orangeHatPeople !== null) {
 {% endhighlight %}
 
 ##### The Workings of this Magic
-Ruby's <code>Object</code> class, which all other classes inherit from, defines .nil? to return false. <code>NilClass</code> is the one class that overrides .nil? to return true. 
+Ruby's <code>Object</code> class, which all other classes inherit from, defines .nil? to return false. <code>NilClass</code> is the one class that overrides .nil? to return true.
 
 ## Retry
-At work, I spend much of my time on a Rails application that communicates with various 3rd party services. Because mysteries happen, <code>retry</code> has become my friend. A <code>retry</code> inside of a <code>rescue</code> block causes re-execution of the contents in the <code>begin</code> block. 
+At work, I spend much of my time on a Rails application that communicates with various 3rd party services. Because mysteries happen, <code>retry</code> has become my friend. A <code>retry</code> inside of a <code>rescue</code> block causes re-execution of the contents in the <code>begin</code> block.
 {% highlight ruby %}
 begin
   method_that_might_raise_error

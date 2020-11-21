@@ -2,7 +2,7 @@
 layout: post
 title: "Deploying a Python Twitter Bot on AWS Lambda"
 date: 2017-06-11 21:26:04
-categories: Programming Python AWS
+tags: programming python aws
 ---
 
 Once upon a time, I created a Twitter bot, [@poetryrobot](https://twitter.com/poetryrobot), to retweet poems every 30 minutes and send words of encouragement to people who tweet poetry. I [wrote the bot in Ruby](https://github.com/annejohnson/poetryrobot) and deployed it as a continually running process on an AWS t2.micro EC2 instance. It ran free of charge within the AWS free tier usage limits for 12 happy months.

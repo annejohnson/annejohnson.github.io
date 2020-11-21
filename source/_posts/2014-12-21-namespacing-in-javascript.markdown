@@ -2,7 +2,7 @@
 layout: post
 title: "Namespacing in Javascript"
 date: 2014-12-21 12:39:06
-categories: Programming Javascript
+tags: programming javascript
 ---
 Without namespacing, Javascript becomes disorganized and insane. Because effectively namespacing in Javascript involves anonymous functions and closures, some of Javascript's more confusing features, it's not always practiced. The result is a global namespace cluttered with every single variable and helper function ever used. This is bad.
 
@@ -66,7 +66,7 @@ var onSaturn = (function() {
 
 #### Dynamic Internal Variables
 
-Say an asteroid strike happens, and part of Saturn is blown away. This will alter Saturn's gravitational constant. We need our <code>weight</code> function to always choose the correct value in its calculations. 
+Say an asteroid strike happens, and part of Saturn is blown away. This will alter Saturn's gravitational constant. We need our <code>weight</code> function to always choose the correct value in its calculations.
 
 Let's create an <code>asteroidStrike</code> function that reduces the gravitational constant.
 

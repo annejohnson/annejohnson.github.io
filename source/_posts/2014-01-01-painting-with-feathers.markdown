@@ -2,7 +2,7 @@
 layout: post
 title:  "Painting With Feathers"
 date:   2014-01-01 16:47:36
-categories: art painting parrots
+tags: art painting parrots
 ---
 I recently did a painting of my maximilian pionus parrot, Edwin. He's sweet, wonderful, brilliant, and (conveniently) fond of molting.
 

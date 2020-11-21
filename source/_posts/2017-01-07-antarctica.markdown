@@ -2,7 +2,7 @@
 layout: post
 title:  "Antarctica"
 date:   2017-01-07 15:28:45
-categories: Antarctica Travel
+tags: antarctica travel
 ---
 
 This winter, I visited the otherworldly Antarctic peninsula. It was an adventure full of cold wind, zodiac boats, and penguin hops.

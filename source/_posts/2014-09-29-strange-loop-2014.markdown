@@ -2,7 +2,7 @@
 layout: post
 title:  "Strange Loop 2014"
 date:   2014-09-29 20:34:18
-categories: programming technology conference
+tags: programming technology conference
 ---
 I went to a tech conference called <a href="https://thestrangeloop.com/" target="_blank">Strange Loop</a> last week. It takes place once a year in Saint Louis, Missouri, and features talks by the creators and earliest users of cutting-edge technologies. I've heard that the technologies you learn about at Strange Loop are those that people will be using widely in a couple of years. Strange Loop is a way to explore this exciting future.
 

@@ -2,7 +2,7 @@
 layout: post
 title: "Publishing Elixir Packages"
 date: 2016-08-21 17:28:33
-categories: Programming Elixir
+tags: programming elixir
 ---
 
 You have some Elixir code in a Mix project and pushed to a Github repository. You're code-complete-ish and ready to release your shiny and fabulous v0 to the world. Read on!

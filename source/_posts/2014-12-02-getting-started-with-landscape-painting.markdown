@@ -2,13 +2,13 @@
 layout: post
 title: "Getting Started With Landscape Painting"
 date: 2014-12-02 21:27:08
-categories: art painting landscape
+tags: art painting landscape
 ---
 Painting a tiny landscape the other week was really fun, so I decided to do more landscape painting.
 
-I went shopping on Black Friday and bought detail brushes - including script liners, tiny rounds, fan brushes, and even a deerfoot stippler! I also bought a book called <a href="http://www.amazon.com/Paint-Landscapes-Acrylic-Lee-Hammond/dp/1600613098" target="_blank">Paint Landscapes in Acrylic</a> by Lee Hammond. 
+I went shopping on Black Friday and bought detail brushes - including script liners, tiny rounds, fan brushes, and even a deerfoot stippler! I also bought a book called <a href="http://www.amazon.com/Paint-Landscapes-Acrylic-Lee-Hammond/dp/1600613098" target="_blank">Paint Landscapes in Acrylic</a> by Lee Hammond.
 
-I was drawn to this book because the author doesn't use reference photos in it. This keeps the focus on mastering broader landscape techniques. He also divides paintings up into 3 stages: the underpainting stage, the 'awkward' stage, and the finished stage. He demonstrates how to move a painting out of the awkward stage and into a beautiful finished stage. 
+I was drawn to this book because the author doesn't use reference photos in it. This keeps the focus on mastering broader landscape techniques. He also divides paintings up into 3 stages: the underpainting stage, the 'awkward' stage, and the finished stage. He demonstrates how to move a painting out of the awkward stage and into a beautiful finished stage.
 
 I've been working through some example projects in the book. There are 16 total, and they gradually increase in complexity. Below are my paintings from the first 3 projects.
 

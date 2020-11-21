@@ -2,7 +2,7 @@
 layout: post
 title: "Crash Course in Solving Software Bugs"
 date: 2015-08-16 16:22:00
-categories: Programming
+tags: programming
 ---
 Much time on the job as a developer is spent not writing new code, but fixing bugs in old code. Bugs inevitably appear over time in an evolving codebase, and they need to be hunted down and cleaned up. Sometimes hunting them down is challenging. Here is a process for sniffing out the causes of enigmatic bugs in web applications. My examples involve Rails, but the concepts can be generalized to other web application environments.
 

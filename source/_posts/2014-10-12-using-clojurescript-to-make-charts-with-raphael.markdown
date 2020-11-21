@@ -2,7 +2,7 @@
 layout: post
 title:  "Using Clojurescript to Make Charts with Raphael.js"
 date:   2014-10-12 14:34:18
-categories: Clojurescript Clojure
+tags: clojurescript clojure
 ---
 When I started using Clojurescript a few weeks ago, it was interesting learning how to translate between the two very different syntaxes of Javascript and Clojurescript. I'm going to share what I learned as I demonstrate how to use Clojurescript to make charts using <a href="http://g.raphaeljs.com/" target="_blank">Raphael.js's chart library</a>. Code is available <a href="http://github.com/annejohnson/cljs-raphael" target="_blank">here</a>.
 

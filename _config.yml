@@ -11,6 +11,11 @@ plugins:
   - jekyll-feed
 feed:
   path: blog/feed.xml
+  tags:
+    path: blog/feed.
+    only:
+      - clojure
+      - clojurescript
 
 collections:
   art:

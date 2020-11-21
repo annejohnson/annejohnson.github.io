@@ -2,7 +2,7 @@
 layout: post
 title:  "Painting Grumpy Cat"
 date:   2013-12-27 13:22:36
-categories: art painting cats
+tags: art painting cats
 ---
 If I said I didn't love the well-known internet celebrity, [Grumpy Cat](http://www.quickmeme.com/Grumpy-Cat/), then I would be lying. She is maybe the grumpiest-looking cat on the planet, but I suspect that she's actually a happy kitty trapped in a grumpy shell. She's an adorable enigma, so I decided to paint her.
 

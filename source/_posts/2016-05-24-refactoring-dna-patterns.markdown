@@ -2,7 +2,7 @@
 layout: post
 title: "Refactoring: DNA Patterns"
 date: 2016-05-24 18:46:08
-categories: Programming Refactoring
+tags: programming refactoring
 ---
 In the absence of a side project, yet with an urge to do some programming, I dug up some old side projects. I suspected I would find opportunities for refactoring. Indeed, I did! This post is about the adventure of refactoring my [DNA Patterns](/dna-patterns) side project ([Github](https://github.com/annejohnson/dna-patterns)).
 

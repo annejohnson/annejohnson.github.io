@@ -2,7 +2,7 @@
 layout: post
 title:  "Switching Careers"
 date:   2014-03-21 11:47:36
-categories: programming technology career
+tags: programming technology career
 ---
 I recently did a career switch from evolutionary biology academia to technology. It was sudden and quasi-awkward, but it was an excellent decision for me personally. I'm writing this post to A) tell the story, and B) offer advice to others interested in doing a career switch.
 

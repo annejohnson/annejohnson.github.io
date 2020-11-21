@@ -2,7 +2,7 @@
 layout: post
 title:  "Ruby Love"
 date:   2014-05-18 19:47:36
-categories: Programming Java Ruby
+tags: programming java ruby
 ---
 Hello, world! I've started a software internship that has me working in Ruby on Rails. It's at a company called Automated Insights, whose software generates just that: automated insights. More specifically, they automate the conversion of big data into plain English. I've spent the first week on the job improving my Ruby skills.
 

@@ -2,9 +2,9 @@
 layout: post
 title:  "Why I Love Living With Parrots"
 date:   2014-08-11 22:56:02
-categories: Parrots
+tags: parrots
 ---
-Strange and wonderful things happen when you adopt parrots! 
+Strange and wonderful things happen when you adopt parrots!
 
 I have 2 parrots, Edwin and Petrie. I adopted Edwin in August, 2013, followed by Petrie in November. Last Tuesday marked one year of birdhood for me, and it has been delightful!
 

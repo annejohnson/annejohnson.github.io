@@ -59,9 +59,9 @@
     </h3>
 
     <div class="post-content">
-      <p>Hello, world! I&#39;ve started a software internship that has me working in Ruby on Rails. It&#39;s at a company called Automated Insights, whose software generates just that: automated insights. More specifically, they automate the conversion of big data into plain English. I&#39;ve spent the first week on the job improving my Ruby skills.</p>
+      <p>Hello, world! I’ve started a software internship that has me working in Ruby on Rails. It’s at a company called Automated Insights, whose software generates just that: automated insights. More specifically, they automate the conversion of big data into plain English. I’ve spent the first week on the job improving my Ruby skills.</p>
 
-<p>In doing so, I&#39;ve gained a huge appreciation for how much of a masterpiece it is as a programming language. It&#39;s concise, expressive, and extraordinarily powerful. To get a glimpse of these traits, check out how Java and Ruby compare when accomplishing the task of adding up the numbers 1 - 10.</p>
+<p>In doing so, I’ve gained a huge appreciation for how much of a masterpiece it is as a programming language. It’s concise, expressive, and extraordinarily powerful. To get a glimpse of these traits, check out how Java and Ruby compare when accomplishing the task of adding up the numbers 1 - 10.</p>
 
 <p><strong>Java:</strong></p>
 
@@ -71,27 +71,27 @@
 <span class="o">}</span>
 <span class="k">return</span> <span class="n">sum</span><span class="o">;</span></code></pre></figure>
 
-<p>In Java, the most straightforward way to do this is to loop through the numbers 1 - 10 and add each number to a variable <code>sum</code>. (There are more concise/elegant ways to do this in Java, but this is the way a n00b like me would most naturally go about it after a single Java course.)</p>
+<p>In Java, the most straightforward way to do this is to loop through the numbers 1 - 10 and add each number to a variable <code class="language-plaintext highlighter-rouge">sum</code>. (There are more concise/elegant ways to do this in Java, but this is the way a n00b like me would most naturally go about it after a single Java course.)</p>
 
-<p><strong>Behold... Ruby:</strong></p>
+<p><strong>Behold… Ruby:</strong></p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="ss">:+</span><span class="p">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">inject</span><span class="p">(:</span><span class="o">+</span><span class="p">)</span></code></pre></figure>
 
-<p>In Ruby, I only have to type one beautiful little line. This level of Ruby can be learned by n00bs in perhaps a shorter time than it takes to fully understand the &quot;Hello World&quot; Java program.</p>
+<p>In Ruby, I only have to type one beautiful little line. This level of Ruby can be learned by n00bs in perhaps a shorter time than it takes to fully understand the “Hello World” Java program.</p>
 
-<p>This code is much shorter in part because Ruby is dynamically typed. That is, in Ruby, you don&#39;t have to specify whether a variable is an integer, a float, or a string. This is in contrast to Java, which enforces type declarations for variables and methods (hence <code>int</code>).</p>
+<p>This code is much shorter in part because Ruby is dynamically typed. That is, in Ruby, you don’t have to specify whether a variable is an integer, a float, or a string. This is in contrast to Java, which enforces type declarations for variables and methods (hence <code class="language-plaintext highlighter-rouge">int</code>).</p>
 
 <p>Ruby also has neat features that facilitate such operations - for instance, a <strong>range</strong> data structure (e.g., 1..10, 200..300, etc.), and a very helpful method called <strong>inject</strong> (alias: reduce) in its <a href="http://www.ruby-doc.org/core-2.1.1/Enumerable.html#method-i-inject">Enumerable module</a>. Inject takes optional parameters of a starting value and/or a binary method symbol (e.g., :+), and optionally/alternatively a block (a chunk of code that appears between {curly braces}). If no starting value is given as a parameter, then inject/reduce uses the first value in the array/range/etc. as the starting value. Here are some other ways I could have written this code to get the same result:</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="ss">:+</span><span class="p">)</span>
-<span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">num</span><span class="o">|</span> <span class="n">result</span> <span class="o">+</span> <span class="n">num</span> <span class="p">}</span>
-<span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">num</span><span class="o">|</span> <span class="n">result</span> <span class="o">+</span> <span class="n">num</span> <span class="p">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="o">+</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">num</span><span class="o">|</span> <span class="n">result</span> <span class="o">+</span> <span class="n">num</span> <span class="p">}</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">inject</span> <span class="p">{</span> <span class="o">|</span><span class="n">result</span><span class="p">,</span> <span class="n">num</span><span class="o">|</span> <span class="n">result</span> <span class="o">+</span> <span class="n">num</span> <span class="p">}</span></code></pre></figure>
 
-<p>Inject works by putting in the first number (either 0 or 1, depending on whether I&#39;ve given 0 as a parameter) as &quot;result&quot;, and the following number (1 or 2) as the &quot;num&quot; that gets added. The result is returned by the block and then inputted as the next &quot;result&quot;, with the following number (2 or 3) inputted as the next &quot;num&quot;, and so on until inject has gone through the entire range. The final result of &quot;result + num&quot; is returned.</p>
+<p>Inject works by putting in the first number (either 0 or 1, depending on whether I’ve given 0 as a parameter) as “result”, and the following number (1 or 2) as the “num” that gets added. The result is returned by the block and then inputted as the next “result”, with the following number (2 or 3) inputted as the next “num”, and so on until inject has gone through the entire range. The final result of “result + num” is returned.</p>
 
-<p>Java offers <a href="http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html#reduce">reduction functionality</a>, but it is not as... lovely! as Ruby&#39;s.</p>
+<p>Java offers <a href="http://docs.oracle.com/javase/tutorial/collections/streams/reduction.html#reduce">reduction functionality</a>, but it is not as… lovely! as Ruby’s.</p>
 
-<p>There are so many other things I like about Ruby - and I&#39;m only just getting started! I&#39;m thrilled to have the opportunity to use it in the workplace.</p>
+<p>There are so many other things I like about Ruby - and I’m only just getting started! I’m thrilled to have the opportunity to use it in the workplace.</p>
 
     </div>
   </div>

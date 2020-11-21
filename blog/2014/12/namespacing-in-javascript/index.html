@@ -59,16 +59,16 @@
     </h3>
 
     <div class="post-content">
-      <p>Without namespacing, Javascript becomes disorganized and insane. Because effectively namespacing in Javascript involves anonymous functions and closures, some of Javascript&#39;s more confusing features, it&#39;s not always practiced. The result is a global namespace cluttered with every single variable and helper function ever used. This is bad.</p>
+      <p>Without namespacing, Javascript becomes disorganized and insane. Because effectively namespacing in Javascript involves anonymous functions and closures, some of Javascript’s more confusing features, it’s not always practiced. The result is a global namespace cluttered with every single variable and helper function ever used. This is bad.</p>
 
-<h3>Namespacing Using Self-Executing Anonymous Functions and Closures</h3>
+<h3 id="namespacing-using-self-executing-anonymous-functions-and-closures">Namespacing Using Self-Executing Anonymous Functions and Closures</h3>
 
 <p>A self-executing anonymous function looks like this: <code>(function() { ... })();</code>. Each time you use one, you are also using a closure. Here is what this type of namespacing looks like:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">onSaturn</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">jump</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Too heavy to jump.&quot;</span><span class="p">);</span> <span class="p">},</span>
-    <span class="nx">dropAnApple</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;*Splat*.&quot;</span><span class="p">);</span> <span class="p">}</span>
+    <span class="na">jump</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Too heavy to jump.</span><span class="dl">"</span><span class="p">);</span> <span class="p">},</span>
+    <span class="na">dropAnApple</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">*Splat*.</span><span class="dl">"</span><span class="p">);</span> <span class="p">}</span>
   <span class="p">};</span>
 <span class="p">})();</span>
 
@@ -77,9 +77,9 @@
 <span class="nx">onSaturn</span><span class="p">.</span><span class="nx">dropAnApple</span><span class="p">();</span>
 <span class="c1">// *Splat*.</span></code></pre></figure>
 
-<p>The only variable we&#39;ve added to the global scope is <code>onSaturn</code>, and through it, we have access to <code>jump</code> and <code>dropAnApple</code>.</p>
+<p>The only variable we’ve added to the global scope is <code>onSaturn</code>, and through it, we have access to <code>jump</code> and <code>dropAnApple</code>.</p>
 
-<h4>Leveraging the Power of the Closure</h4>
+<h4 id="leveraging-the-power-of-the-closure">Leveraging the Power of the Closure</h4>
 
 <p>A closure is created with the self-executing anonymous function. It enables us to declare variables that the namespaced functions can access.</p>
 
@@ -87,7 +87,7 @@
   <span class="kd">var</span> <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="mf">10.44</span><span class="p">;</span> <span class="c1">// unit: m/s^2</span>
 
   <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">weight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">}</span>
+    <span class="na">weight</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">}</span>
   <span class="p">};</span>
 <span class="p">})();</span></code></pre></figure>
 
@@ -104,17 +104,17 @@
   <span class="kd">var</span> <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="mf">10.44</span><span class="p">;</span> <span class="c1">// unit: m/s^2</span>
 
   <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">weight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
+    <span class="na">weight</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
     <span class="c1">// Allow access to gravityConstant</span>
-    <span class="nx">gravityConstant</span><span class="o">:</span> <span class="nx">gravityConstant</span>
+    <span class="na">gravityConstant</span><span class="p">:</span> <span class="nx">gravityConstant</span>
   <span class="p">};</span>
 <span class="p">})();</span></code></pre></figure>
 
-<h4>Dynamic Internal Variables</h4>
+<h4 id="dynamic-internal-variables">Dynamic Internal Variables</h4>
 
-<p>Say an asteroid strike happens, and part of Saturn is blown away. This will alter Saturn&#39;s gravitational constant. We need our <code>weight</code> function to always choose the correct value in its calculations. </p>
+<p>Say an asteroid strike happens, and part of Saturn is blown away. This will alter Saturn’s gravitational constant. We need our <code>weight</code> function to always choose the correct value in its calculations.</p>
 
-<p>Let&#39;s create an <code>asteroidStrike</code> function that reduces the gravitational constant.</p>
+<p>Let’s create an <code>asteroidStrike</code> function that reduces the gravitational constant.</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">onSaturn</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">gravityConstant</span> <span class="o">=</span> <span class="mf">10.44</span><span class="p">,</span>
@@ -126,10 +126,10 @@
   <span class="p">};</span>
 
   <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">weight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
-    <span class="nx">gravityConstant</span><span class="o">:</span> <span class="nx">gravityConstant</span><span class="p">,</span>
+    <span class="na">weight</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
+    <span class="na">gravityConstant</span><span class="p">:</span> <span class="nx">gravityConstant</span><span class="p">,</span>
     <span class="c1">// Expose it</span>
-    <span class="nx">asteroidStrike</span><span class="o">:</span> <span class="nx">asteroidStrike</span>
+    <span class="na">asteroidStrike</span><span class="p">:</span> <span class="nx">asteroidStrike</span>
   <span class="p">};</span>
 <span class="p">})();</span></code></pre></figure>
 
@@ -160,10 +160,10 @@
   <span class="p">};</span>
 
   <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">weight</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
+    <span class="na">weight</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">mass</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">mass</span> <span class="o">*</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
     <span class="c1">// Expose gravityConstant as a function</span>
-    <span class="nx">gravityConstant</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
-    <span class="nx">asteroidStrike</span><span class="o">:</span> <span class="nx">asteroidStrike</span>
+    <span class="na">gravityConstant</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">},</span>
+    <span class="na">asteroidStrike</span><span class="p">:</span> <span class="nx">asteroidStrike</span>
   <span class="p">};</span>
 <span class="p">})();</span></code></pre></figure>
 
@@ -175,7 +175,7 @@
 <span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">()</span>
 <span class="c1">// 7.83</span></code></pre></figure>
 
-<h4>Nested Namespaces</h4>
+<h4 id="nested-namespaces">Nested Namespaces</h4>
 
 <p>After creating the main namespace, making nested namespaces is easy. See an example below:</p>
 
@@ -183,7 +183,7 @@
   <span class="kd">var</span> <span class="nx">temperature</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
 
   <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">temperature</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">temperature</span><span class="p">;</span> <span class="p">}</span>
+    <span class="na">temperature</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">temperature</span><span class="p">;</span> <span class="p">}</span>
   <span class="p">};</span>
 <span class="p">})();</span></code></pre></figure>
 
@@ -191,14 +191,14 @@
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">north</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">gravityConstant</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">}</span>
+    <span class="na">gravityConstant</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">gravityConstant</span><span class="p">;</span> <span class="p">}</span>
   <span class="p">};</span>
 <span class="p">})();</span>
 
 <span class="nx">onSaturn</span><span class="p">.</span><span class="nx">north</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">();</span>
 <span class="c1">// ReferenceError: gravityConstant is not defined</span></code></pre></figure>
 
-<p>This wraps up my examples. I hope you&#39;re inspired to start namespacing your Javascript if you weren&#39;t already. Happy closures!</p>
+<p>This wraps up my examples. I hope you’re inspired to start namespacing your Javascript if you weren’t already. Happy closures!</p>
 
     </div>
   </div>

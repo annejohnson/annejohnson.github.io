@@ -67,14 +67,14 @@
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">onSaturn</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">{</span>
-    <span class="na">jump</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Too heavy to jump.</span><span class="dl">"</span><span class="p">);</span> <span class="p">},</span>
-    <span class="na">dropAnApple</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">*Splat*.</span><span class="dl">"</span><span class="p">);</span> <span class="p">}</span>
+    <span class="na">jump</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Too heavy to jump.</span><span class="dl">"</span><span class="p">);</span> <span class="p">},</span>
+    <span class="na">dropAnApple</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">*Splat*.</span><span class="dl">"</span><span class="p">);</span> <span class="p">}</span>
   <span class="p">};</span>
 <span class="p">})();</span>
 
-<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">jump</span><span class="p">();</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nf">jump</span><span class="p">();</span>
 <span class="c1">// Too heavy to jump.</span>
-<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">dropAnApple</span><span class="p">();</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nf">dropAnApple</span><span class="p">();</span>
 <span class="c1">// *Splat*.</span></code></pre></figure>
 
 <p>The only variable we’ve added to the global scope is <code>onSaturn</code>, and through it, we have access to <code>jump</code> and <code>dropAnApple</code>.</p>
@@ -93,7 +93,7 @@
 
 <p>The closure enables selective exposure of its internal variables. In the above example, we are only exposing the <code>weight</code> function. The user is unable to access the internal variable <code>gravityConstant</code>.</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">weight</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nf">weight</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span>
 <span class="c1">// 417.59999999999997</span>
 <span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">;</span>
 <span class="c1">// undefined</span></code></pre></figure>
@@ -135,17 +135,17 @@
 
 <p>Like this, the weight function performs correctly even after an asteroid strike.</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">weight</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nf">weight</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="c1">// 10.44</span>
-<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">asteroidStrike</span><span class="p">();</span>
-<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">weight</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nf">asteroidStrike</span><span class="p">();</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nf">weight</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="c1">// 7.83</span></code></pre></figure>
 
 <p>Unfortunately, the exposed <code>gravityConstant</code> does not behave as expected after the asteroid strike. It always returns 10.44.</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span>
 <span class="c1">// 10.44</span>
-<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">asteroidStrike</span><span class="p">()</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nf">asteroidStrike</span><span class="p">()</span>
 <span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">;</span>
 <span class="c1">// 10.44</span></code></pre></figure>
 
@@ -169,10 +169,10 @@
 
 <p>Now, when we call the namespaced <code>gravityConstant()</code> function, we will always get the correct value.</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">()</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">onSaturn</span><span class="p">.</span><span class="nf">gravityConstant</span><span class="p">()</span>
 <span class="c1">// 10.44</span>
-<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">asteroidStrike</span><span class="p">()</span>
-<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">()</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nf">asteroidStrike</span><span class="p">()</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nf">gravityConstant</span><span class="p">()</span>
 <span class="c1">// 7.83</span></code></pre></figure>
 
 <h4 id="nested-namespaces">Nested Namespaces</h4>
@@ -195,7 +195,7 @@
   <span class="p">};</span>
 <span class="p">})();</span>
 
-<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">north</span><span class="p">.</span><span class="nx">gravityConstant</span><span class="p">();</span>
+<span class="nx">onSaturn</span><span class="p">.</span><span class="nx">north</span><span class="p">.</span><span class="nf">gravityConstant</span><span class="p">();</span>
 <span class="c1">// ReferenceError: gravityConstant is not defined</span></code></pre></figure>
 
 <p>This wraps up my examples. I hope you’re inspired to start namespacing your Javascript if you weren’t already. Happy closures!</p>
@@ -208,8 +208,8 @@
     
       <div class="footer">
   <div class="social-media-links">
-    <a href="https://twitter.com/depaysant" target="_blank">
-      <i class="fa fa-twitter"></i>
+    <a href="https://github.com/annejohnson" target="_blank">
+      <i class="fa fa-github"></i>
     </a>
     <a href="https://www.linkedin.com/in/annekjohnson" target="_blank">
       <i class="fa fa-linkedin"></i>

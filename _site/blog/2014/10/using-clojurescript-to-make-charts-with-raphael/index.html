@@ -144,12 +144,12 @@
 
 <p>This corresponds to the following Javascript:</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nx">Raphael</span><span class="p">(</span><span class="dl">"</span><span class="s2">my-pie</span><span class="dl">"</span><span class="p">),</span>
-    <span class="nx">pie</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">piechart</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="nc">Raphael</span><span class="p">(</span><span class="dl">"</span><span class="s2">my-pie</span><span class="dl">"</span><span class="p">),</span>
+    <span class="nx">pie</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">piechart</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="mi">55</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">{</span>
             <span class="na">legend</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">with-55</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">with-20</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">so on...</span><span class="dl">"</span><span class="p">],</span>
             <span class="na">legendpos</span><span class="p">:</span> <span class="dl">"</span><span class="s2">west</span><span class="dl">"</span>
           <span class="p">});</span>
-<span class="nx">otherFunctionsInScope</span><span class="p">();</span></code></pre></figure>
+<span class="nf">otherFunctionsInScope</span><span class="p">();</span></code></pre></figure>
 
 <p>Note that in Clojurescript, we use <code class="language-plaintext highlighter-rouge">(let [r "some-value"] (code-to-execute-in-scope))</code> syntax to define Javascript scope variables. Also note the use of <code class="language-plaintext highlighter-rouge">(array)</code> and <code class="language-plaintext highlighter-rouge">(js-obj)</code> functions to create those particular JS data structures in Clojurescript.</p>
 
@@ -163,7 +163,7 @@
 
 <p>This corresponds to:</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Clojurescript/Raphael Demo</span><span class="dl">"</span><span class="p">).</span><span class="nx">attr</span><span class="p">({</span> <span class="na">font</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20px sans-serif</span><span class="dl">"</span> <span class="p">});</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">r</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Clojurescript/Raphael Demo</span><span class="dl">"</span><span class="p">).</span><span class="nf">attr</span><span class="p">({</span> <span class="na">font</span><span class="p">:</span> <span class="dl">"</span><span class="s2">20px sans-serif</span><span class="dl">"</span> <span class="p">});</span></code></pre></figure>
 
 <p>And refresh your page. You should see your pie chart, a legend, and the title!</p>
 
@@ -184,14 +184,14 @@
 
 <p>This animates the wedges and corresponding labels when we hover over a pie chart wedge. In order to make this work, I used the <code class="language-plaintext highlighter-rouge">this-as</code> macro to open up access to <code class="language-plaintext highlighter-rouge">this</code>. Here is the corresponding Javascript:</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cx</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cy</span><span class="p">);</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nf">function </span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nf">stop</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">sector</span><span class="p">.</span><span class="nf">scale</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cx</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">cy</span><span class="p">);</span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">stop</span><span class="p">();</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="na">r</span><span class="p">:</span> <span class="mf">7.5</span> <span class="p">});</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">attr</span><span class="p">({</span> <span class="dl">"</span><span class="s2">font-weight</span><span class="dl">"</span><span class="p">:</span> <span class="mi">800</span> <span class="p">});</span>
+  <span class="nf">if </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">stop</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">attr</span><span class="p">({</span> <span class="na">r</span><span class="p">:</span> <span class="mf">7.5</span> <span class="p">});</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">label</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">attr</span><span class="p">({</span> <span class="dl">"</span><span class="s2">font-weight</span><span class="dl">"</span><span class="p">:</span> <span class="mi">800</span> <span class="p">});</span>
   <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
@@ -224,8 +224,8 @@
     
       <div class="footer">
   <div class="social-media-links">
-    <a href="https://twitter.com/depaysant" target="_blank">
-      <i class="fa fa-twitter"></i>
+    <a href="https://github.com/annejohnson" target="_blank">
+      <i class="fa fa-github"></i>
     </a>
     <a href="https://www.linkedin.com/in/annekjohnson" target="_blank">
       <i class="fa fa-linkedin"></i>

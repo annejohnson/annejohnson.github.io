@@ -1,0 +1,28 @@
+---
+layout: default_layout.njk
+title: Misc.
+---
+
+<div class="main">
+  <h1 class="page-title">
+    misc.
+  </h1>
+
+  <p>
+    Occasional writings and other miscellany.
+  </p>
+
+  <ul class="post-list">
+    {% for post in collections.post %}
+      <li class="post-list-item">
+        <a href="/posts/{{ post.data.title | slugify }}">{{ post.data.title }}</a>
+        {% if post.data.description %}
+          <br />
+          <span class="post-description">
+            {{ post.data.description }}
+          </span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>

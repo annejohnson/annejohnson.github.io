@@ -1,0 +1,17 @@
+---
+layout: default_layout.njk
+title: Art
+pagination:
+    data: art
+    size: 1
+    alias: art
+permalink: "art/{{ art.title | slugify }}/"
+---
+
+<div class="main art-item">
+  <h2 class="art-item-title">
+    {{ art.title }}
+  </h2>
+
+  <img src="{{ art.image }}" />
+</div>
